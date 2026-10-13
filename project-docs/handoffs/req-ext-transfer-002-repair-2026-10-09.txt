@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-002 repair（新候选 c5e4d7a；代码候选 eb181af）— FINDING-AUDIT-1 已修复
+branch: worktree-desktop-feat-req-ext-transfer-002-download-pau-5dc7d683（=d45ae11+merge master@28a3e55+修复+归档；主工作树 feat/req-ext-transfer-002 仍在 d45ae11，可用 --ff-only 并入）
+head: c5e4d7a
+tier: LARGE
+node: repair
+audit: resolved
+next: ①新候选重走 independent test（新会话）：build GREEN + 14 套串行（10 绿 + 4 归因红：sec001 需"预启服务端"文档形态、group-002 harness ROOT off-by-one 在册、unique-login E7b/transfer003 S-03a-c 为 diff-master 结构性）+ transfer002 确定性复跑 ②audit（新会话）③GUI 8 项 + §4.7 旧服务端人工复验一步
+blockers: 无。FINDING-AUDIT-1 已按 design §4.3 形状落地（finishTask 下载分支摘 m_idToKey＋onDownloadFinish 非 Running 早退双保险＋verify.py S-04 静态钉，asserts 25→26）；F-1..F-5/N-1..N-4 非阻塞项维持原归属（design owner / repo SMALL），本节点未处置
+evidence: build/evidence/claude-req-ext-transfer-002-repair-eb181af/（final-verification-summary.md＋两轮套件日志＋manifest-repair-eb181af-20261009-154735[sha256 2ade898f…]＋对象重建探针 probe_direct29.py）；审计件归档 project-docs/evidence/REQ-EXT-TRANSFER-002/audit/；append-event 被链完整性拒绝未落（见摘要"append-event 未落"节，归 owner）
+owner: claude-code
+date: 2026-10-09

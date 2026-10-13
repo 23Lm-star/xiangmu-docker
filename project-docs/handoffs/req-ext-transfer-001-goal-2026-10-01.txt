@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-001 goal — LARGE, 方案 B（协议级多路复用）采用带 6 处修正 M1-M6
+branch: feat/req-ext-transfer-001-parallel-transfer
+head: 2249a65
+tier: LARGE
+node: goal
+audit: none
+next: 新会话开 design 节点——逐字节协议设计 + 两端状态机 + 下载调度算法 + 测试矩阵 → design.md → 契约变更批准卡（主人批准后才可 development）
+blockers: 无（契约未批准前禁止编辑 Client/protocol.h / Server/protocol.h）
+evidence: project-docs/tasks/REQ-EXT-TRANSFER-001/task.md + project-docs/requirements/REQ-EXT-TRANSFER-001-multi-file-parallel-transfer.md
+owner: claude-code
+date: 2026-10-01

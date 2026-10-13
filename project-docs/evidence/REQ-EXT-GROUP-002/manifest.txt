@@ -1,0 +1,15 @@
+# evidence manifest -- written by record-evidence.py
+label: REQ-EXT-GROUP-002 development: candidate 03dc01d, T7 harness 38/38
+created_utc: 2026-10-01T10:28:33+08:00
+commit: 03dc01d86a38216f06c5c307cedaef718294601b
+branch: codex/req-ext-group-002-group-messaging
+dirty: yes
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:08bb1107d3fc649884a8515ac6f7a00691735b022e1df680a496b17f61ee9b40  verify.py  (28074 bytes)
+sha256:8e3f843eefcf8c32098bf72be9d7c240caaef0740d08c22eee6d869dcfef28a6  verify-output.log  (2563 bytes)
+sha256:270dc802373012ec8cdfd9485bbf2335cc0956e6ee65284af0e074cc76d766c6  evidence.json  (4967 bytes)
+sha256:80dc6122b02474adfd6070df8fc9dc0799fa8bc6999919a835caa30670d57194  server-console.log  (72412 bytes)
+sha256:00a87b987c0bbb4233bc8412f7887f1a9294cd784e0be4dde4471b0147f7c795  pipeline-build-03dc01d.log  (158 bytes)

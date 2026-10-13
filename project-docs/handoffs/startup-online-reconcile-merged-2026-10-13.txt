@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SESSION-002 启动期对账在线态（缺陷③ 服务端崩溃后幽灵在线）已并入 master（MEDIUM）
+branch: master
+head: ebbabb0
+tier: MEDIUM
+node: merged
+audit: accepted by 主人, 2026-10-13
+next: 本条已闭合（合并 ebbabb0，合并后树与候选 1c8ea2e 逐字节一致，故未重跑主干基线——门禁跑的就是这棵树）。剩余：① 客户端先于服务端启动不自动重连、登录/注册不检查连接状态（Client/client.cpp 只在构造时连一次、无 errorOccurred、按钮无状态检查）；② 工具/套件缺口各需独立 SMALL：test.ps1 的 -Retry 是死参数、artifacts.ps1 -Deploy 默认会把 build/build-*/ 的旧副本拷回 dist、audit.ps1 的 sensitive_paths 是空壳（不 diff 不产出 boundary finding）、reclaim 套件未入闸、group-002 p8c 非 hermetic（跨 24h 过期边界必红）、三个时序抖动套件（parallel-transfer T-06a / sec001-regression / unique-login 偶发 15/16 且失败项不落盘）；③ 桌面《开发缺陷日志》剩余 D-002/D-005/D-006/D-008/D-010
+blockers: 无
+evidence: build/evidence/current/{build,test,audit}-1c8ea2e0f82195262cc43ce0dc806e24c7d86908-run-20261013-22.*（同一 RunId 三闸全绿：build GREEN / test 17 套 565 断言逐套 observed==declared / audit PASS）；审计包 build/evidence/merge-1c8ea2e/independent-ai-audit-package-1c8ea2e.json（sha256 e2021d26790411dfab7261dc270a718ec7c40f75999c61cdea2648995ec38899）+ 批准记录 approval-c1d99208…json；真跑反向对照 build/evidence/merge-3797dfd/probe-{BEFORE,AFTER}.txt（master 二进制 7/7 → 候选二进制 5/7）。dist 溯源在 ebbabb0 重记为 matches HEAD——依据是合并树与候选逐字节一致（git diff 1c8ea2e HEAD 为空），未重编
+owner: claude-code
+date: 2026-10-13

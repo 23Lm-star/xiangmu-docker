@@ -1,0 +1,15 @@
+# evidence manifest -- written by record-evidence.py
+label: REQ-EXT-SEC-001 dev: pipeline GREEN/honest-0/PASS + 44/44 e2e negative+regression
+created_utc: 2026-09-29T20:31:46+08:00
+commit: c7c4eed696dc0948ae2eb9db42092aa584b50edc
+branch: codex/req-ext-sec-001-auth-context
+dirty: no
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:e24789d315a25b59df043a0b77a72140bd225dade5b8e424edb4eb69adb120af  verify-output.log  (3661 bytes)
+sha256:07f61d559670bc20015b0627b5564cdf0def9188d54103b6d5d167209ae087d9  server-console.log  (4473 bytes)
+sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  reject-lines.log  (0 bytes)
+sha256:1070e6a564834300b85cb66e7cb884c7a36c61dc716e13c593c2e6bcc3f1ffd2  verify.py  (13619 bytes)
+sha256:7e3d6d041c1e3fe5b766483cc27641126b84432ffd8ccecd6e2f952189be2dd8  pipeline-run.log  (284 bytes)

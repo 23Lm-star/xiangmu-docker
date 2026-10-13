@@ -1,0 +1,189 @@
+{
+  "status": "GREEN",
+  "gate": "enforced",
+  "reason": "all blocking suites passed",
+  "suite_count": 14,
+  "assertions": 514,
+  "suites": [
+    {
+      "id": "sec001",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 48,
+      "declared": 48,
+      "seconds": 46.2,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "sec001-regression",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 48,
+      "declared": 48,
+      "seconds": 46.0,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "entry-ops",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 43,
+      "declared": 43,
+      "seconds": 16.8,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "dedup",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 13,
+      "declared": 13,
+      "seconds": 4.3,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "cross-tree",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 41,
+      "declared": 41,
+      "seconds": 21.0,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "fastupload",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 46,
+      "declared": 46,
+      "seconds": 6.6,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "group-002",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 38,
+      "declared": 38,
+      "seconds": 23.3,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "groupfile",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 45,
+      "declared": 45,
+      "seconds": 5.6,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "group004",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 23,
+      "declared": 23,
+      "seconds": 5.1,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "sec002",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 14,
+      "declared": 14,
+      "seconds": 4.2,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "unique-login",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 16,
+      "declared": 16,
+      "seconds": 49.5,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "parallel-transfer",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 54,
+      "declared": 54,
+      "seconds": 94.7,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "transfer002",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 26,
+      "declared": 26,
+      "seconds": 11.8,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    },
+    {
+      "id": "transfer003",
+      "result": "PASS",
+      "reason": "exit 0, no failure marker",
+      "observed": 59,
+      "declared": 59,
+      "seconds": 12.8,
+      "blocking": true,
+      "interpreter": "py -3.13",
+      "cleanup_ok": true
+    }
+  ],
+  "run_id": "run-20261011-08",
+  "candidate_commit": "6af69196603c0878542a3428a6c1ee3d3456acf1",
+  "branch": "master",
+  "candidate_identity": {
+    "schema": "worktree-identity-v1",
+    "created_utc": "2026-10-11T13:59:55+00:00",
+    "repo_root": "E:\\qt\\xiangmu",
+    "candidate_commit": "6af69196603c0878542a3428a6c1ee3d3456acf1",
+    "branch": "master",
+    "worktree_state": "CLEAN",
+    "tracked_diff_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "status_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "manifest_hashes": {
+      "project-docs/project-manifest.yaml": "sha256:84dc32dd61bd4970dc0131ee682177171652e11a25f88c19ebbf1efcf738c0ad"
+    },
+    "changed_paths": [],
+    "classifications": {
+      "task": [],
+      "generated": [],
+      "unknown": []
+    },
+    "worktree_diff_hash": "sha256:bb7eecce5231d8f569fecadbf4501af6bc16591f897a609a2c2854506c4ae80f",
+    "run_id": "run-20261011-08"
+  },
+  "candidate_run_status": "CANDIDATE_VALID"
+}

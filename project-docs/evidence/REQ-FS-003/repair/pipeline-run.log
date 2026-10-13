@@ -1,0 +1,7 @@
+# REQ-FS-003 F-1 修复重盖章 @a518e35（2026-09-29）
+build GREEN: pipeline/build.ps1 → build OK: Client/Server → "build GREEN (a518e35, 20260929-130027)"
+test     : pipeline/test.ps1 → "0 automated tests registered"（GUI/manual 以端到端证据记 human-verified，不阻塞）
+audit    : pipeline/audit.ps1 → "audit PASS (a518e35)"（frozen path 无命中）
+e2e      : build/reqfs003/verify.py（PDU harness，扩 S6b/S6c/S6d 名称段逃逸）→ SUMMARY: 28/28 PASS
+server   : 拒绝日志 13 条，含 "[renamefile] 拒绝越权重命名名称段" ×3（../旧名、../新名、反斜杠新名）
+victim   : build/reqfs003_out/victim.txt 与 build/f1_victim.txt 内容完好，无沙箱外写入/改名

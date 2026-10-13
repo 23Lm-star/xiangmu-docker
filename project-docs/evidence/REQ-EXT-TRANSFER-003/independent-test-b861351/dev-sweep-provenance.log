@@ -1,0 +1,28 @@
+== dev 节点 13 套扫尾的证据溯源（独立测试节点核对，2026-10-08） ==
+-- 扫尾日志时间戳（wt-claude/build/suite-*.log）
+-rw-r--r-- 1 王晨扬 197121 2935 2026-10-08_19:25:56 build/wt-claude/build/suite-cross-tree.log
+-rw-r--r-- 1 王晨扬 197121 1113 2026-10-08_19:25:32 build/wt-claude/build/suite-dedup.log
+-rw-r--r-- 1 王晨扬 197121 3144 2026-10-08_19:25:25 build/wt-claude/build/suite-entry-ops.log
+-rw-r--r-- 1 王晨扬 197121 5127 2026-10-08_19:26:05 build/wt-claude/build/suite-fastupload.log
+-rw-r--r-- 1 王晨扬 197121   47 2026-10-08_19:26:10 build/wt-claude/build/suite-group-002.log
+-rw-r--r-- 1 王晨扬 197121 1856 2026-10-08_19:26:28 build/wt-claude/build/suite-group004.log
+-rw-r--r-- 1 王晨扬 197121 3856 2026-10-08_19:26:20 build/wt-claude/build/suite-groupfile.log
+-rw-r--r-- 1 王晨扬 197121 5071 2026-10-08_19:29:26 build/wt-claude/build/suite-parallel-transfer.log
+-rw-r--r-- 1 王晨扬 197121 4287 2026-10-08_19:24:59 build/wt-claude/build/suite-sec001-regression.log
+-rw-r--r-- 1 王晨扬 197121 4210 2026-10-08_19:24:06 build/wt-claude/build/suite-sec001.log
+-rw-r--r-- 1 王晨扬 197121 1210 2026-10-08_19:26:34 build/wt-claude/build/suite-sec002.log
+-rw-r--r-- 1 王晨扬 197121 5067 2026-10-08_19:27:46 build/wt-claude/build/suite-transfer003.log
+-rw-r--r-- 1 王晨扬 197121 1189 2026-10-08_19:27:26 build/wt-claude/build/suite-unique-login.log
+
+-- 日志内的 commit 戳（仅 group-002/group004 会打印）
+build/wt-claude/build/suite-group-002.log:[SETUP] users ready; candidate commit e49e8aa
+build/wt-claude/build/suite-group004.log:[SETUP] users ready; commit e49e8aa
+build/wt-claude/build/suite-group004.log:RESULT 23/23 PASS  commit=e49e8aa  2026-10-08 19:26:28
+
+-- 开发提交与前置提交时间
+b861351 2026-10-08 19:48:57 +0800 feat(transfer): REQ-EXT-TRANSFER-003 上传分片 1 MiB / 会话连续性与吞吐 (LARGE development 节点)
+e49e8aa 2026-10-08 17:48:43 +0800 chore(evidence): 追加 open/close 成本三段分离探针（raw Win32 12.3–13.5ms 落在 CreateFileW）
+432dcff 2026-10-08 17:06:17 +0800 chore(evidence): REQ-EXT-TRANSFER-003 goal 取证探针入库（可重跑，无产品改动）
+
+-- 结论：套件扫尾发生在 b861351 提交(19:48:57)之前，HEAD 戳为 e49e8aa；二进制内容等价性由本次独立重建证明
+   独立重建 Server.exe 与 dev dist Server.exe：同尺寸 509440，逐字节差异 4（PE 链接时间戳区）

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-002 independent audit（candidate d45ae11）— FAIL、阻塞 1 条 FINDING-AUDIT-1
+branch: feat/req-ext-transfer-002-download-pause-resume
+head: d45ae11
+tier: LARGE
+node: audit
+audit: pending
+next: ①owner repair 会话：finishTask 下载分支补 m_idToKey.remove（design §4.3 指定形状，:531-534 现状仅扣名额+closeRecv）、可选 onDownloadFinish 加 state!=Running 早退双保险、verify.py 补 1 条静态契约断言钉回归；重跑 build+13 套+transfer002 ②design owner 处置 F-3/N-2（矩阵补「护栏失败后收尾」「新客户端×旧服务端」条目）并裁决 F-1 E7b 口径 ③修复后新候选重走 test→audit 两节点，GUI 8 项含 §4.7 旧服务端人工复验一步
+blockers: FINDING-AUDIT-1（FACT，阻塞）：C4②/③/④ finishTask(Failed) 后映射未摘→在途 43 经 onDownloadFinish(:886 无条件 Done) 翻转为 Done=静默损坏件交付/无文件；击穿 I2、§4.3 必做防御、§11 批准卡承诺。同机制基线既有（罕见本地 IO 故障），本候选把触发面扩到协议护栏主路径。非阻塞 9 条：F-1..F-5 全维持（F-3 升级为必须处置，为 A-1 直接盲区）+新增 N-1 状态机无运行时宿主/N-2 I2 运行时验证无归属/N-3 105 拒绝优先级记录/N-4 批准稿在库外（收口归档）。owner 已在主工作树行级复核 FACT 属实
+evidence: build/evidence/claude-req-ext-transfer-002-audit/d45ae1173bb58a3b8551983d0ac12bdeb6c6c977/audit-report.md + verification.log；快照 build/wt-audit(@d45ae11) 零提交、status 空。独立性披露：同代理（Codex CLI 本机不可用），新会话+独立 detached 工作树+承重事实自行重导；audit.ps1 骨架（F-5）边界由人工逐字节核验替代
+owner: claude-code
+date: 2026-10-09

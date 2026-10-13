@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-001 independent audit accepted
+branch: codex/req-ext-group-001-membership
+head: f53863c
+ tier: LARGE
+node: audit
+audit: accepted by user, 2026-09-30
+next: integration — merge into master with --no-ff, then run merged-result build/test/audit gates
+blockers: frozen protocol paths were authorized in design; merged-result pipeline evidence remains required
+evidence: build/evidence/codex-req-ext-group-001-membership/514d150b48bd0df61d15cea92944cdfabc3f7a72/audit-report.md
+owner: codex
+date: 2026-09-30

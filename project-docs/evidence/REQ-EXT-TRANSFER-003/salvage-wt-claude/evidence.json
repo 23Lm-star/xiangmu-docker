@@ -1,0 +1,123 @@
+{
+  "commit": "b861351",
+  "timestamp": "2026-10-09 09:36:08",
+  "passed": 23,
+  "total": 23,
+  "results": [
+    {
+      "id": "S0_migration_applied",
+      "ok": true,
+      "detail": "last_seq=1 group_message=1"
+    },
+    {
+      "id": "S1a_water_advanced_by_sends",
+      "ok": true,
+      "detail": "base=1 now=6 (期望 +5)"
+    },
+    {
+      "id": "S1b_overflow_clamped_not_rejected",
+      "ok": true,
+      "detail": "code=0 effective=6 water=6"
+    },
+    {
+      "id": "S1c_full_confirm_zeroes_unread",
+      "ok": true,
+      "detail": "last_read=6 unread=0"
+    },
+    {
+      "id": "S2_late_confirm_no_rollback",
+      "ok": true,
+      "detail": "late_effective=9 cursor=9 期望=9"
+    },
+    {
+      "id": "S3_monotonic_non_decreasing",
+      "ok": true,
+      "detail": "effs=[9, 9, 9, 9, 9]"
+    },
+    {
+      "id": "S4a_unread_identity_on_summary",
+      "ok": true,
+      "detail": "last_read=3 unread=3 期望 3/3"
+    },
+    {
+      "id": "S4b_unread_identity_on_pull",
+      "ok": true,
+      "detail": "unread=3 records=3 期望 3/3"
+    },
+    {
+      "id": "S5a_non_member_confirm_rejected",
+      "ok": true,
+      "detail": "code=4294965195 期望=4294965195"
+    },
+    {
+      "id": "S5b_dissolved_group_confirm_rejected",
+      "ok": true,
+      "detail": "dissolve=0 confirm_code=4294965194 期望=4294965194"
+    },
+    {
+      "id": "C1_hole_buffers_no_advance",
+      "ok": true,
+      "detail": "cursor=10 unread=90 buf=1 (期望 cursor=10 unread=90 buf=1)"
+    },
+    {
+      "id": "C2_pull_fills_hole_and_advances",
+      "ok": true,
+      "detail": "cursor=90 unread=10 buf=0 (期望 90/10/0)"
+    },
+    {
+      "id": "C3_out_of_order_drains_on_connect",
+      "ok": true,
+      "detail": "cursor=13 buf=0 (期望 13/0)"
+    },
+    {
+      "id": "C4_duplicate_and_late_ignored",
+      "ok": true,
+      "detail": "cursor=12 water=100 (期望 12/100)"
+    },
+    {
+      "id": "C5_backward_page_never_advances",
+      "ok": true,
+      "detail": "cursor=50 unread=50 (期望 50/50 且无待上报)"
+    },
+    {
+      "id": "C6_out_of_range_jump_only_buffers",
+      "ok": true,
+      "detail": "cursor=10 (期望 10)"
+    },
+    {
+      "id": "C7_anchor_is_monotonic",
+      "ok": true,
+      "detail": "water=200 cursor=50 (期望 200/50)"
+    },
+    {
+      "id": "C8_anchor_drops_buffered_below_cursor",
+      "ok": true,
+      "detail": "cursor=15 buf=0 (期望 15/0)"
+    },
+    {
+      "id": "C9_report_gate_and_ack_monotonic",
+      "ok": true,
+      "detail": "取锚点后=0 推进后=1 回认后=0 confirmed=20"
+    },
+    {
+      "id": "C10_clear_resets_session_state",
+      "ok": true,
+      "detail": "cursor/water/confirmed/buf 全零"
+    },
+    {
+      "id": "C11_water_moves_cursor_does_not",
+      "ok": true,
+      "detail": "water=50 cursor=0 (期望 50/0)"
+    },
+    {
+      "id": "C12_reach_water_level",
+      "ok": true,
+      "detail": "cursor=100 unread=0 (期望 100/0/待上报)"
+    },
+    {
+      "id": "C13_seq_zero_ignored",
+      "ok": true,
+      "detail": "cursor=10 (期望 10)"
+    }
+  ]
+}

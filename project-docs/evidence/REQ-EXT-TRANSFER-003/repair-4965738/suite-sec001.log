@@ -1,0 +1,59 @@
+=== G1 未认证连接拒绝（验收1/4-群留待GROUP分支 D5） ===
+[PASS] G1-mkdir 未认证 mkdir 被拒且失败响应 :: resp=20
+[PASS] G1-upload-init 未认证 upload-init 被拒且失败响应 :: resp=30
+[PASS] G1-flushfile 未认证 flushfile 被拒且失败响应 :: resp=24
+[PASS] G1-delfile 未认证 delfile 被拒且失败响应 :: resp=26
+[PASS] G1-download 未认证 download 被拒且失败响应 :: resp=41
+[PASS] G1-listdir 未认证 listdir 被拒且失败响应 :: resp=59
+[PASS] G1-query-publink 未认证 query-publink 被拒且失败响应 :: resp=57
+[PASS] G1-onlineuser 未认证 onlineuser 被拒且失败响应 :: resp=8
+[PASS] G1-chat 未认证 chat 被拒（无响应，服务端日志记录） :: 见 AUTHGATE type=15 日志
+=== L1 登录绑定后本人操作正常（验收4回归） ===
+[PASS] L1a sec001a 登录成功 ret=1 :: ret=1
+[PASS] L1b 登录后本人根内 MKDIR 成功 :: ret=True
+[PASS] L1c 登录后本人根 FLUSHFILE 有条目 :: msg_len=36
+=== X1 伪造路径字段拿不到他人资源（验收2） ===
+[PASS] X1-列他人目录 sec001a 会话中 列他人目录 被拒 :: ret=False len=0
+[PASS] X1-删他人文件 sec001a 会话中 删他人文件 被拒 :: ret=False len=0
+[PASS] X1-下载他人文件 sec001a 会话中 下载他人文件 被拒 :: ret=False len=0
+[PASS] X1-传到他人目录 sec001a 会话中 传到他人目录 被拒 :: ret=False len=0
+[PASS] X1-切入他人目录 sec001a 会话中 切入他人目录 被拒 :: ret=False len=0
+[PASS] X1-victim 他人文件完好 :: 内容一致
+[PASS] X1-跨查链接 以他人 owner 字段查链接无效（按 actor 查） :: exists=False
+=== X2 伪造发送者字段无效（验收2） ===
+[PASS] X2a sec001b 登录成功 :: ret=1
+[PASS] X2b B 收到的转发报文发送人=服务端actor(非伪造名) :: sender=b'sec001a'
+=== X3 伪造注销用户名删不掉他人账号（验收2/危险面） ===
+[PASS] X3a A 会话发注销V：按actor=A校验且密码错→被拒 :: ret=False
+[PASS] X3b V 账号仍存活可登录 :: ret=1
+[PASS] X3c V 文件根目录仍在 :: 存在
+=== R1 注销后旧连接业务被拒（验收3） ===
+[PASS] R1a sec001r 登录成功 :: ret=1
+[PASS] R1b 注销前本人 MKDIR 成功 :: ret=True
+[PASS] R1c 本人正确密码注销成功 :: ret=True
+[PASS] R1d 注销后本人目录已删（既有行为保留） :: 不存在
+[PASS] R1e 注销后同连接业务请求被拒（空响应=失败响应） :: len=0
+[PASS] R1f 注销后不能继续访问群文件（下载他人被拒） :: ret=False
+=== R2 断线后新连接无残留身份（验收3） ===
+[PASS] R2a sec001b 重新登录成功（账号存活） :: ret=1
+[PASS] R2b1 V 在线且 B 不在自己的在线列表 :: online=['wcy', 'sec001a', 'sec001v']
+[PASS] R2b2 V 断线后从在线列表移除（撤销生效） :: online=['wcy', 'sec001a']
+[PASS] R2c 新连接未登录读他人根被拒 :: len=0
+=== K1 上传/下载/分享回归（验收4） ===
+[PASS] K1a 本人根内上传初始化成功 :: ret=True
+[PASS] K1b 上传分块全部 ack 成功 :: chunks=2
+[PASS] K1c 条目落盘+对象摘要一致+用户树无物理写(D5适配) :: sha=785b0751 physical=False
+[PASS] K1d 下载流式回读内容一致 :: bytes=1024/1024
+[PASS] K1e B 收到分享请求且署名=actor(伪造V无效) :: sharer=b'sec001a'
+[PASS] K1f 接收者谎报目标名：条目仍只落 B 本人根(D5适配) :: ret=True inB=1 inA=0
+[PASS] K1g 穿越名段仍被拒（FS-003 回归） :: ret=False
+[PASS] K1h 沙箱外探测按不存在（回归） :: isExist=False
+[PASS] K1i 本人重命名成功 :: ret=True
+[PASS] K1j 重命名他人文件被拒 :: ret=False
+=== K2 M-1 分享握手登记：伪造/重放同意 ===
+[PASS] K2a 未分享给 B 的源伪造同意被拒且无落地 :: ret=False landed=False
+[PASS] K2b 握手登记后正常同意成功落地(D5适配为条目落地) :: agree=True ret=True
+[PASS] K2c 登记一次性消费：重放同意被拒 :: ret=False
+[PASS] K2d B-1：自我登记他人源→自我同意链被拒且无复制 :: ret=False stolen=False
+
+==== 汇总: 48/48 PASS ====

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-001
+branch: codex/req-ext-group-001-membership
+head: 514d150
+tier: LARGE
+node: repair
+audit: pending
+next: powershell -ExecutionPolicy Bypass -File pipeline/state.ps1
+blockers: independent test and independent audit remain mandatory before integration
+evidence: build/evidence/current
+owner: codex
+date: 2026-09-30

@@ -1,0 +1,263 @@
+=== RERUN after filesys priming Fri Oct  9 18:12:12     2026 ===
+#### parallel-transfer
+=== 静态：冻结面 §9 ===
+[PASS] P1-frozen-block 两端 protocol.h 新增常量块逐字节一致 :: len=794
+[PASS] P2-107-108 ABORT 枚举 = 107/108 且两端一致 :: 
+[PASS] P3-no-renumber 旧编号未被重编号 :: 
+=== 环境准备 ===
+[PASS] E0 登录成功 :: ret=1
+[PASS] E0b 建测试目录 :: ./filesys/e2etx1/tx1
+[PASS] E1 建群成功 :: gid=290
+=== T-01 ===
+[PASS] T-01a 3 路 INIT 均 ret=true :: 
+[PASS] T-01b 3 路交错上传全部完成且无串扰 :: {11: 1500, 12: 700, 13: 2300}
+[PASS] T-01c 3 条 entry 内容与源逐字节一致 :: lens=[1500, 700, 2300]
+=== T-19 ===
+[PASS] T-19a 3 路 97→98 均 ret=true 且未命中（hit=false） :: [True, True, True]
+[PASS] T-19b 3 路 29→30 均 ret=true（AUD-1 回归：97 占位不得吞上传名额） :: [True, True, True]
+[PASS] T-19c 3 条 entry 内容与源逐字节一致（握手保真下无串扰） :: lens=[915, 1315, 515]
+=== T-03 ===
+[PASS] T-03a 前 3 个 INIT ret=true，第 4 个 ret=false（不建状态） :: [True, True, True, False]
+[PASS] T-03b 被拒 id 的 31 → 32{ok=false}（未知 id 不回退） :: 
+[PASS] T-03c 107 释放槽位 ret=true 且回带 id :: 
+[PASS] T-03d 释放后第 4 个 INIT 成功且回带 id :: 
+=== T-17 ===
+[PASS] T-17a 对活跃 id 重发 INIT → ret=false :: 
+[PASS] T-17b 原上下文未被覆盖（仍可写入） :: 
+=== T-04 ===
+[PASS] T-04 逐 id 的 nextOffset 单调、无跳变、无串扰 :: 
+=== T-05 ===
+[PASS] T-05a 群/个人 INIT 均成功 :: 
+[PASS] T-05b 群引用落定（group_file_id 非 0） :: [{'id': 336, 'name': 't05_group.bin'}]
+[PASS] T-05c 个人上传同时落定 :: 
+=== T-16 ===
+[PASS] T-16 0 字节与块整倍文件均正确落定 :: 
+=== T-09 ===
+[PASS] T-09a 暂停 107 → ret=true :: 
+[PASS] T-09b 30 回带 resumeOffset == 已收字节（前缀未重传） :: offset=600
+=== T-10 ===
+[PASS] T-10 群 102 回带 nextOffset == 已收字节 :: next=600
+=== T-11 ===
+[PASS] T-11a 108 ret=true :: 
+[PASS] T-11b 会话置 expired :: status=expired
+[PASS] T-11c 文件列表无新条目 :: 
+[PASS] T-11d staging 文件仍在盘上 :: staging=E:/qt/xiangmu/dist/filesys/.staging/d26b2123afbb6f764f610d2fa699059bdce29ed4.part
+=== T-12 ===
+[PASS] T-12a 未知 id 的 107 → 108 ret=false :: 
+[PASS] T-12b 未知 id 的 31 → 32 ok=false :: 
+[PASS] T-12c 连接存活（心跳正常） :: 
+=== T-18 ===
+[PASS] T-18a 3 上传 + 3 下载同时受理（各算各的预算） :: up=[True, True, True] r41={121: True, 122: True, 123: True, 124: False}
+[PASS] T-18b 上传占满时第 4 个上传被上传预算拒（下载不占上传名额） :: 
+[PASS] T-18c 下载占满时第 4 个下载被下载预算拒（41 ret=false） :: r41={121: True, 122: True, 123: True, 124: False}
+[PASS] T-18d 3 路下载内容完整（并发不受上传影响） :: [524288, 524288, 524288]
+=== T-06 ===
+[PASS] T-06a 小文件的 43 均早于大文件的 43（round-robin 公平） :: order=[212, 213, 211]
+[PASS] T-06b 大文件数据完整 :: 524288
+=== T-07 ===
+[PASS] T-07 3 路并发下载内容各自正确、无交叉 :: [3000, 4500, 1500]
+=== T-08 ===
+[PASS] T-08 下载期间 PONG 往返均在阈值内（控制消息不被饿死） :: n=6 max=0.000s
+=== T-15 ===
+[PASS] T-15 id=0 的 29/31/40/42/43 全流程与今日一致 :: len=1200
+=== T-14 ===
+[PASS] T-14 断线后重连新传输正常（旧上下文已清理） :: 
+=== T-13 ===（约 80s）
+[PASS] T-13a 3 槽占满时第 4 个 INIT 被拒 :: 
+[PASS] T-13b 静默 > 60s 后槽位回收（第 4 个 INIT 成功） :: 
+[PASS] T-13c 被回收会话置 expired :: expired=10
+[PASS] T-23 97 纯占位静默 >60s 被空闲回收（N-1 回归锚点） :: 97ret=1 before=uploading after=expired
+=== T-20 ===
+[PASS] T-20a 107 在途写竞态×6：108 均 ret=true :: hits=6
+[PASS] T-20b 107 后 upload_session.confirmed_offset == 暂存物理大小（AUD-4 不变量） :: [True, True, True, True, True, True]
+[PASS] T-20c 续传 30 回带的 resumeOffset == 暂存物理大小 :: [True, True, True, True, True, True]
+=== T-21 ===
+[PASS] T-21a 未命中 98：回带标识逐字节相符且不污染既有字段 :: [True, True]
+[PASS] T-21b 命中 98：nameLen/名字段语义不变，回带标识紧随其后（附加上限=不破坏旧读法） :: upload=True nameLen=11
+=== T-22 ===
+[PASS] T-22a pump() 以 MAX_PARALLEL_UPLOADS 为闸且只启动 Queued（静态） :: 
+[PASS] T-22b INIT 被拒 → 回队（needFastcheck=false，事件驱动重试，非 Failed）（静态） :: 
+
+=== 汇总 ===
+54/54 passed
+NOTE: 纯客户端行为（多选选择器/任务列表/暂停继续取消按钮/**客户端队列不发起第 4 个 29**/大文件摘要不卡 UI）属 design §6.3 人工清单，非本套件可断言范围；wire 级握手保真（T-19：97→98→29→30→31/32）与客户端队列的**静态契约**（T-22）已由本套件覆盖，但客户端队列的**动态**断言（第 4 个 29 确实未发出）仍需人工项——本仓无客户端测试宿主。
+#### transfer002
+=== 静态面：S-01..S-04 ===
+[PASS] S-01 两端 protocol.h 的 REQ-EXT-TRANSFER-002 常量块逐字节一致（含注释与偏移值） :: len=256
+[PASS] S-02 新块位于 REQ-EXT-TRANSFER-001 块之后，且既有块文本零改动（parallel_e2e P1 面不受影响） :: 
+[PASS] S-03 40/105 起点偏移 == 32、41/106 采纳起点偏移 == 24（双端同值） :: 
+[PASS] S-04 finishTask 下载分支摘除 m_idToKey（§4.3 第四项，钉住 FINDING-AUDIT-1） :: 
+=== 环境准备 ===
+[PASS] E0 登录成功 :: ret=1
+[PASS] E0b 建测试目录 :: ./filesys/e2etx2/tx2
+[PASS] E1 建群成功 :: gid=291
+=== 源文件落定（上传） ===
+=== T2-01 ===
+[PASS] T2-01 起点 0 → 41 ret=true、采纳 0、正文逐字节==源、43 success（旧语义不变） :: len=3012
+=== T2-02 ===
+[PASS] T2-02 起点 N=1000 → 41 采纳==N；正文逐字节==源[N:]；43 success（前缀不重传） :: len=2012
+=== T2-03 ===
+[PASS] T2-03 起点==文件大小 → 受理：0 字节正文 + 43 success :: 
+=== T2-04 ===
+[PASS] T2-04a 起点>大小 → 41 ret=false 且不建流（无 42/43） :: ret=0
+[PASS] T2-04b 拒绝后续传连接存活：心跳正常 + 后续基线下载逐字节完整 :: 
+=== T2-05 ===
+[PASS] T2-05a 中途 107 → 108 ret=true 且回带 id :: ret=1
+[PASS] T2-05b 107 后该 id 静默（无 43、在途收干后不再有任何 42）且流未发完 :: prefix=720896/2097152
+=== T2-06 ===
+[PASS] T2-06 以新 id+起点 M=720896 续传：首块首字节==源[M]、前缀不重传、累计正文逐字节==源 :: suffix=1376256
+=== T2-07 ===
+[PASS] T2-07a 3 路在途时第 4 路 41 ret=false（并发上限语义不变） :: {3001: True, 3002: True, 3003: True, 3011: False}
+[PASS] T2-07b 暂停 1 路后名额即时回落：新 41 ret=true :: 
+=== T2-08 ===
+[PASS] T2-08a 未知 id 的 107 → 108 ret=false（既有语义不变） :: 
+[PASS] T2-08b id=0 的 107 一律不受理：108 ret=false，旧单流不受影响照常完成 :: ret=0
+=== T2-14 ===
+[PASS] T2-14 id=0 的 40/41/42/43 全流程不变：正文==源、43 success、全部回带 id=0 :: len=2097152
+=== T2-09 ===
+[PASS] T2-09 105 起点 N=100000 → 106 code=0、采纳==N、size==源大小；正文==源[N:] 且 43 success :: code=0 len=424302
+=== T2-10 ===
+[PASS] T2-10 群起点>大小 → 106 code=-2108 且不建流；连接存活 :: code=-2108
+=== T2-11 ===
+[PASS] T2-11a 群 107 → 108 ret=true、释放后在途收干即静默（未发完） :: M=327680
+[PASS] T2-11b 群续传 == 源后缀且拼接逐字节==源 :: suffix=196622
+=== T2-12 ===
+[PASS] T2-12 3 路并发暂停 1 路：其余 2 路照常 43 success 且内容完整，被暂停者无 43 :: fin={3102: True, 3103: True} paused_len=0
+=== T2-13 ===
+[PASS] T2-13 下载暂停进行中的同一连接上，上传 29/31/32 正常走完（upload() 逐 ack 校验） :: upload=True
+
+=== 汇总 ===
+26/26 passed
+NOTE: design §6.3 的 8 条 GUI 人工项（暂停按钮生效/断点继续/取消删分片/失败重试续传/重启恢复/分片被删重下/暂停期上传互不干扰）属 NEEDS-HUMAN，非本套件可断言范围。
+#### transfer003
+=== 静态：S-01..S-05 ===
+[PASS] S-01a Server/protocol.h REQ-EXT-TRANSFER-003 常量块逐字节 == §9 批准稿 :: len=531
+[PASS] S-01b 通用入站上限 MAX_INBOUND_PDU_SIZE 未被抬高（仍 16 KB） :: 
+[PASS] S-02a Client/uploader.h 三常量存在（1024 块 / 64 KiB 下限 / 1 MiB 上限） :: max=1048576
+[PASS] S-02b 跨端一致：UPLOAD_CHUNK_MAX ≤ 服务端 MAX_UPLOAD_DATA_CHUNK :: 1048576 <= 1048576
+[FAIL] S-03a 冻结面 diff 删除行 == 原两行常量（无其它删改） :: rem=[]
+[FAIL] S-03b 冻结面 diff 新增行 == §9 批准稿五行（逐字） :: n=0
+[PASS] S-03c Client/protocol.h 零改动 :: 
+[PASS] S-04a G7 接线①：onSocketDisconnected 调用 onConnectionLost :: 
+[PASS] S-04b G7 接线②：onServerLost 调用 onConnectionLost :: 
+[PASS] S-04c G7 接线③：pump() 首部有 m_connectionDown 闸 :: 
+[PASS] S-04d G7 接线④：LOGIN_RESPOND 分支调用 onConnectionRestored :: 
+[PASS] S-05a G7 防复活①：群上传 SHA 回调含 state != Hashing 守卫 :: 
+[PASS] S-05b G7 防复活②：submitFastcheck 含 state != Hashing 守卫 :: 
+[PASS] S-05c C4 摘旧映射：pause/resume 上传分支均 m_idToKey.remove(t->id) :: 
+[PASS] S-06a R-1：LOGIN_RESPOND 分支内登录名赋值先于 setCurrentUser（同步取值，非 1.5 s 后） :: assign@279 setUser@383
+[PASS] S-06b R-1：handllogin 同步返回登录名且 1.5 s 定时器内不再写 m_LoginName :: ret=True in_body_assign=False
+[PASS] S-06c D-a：saveSnapshot 无静默丢写（每条 return 前都有 qCWarning 告警） :: unwarned=[]
+[PASS] S-06d D-a：saveSnapshot 以最近一次有效登录名兜底（m_lastKnownUser） :: 
+[PASS] S-06e D-b：setCurrentUser 同名/空名不清表；清表嵌于"另一个账号"条件内且仍调 restoreSavedTasks :: same_ret=True guard_line=4 clear_line=7 nested=True
+[PASS] S-06f D-b：restoreSavedTasks 按身份去重合并（快照补缺、内存为准，不重复建行） :: dedup@1015 insert@2116
+=== 环境准备 ===
+[PASS] E0 登录成功 :: ret=1
+[PASS] E0b 测试目录就绪 :: ./filesys/e2etx3/tx3
+=== T3-01 ===
+[PASS] T3-01-init 4 MiB INIT ret=true :: off=0
+[PASS] T3-01a 上传中进度单调不减 :: [1048576, 2097152, 3145728, 4194304]
+[PASS] T3-01b 末次采样 ≥ 已发字节 − 1 MiB（节流上限） :: last=4194304 sent=4194304
+[PASS] T3-01c 完成后 confirmed_offset == expected_size 且 status=done :: done/4194304
+[PASS] T3-01d 4 MiB 逐字节正确（转正对象可下载且内容一致） :: len=4194304
+=== T3-02 ===
+[PASS] T3-02a 107 后：108 ret=true 且该逻辑上传仅 1 行（status=expired） :: 108=1 rows=1
+[PASS] T3-02b 续传（新 id 29）→ 完成后仍 1 行且 status=done、confirmed=size :: rows=1 off=1048576
+[PASS] T3-02c 续传结果逐字节正确 :: len=3145728
+=== T3-03 ===
+[PASS] T3-03-init 97 miss：98 ret=true/hit=false :: hit=0
+[PASS] T3-03a 新 reqId 再 97：未完成会话仍仅 1 行 :: rows=1
+[PASS] T3-03b client_request_id 改写为最后一次 reqId :: 2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b
+[PASS] T3-03c 完成后仍 1 行且 done :: rows=1
+=== T3-04 ===
+[PASS] T3-04-init 建群成功 :: gid=292
+[PASS] T3-04-init2 101 未命中续传起点 0 :: off=0
+[PASS] T3-04a 群上传 101→107→101 全程 1 行且续传起点=已收字节 :: ack=True rows=1->1 off=1048576
+[PASS] T3-04b 群上传完成落定（done 且 confirmed=size） :: done	2097152
+=== T3-05 ===
+[PASS] T3-05a 单块 1 MiB 接受（32 ok=true） :: next=1048576
+[PASS] T3-05c 1 MiB + 1 字节块被 32{ok=false} 明确拒绝 :: ok=0
+[PASS] T3-05d 拒绝后连接存活且后续合法块被接受 :: next=2097152
+[PASS] T3-05b 大分片上传结果逐字节正确 :: len=3145728
+=== T3-06 ===
+[PASS] T3-06a 8 MiB / 64 KiB 分片吞吐 ≥ 8 MiB/s（基线 0.28 MiB/s @4 KB） :: 58.27 MiB/s (0.14s)
+[PASS] T3-06b 吞吐路径结果逐字节正确 :: len=8388608
+=== T3-07 ===
+[PASS] T3-07a 边界 0 字节：转正且对象 sha/大小一致 :: ok=True obj=(0,e3b0c442)
+[PASS] T3-07b 边界 65536 字节：转正且对象 sha/大小一致 :: ok=True obj=(65536,18e1f73c)
+[PASS] T3-07c 边界 65636 字节：转正且对象 sha/大小一致 :: ok=True obj=(65636,d323f789)
+[PASS] T3-07d 边界 1048576 字节：转正且对象 sha/大小一致 :: ok=True obj=(1048576,93aafb1e)
+[PASS] T3-07e 边界 1048577 字节：转正且对象 sha/大小一致 :: ok=True obj=(1048577,7be8119f)
+=== T3-08 ===
+[PASS] T3-08a 3 路大分片并发各自逐字节正确、互不串扰 :: lens=[2097152, 2097152, 2097152]
+[PASS] T3-08b 3 路各自只有 1 行会话（无重复行/无串行） :: [1, 1, 1]
+=== T3-09 ===
+[PASS] T3-09a 107 后 29 回带 resumeOffset == 暂存物理大小 :: off=1048576 staging=1048576
+[PASS] T3-09b 首块首字节 == 源[offset]（前缀来自暂存、后缀为新写） :: eq_pl2=True eq_pl=False
+=== T3-10 ===
+[PASS] T3-10a 6 轮 31→107：108 全 ret=true :: 
+[PASS] T3-10b 每轮 confirmed_offset == 暂存物理大小（无越过/无落后） :: 
+[PASS] T3-10c 每轮续传起点 == 暂存物理大小 :: 
+=== T3-11 ===
+[PASS] T3-11a 17 KB 非 31 报文仍走非法 PDU（无响应）且连接存活 :: resp=False pong=True
+=== T3-12 ===
+[PASS] T3-12a id=0 旧单流（4 KB 分片）全流程逐字节不变 :: ok=True len=262144
+[PASS] T3-12b 旧路径同样单行贯穿（1 行、done） :: rows=1
+
+=== 汇总 ===
+  FAIL -> S-03a 冻结面 diff 删除行 == 原两行常量（无其它删改）
+  FAIL -> S-03b 冻结面 diff 新增行 == §9 批准稿五行（逐字）
+57/59 passed
+NOTE: §6.3 NEEDS-HUMAN 五项（GUI 肉眼吞吐 / 面板进度回看 / 暂停继续单行 / 0 字节任务显示 / G7 断线秒级收敛与重连续传）不在本套件范围；客户端侧 C1–C9 的动态行为需客户端宿主，本套件以静态契约（S-02/S-04/S-05c）覆盖其接线与守卫。
+#### sec001
+Traceback (most recent call last):
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-SEC-001\verify.py", line 165, in <module>
+    ensure_user(u)
+    ~~~~~~~~~~~^^^
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-SEC-001\verify.py", line 129, in ensure_user
+    c = Conn()
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-SEC-001\verify.py", line 71, in __init__
+    s.sock = socket.create_connection((HOST, PORT), timeout=10)
+             ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 868, in create_connection
+    raise exceptions[0]
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 853, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+#### group-002
+Traceback (most recent call last):
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-GROUP-002\verify.py", line 266, in <module>
+    ensure_user(n)
+    ~~~~~~~~~~~^^^
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-GROUP-002\verify.py", line 163, in ensure_user
+    c = Conn(name); r = c.ask(pdu(T_CAP), T_CAP_R); code = r[0][2].split(b'\0')[0] if r else b''
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-GROUP-002\verify.py", line 111, in __init__
+    self.s = socket.create_connection((HOST, PORT), timeout=10); self.buf = b''; self.name = name
+             ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 868, in create_connection
+    raise exceptions[0]
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 853, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+#### unique-login
+server up, db ready
+[PASS] E2a 未认证验证码正常 :: type=45
+[PASS] E2b 未认证心跳 PONG 正常 :: type=51
+[PASS] E0 unilog1 首登录成功 :: ret=1
+[PASS] E1a 第二设备登录成功 :: ret=1
+[PASS] E1b 旧连接业务请求被切断且未处理（无 FINDU 响应+EOF） :: eof=True pkts=0
+[PASS] E1c login_record 恰两行、版本 1/2 连续 :: '1\tA1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1\n2\tB2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2'
+[PASS] E1d user_info.login_version=2 :: lv=2
+[PASS] E4 旧连接断开后在线态仍为 1（守卫生效） :: online=1
+[PASS] E6 过期已认证连接心跳被切断、无 PONG :: eof=True pkts=0
+[PASS] E5 空 ID 登录成功且 login_record.client_id 为空值 :: ret=1 cid='' rows=1
+[PASS] E3a 并发登录恰两行、版本不重复不倒退 :: [1, 2]
+[PASS] E3b user_info.login_version 等于最大版本 :: lv=2 rows=[1, 2]
+[PASS] E3c 最高版本连接存活（有响应） :: eof=False pkts=1
+[PASS] E3d 较低版本连接已失效（EOF 或后续被切断） :: eof=True pkts=0
+[FAIL] E7a SEC-001 全量回归无 FAIL :: pass=46 fails=['[FAIL] L1b 登录后本人根内 MKDIR 成功 :: ret=False', '[FAIL] R1d 注销后本人目录已删（既有行为保留） :: 不存在']
+[PASS] E7b 分支 diff 对两 protocol.h 零命中 :: ''
+
+SUMMARY: 15/16 PASS, 1 FAIL

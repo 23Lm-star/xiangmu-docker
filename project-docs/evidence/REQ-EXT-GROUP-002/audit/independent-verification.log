@@ -1,0 +1,54 @@
+# REQ-EXT-GROUP-002 独立审计：复证命令与原始输出（auditor=claude-code, 2026-10-01）
+# worktree: build/wt-audit-group002 @03dc01d (detached, read-only)
+
+$ git diff master...03dc01d --stat
+ Client/Client.pro                                  |   2 +
+ Client/client.cpp                                  |  10 +
+ Client/group.cpp                                   | 103 ++++++
+ Client/group.h                                     |  18 +-
+ Client/groupchat.cpp                               | 365 +++++++++++++++++++++
+ Client/groupchat.h                                 |  74 +++++
+ Client/protocol.h                                  |  12 +
+ Server/migrate_ext_group_002.sql                   |  29 ++
+ Server/migrate_ext_group_002_rollback.sql          |  13 +
+ Server/msghandler.cpp                              |  64 +++-
+ Server/mytcpserver.cpp                             |  31 ++
+ Server/mytcpserver.h                               |   3 +
+ Server/mytcpsocket.cpp                             |  59 ++++
+ Server/mytcpsocket.h                               |  12 +
+ Server/operatedb.cpp                               | 303 ++++++++++++++++-
+ Server/operatedb.h                                 |  26 +-
+ Server/protocol.h                                  |  13 +-
+ .../req-ext-group-002-design-2026-10-01.txt        |  11 +
+ .../handoffs/req-ext-group-002-goal-2026-09-29.txt |  11 +
+ project-docs/tasks/REQ-EXT-GROUP-002/design.md     | 227 +++++++++++++
+ project-docs/tasks/REQ-EXT-GROUP-002/task.md       |  62 ++++
+ 21 files changed, 1440 insertions(+), 8 deletions(-)
+
+# 1) protocol.h 仅追加复证（枚举 name->value 全表比对）
+Client/protocol.h | <=87 identical: True | removed: [] | renumbered: {} | added: [('ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST', 88), ('ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_RESPOND', 89), ('ENUM_MSG_TYPE_GROUP_MESSAGE_EVENT', 90), ('ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST', 91), ('ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_RESPOND', 92), ('ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST', 93), ('ENUM_MSG_TYPE_GROUP_READ_CONFIRM_RESPOND', 94), ('ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST', 95), ('ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_RESPOND', 96)]
+Server/protocol.h | <=87 identical: True | removed: [] | renumbered: {} | added: [('ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST', 88), ('ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_RESPOND', 89), ('ENUM_MSG_TYPE_GROUP_MESSAGE_EVENT', 90), ('ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST', 91), ('ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_RESPOND', 92), ('ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST', 93), ('ENUM_MSG_TYPE_GROUP_READ_CONFIRM_RESPOND', 94), ('ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST', 95), ('ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_RESPOND', 96)]
+
+# 2) getChatMsg 与 master 逐字节一致 + 复现 test 报告的 sha256 前缀 690cbe79
+master body+trailing-newline sha256= 690cbe79f52c5304279dccffbb762e6e3e8730d66d8799bb881f1f4a50dc8091 len= 1175
+03dc01d body+trailing-newline sha256= 690cbe79f52c5304279dccffbb762e6e3e8730d66d8799bb881f1f4a50dc8091 len= 1175
+IDENTICAL: True
+
+# 3) getChatMsg 不出现在分支 diff（大小写不敏感）
+0
+grep-exit=1 (1 = no match, 0 = matches)
+
+# 4) 被测二进制 sha256（test 工作树构建产物）
+4a5aca0f6c0aba1c72eccefbce0405d3aee21ba3b6a274cb19b45f2eb0dd1bfd *build/wt-test-group002/dist/Server.exe
+
+# 5) 三门/探针证据哈希
+7f0d2b8ac37d8b88e40b1efb486995b9e551d184faa27a55ed62a0b81121d223 *build/wt-test-group002/build/evidence/current/build-03dc01d-20261001-104114.log
+4fe556dc9e6c4bed30ba4b44e9aef81387dccbd531f98a4632fae34fe854191f *build/wt-test-group002/build/evidence/current/test-03dc01d-20261001-105033.log
+6eb6f367920a35d5575aa1aa0c9e01a7f9716d2c2d1b0891cde99fa36af69d01 *project-docs/evidence/REQ-EXT-GROUP-002/independent-test/group_e2e_regress.py
+6eb6f367920a35d5575aa1aa0c9e01a7f9716d2c2d1b0891cde99fa36af69d01 *build/evidence/req-ext-group-001-independent-8757ad6/group_e2e.py
+08bb1107d3fc649884a8515ac6f7a00691735b022e1df680a496b17f61ee9b40 *project-docs/evidence/REQ-EXT-GROUP-002/verify.py
+
+# 6) 工作树洁净度（auditor 未改生产源码）
+main:  0 changed entries (expected 0 now; will become untracked audit evidence after archive)
+test:  0 changed entries
+audit worktree: 0 changed entries (gitignored build outputs only)

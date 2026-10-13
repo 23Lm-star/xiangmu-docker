@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-003 development（开发节点）— 上传分片 1 MiB / 共享暂存句柄 / 会话行复用 / G7 断线收敛，待 independent test
+branch: feat/req-ext-transfer-003-upload-session-throughput
+head: b861351
+tier: LARGE
+node: development
+audit: none
+next: 开 independent test 节点（新会话、detached worktree at b861351）：跑 pipeline/build.ps1 + 新套件 transfer003（53 条）+ 12 套回归（gate 仍 waived → 手动跑 build/run_declared_suites.py，该驱动在 build/ 未入库需自带）。重点复核：D7 复用收敛（T3-02/03/04）、AUD-4 锚点（T3-10）、别名句柄释放（T3-03，见 blockers②）
+blockers: 无。两处请独立复核：① 冻结面仅 §9 逐字（+5/−2，Client/protocol.h 零改动，S-01/S-03 断言）；② 设计外新增一处 releaseOtherStagingHandles（finalize/abort 前释放同 .part 的别名句柄）——不加则 97 预检查槽的句柄让 commitUpload 的 rename 在 Windows 失败（T3-03 实测 status=failed），属 §3.1 S5「句柄释放先于一切动文件」的必要补全
+evidence: project-docs/evidence/REQ-EXT-TRANSFER-003/verify.py 53/53（8 MiB 吞吐 50.3 MiB/s vs 基线 0.28；build GREEN b861351）+ build/suite-*.log：12 套回归 11 绿，group-002 = 既有 harness ROOT off-by-one（rc=1 早于任何断言，已复现归因）
+owner: claude-code
+date: 2026-10-08

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-001 design revision accepted
+branch: codex/req-ext-group-001-membership
+head: fe0107099637c41452ac977b395be3186281db59
+tier: LARGE
+node: goal
+audit: none
+next: development after owner starts a new node
+blockers: none; D6 records user-indexed membership lookup and lazy group UI loading
+evidence: project-docs/tasks/REQ-EXT-GROUP-001/design.md
+owner: codex
+date: 2026-09-30

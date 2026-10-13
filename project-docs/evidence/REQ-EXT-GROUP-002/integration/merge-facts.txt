@@ -1,0 +1,38 @@
+# REQ-EXT-GROUP-002 integration — raw fact check (2026-10-01)
+
+## trunk / merge
+$ git rev-parse --short master   -> ffaaacf
+$ git log --oneline -1 master    -> ffaaacf merge: REQ-EXT-GROUP-002 reliable group text messaging (PDU 88-96)
+$ git rev-parse --short HEAD~1   -> 1af57ac   (master pre-merge, first parent)
+$ git rev-parse --short HEAD^2   -> d712425   (requirement branch tip, second parent)
+$ git merge-base master HEAD^2   -> 1af57ac   (trunk was a pure ancestor: conflict-free no-ff)
+
+## FACT 1 — independent audit report exists and is accepted
+project-docs/evidence/REQ-EXT-GROUP-002/audit/report.md
+  conclusion: PASS on 03dc01d — 0 blocking defects; frozen paths append-only 88-96 within D2
+  approval; FINDING-PRE1 reproduced on master (baseline pre-existing, not candidate-introduced).
+  No conflict with the development/test conclusions -> accepted; no arbitration needed.
+
+## FACT 2 — frozen-path diff empty (no frozen change beyond D2 approval)
+$ git diff 1af57ac..d712425 --stat -- Client/protocol.h Server/protocol.h
+ Client/protocol.h | 12 ++++++++++++
+ Server/protocol.h | 13 ++++++++++++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+# = exactly the D2-approved append 88-96 (plus the stale placeholder-comment line replaced in
+#   Server/protocol.h). No renumbering/removal of 1-87 (full name->value table re-verified by
+#   the independent audit, 2026-10-01).
+$ git diff 03dc01d..ffaaacf --stat -- Client/protocol.h Server/protocol.h
+# (no output = zero frozen delta between the audited candidate and the merged result)
+
+## FACT 3 — pipeline on the merged result
+$ powershell -File pipeline/build.ps1  -> build GREEN (ffaaacf, 20261001-112734)
+$ powershell -File pipeline/test.ps1   -> test GREEN-WARN: 0 automated tests registered (honest-0)
+$ powershell -File pipeline/audit.ps1  -> audit RED: frozen:Client/protocol.h, frozen:Server/protocol.h
+# cause: audit.ps1 checks `git diff --name-only HEAD~1..HEAD`; on a --no-ff merge that range is
+#   the whole feature delta, so the D2-approved append 88-96 is reported as a frozen hit.
+#   The hit is the designed signal "frozen path changed -> LARGE + explicit user approval";
+#   that approval is recorded (D2, user, 2026-10-01, task.md decision log) and the change scope
+#   was independently re-verified by the audit. Same condition GROUP-001 recorded at its merge
+#   (handoff req-ext-group-001-merged-2026-09-30.txt). Not a missing fact; not an unapproved change.
+# tooling note (non-blocking, audit observation 1): the frozen check is commit-level and cannot
+#   see branch-level frozen changes; fixing it is a separate SMALL pipeline task, not this one.

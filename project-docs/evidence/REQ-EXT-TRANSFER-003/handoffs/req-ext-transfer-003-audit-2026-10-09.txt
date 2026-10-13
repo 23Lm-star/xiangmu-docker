@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-003 修复面独立审计（audit 节点、只读）— 主人已接受（以 4965738/ 为主体，另一份作第二意见留档）；A-1..A-6 六条发现待另立分支处置
+branch: feat/req-ext-transfer-003-upload-session-throughput
+head: 4965738
+tier: LARGE
+node: audit
+audit: accepted by 主人(wcy), 2026-10-09
+next: ①主报告以 `4965738/audit-report.md` 为主体，第二意见 `4965738946ff98a09e9e1e0b840d24a36e08f201/audit-report.md` 留档（其"冻结面 2 hunk"经实测为 1 个，已在归档注记）；两份均已归档 `project-docs/evidence/REQ-EXT-TRANSFER-003/audit-4965738/` ②integration：三事实线 = 审计在册且被接受 ✅ / 冻结面 diff 仅 §9 批准块 ✅ / **合并结果 pipeline 绿（在主干上跑，补上审计未复跑的动态面）** ③A-1..A-6 与 test 节点 IND-1..6 的合并去重版处置建议见 `build/evidence/claude-req-ext-transfer-003-independent-b861351/followup-branch-plan.md`（主人：暂不开修）
+blockers: 无阻塞。审计动态面 NOT-RUN（端口 5000 被主人 GUI 复验会话占用，只读节点不杀主人进程）——由 integration 在合并结果上补跑；静态面 20/20 已独立复跑
+evidence: build/evidence/claude-req-ext-transfer-003-audit/4965738/（audit-report.md + logs/）+ 归档 project-docs/evidence/REQ-EXT-TRANSFER-003/audit-4965738/{audit-report.md,logs/,second-opinion/audit-report.md}
+owner: claude-code
+date: 2026-10-09

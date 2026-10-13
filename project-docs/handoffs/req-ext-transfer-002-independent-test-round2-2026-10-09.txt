@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-002 independent test（第二轮，候选 c5e4d7a）——PASS
+branch: feat/req-ext-transfer-002-download-pause-resume
+head: c5e4d7a
+tier: LARGE
+node: test
+audit: resolved
+next: audit 重审（新会话、只读、detached @c5e4d7a；输入=build/evidence/claude-req-ext-transfer-002-independent-c5e4d7a/test-report.md + git diff 28a3e55..c5e4d7a）；随后主人 GUI 8 项 + §4.7 旧服务端人工复验一步
+blockers: 无。FINDING-AUDIT-1 修复在位（finishTask:616+onDownloadFinish:979 双保险）且 S-04 变异探针证真钉（回退 d45ae11 即红）；冻结面合并后逐字节==批准块、4/0 append-only；build GREEN 自构；14 套轮一 10 绿+4 归因红（group-002 ROOT off-by-one、unique-login E7b、transfer003 S-03 diff-master 族=既有/结构性当场复现+代码定位，未放宽；transfer003 轮一 T3-04+reset 为不可复现次生噪声，单跑 56/59 干净）；transfer002 两轮 26/26 确定；parallel 54/54；C9×G7 共存读码成立
+evidence: build/evidence/claude-req-ext-transfer-002-independent-c5e4d7a/（test-report.md+14 套日志+两轮复跑+build 日志+manifest-test-c5e4d7a sha256 8babdb6abb91e0efe6eff9ae46829fdf5760c857342c72fc66f4713e5f315ff8）；exe：Server 77230b38…/Client c96d8beb…
+owner: claude-code
+date: 2026-10-09

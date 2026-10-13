@@ -1,0 +1,57 @@
+=== 协议静态检查（验收6 兼容面）===
+[PASS] P1-same-block 两端 protocol.h FASTCHECK 常量块逐字节一致 :: len=1352
+[PASS] P2-97-98 新增枚举 FASTCHECK 请求/响应 = 97/98 且仅追加 :: 97/98
+[PASS] P3-no-renumber 既有编号未重编号（隐式序号 + 抽样 29/31/40/88/96） :: regist={1} chat={15}
+=== 客户端 Hash 静态检查（验收6 内存面）===
+[PASS] P4-stream-sha 客户端 SHA-256 分块流式计算（1MiB 窗口，无整文件读入） :: 1MiB chunk
+[PASS] P5-fast-send 客户端上传入口发 FASTCHECK 而非旧 INIT :: 
+=== 环境准备 ===
+[PASS] E0 环境隔离：本测试摘要无残留物理对象 :: 
+[PASS] E1 夹具：测试账号服务端用户根存在 :: 
+[PASS] L0 fu2user 登录成功 :: ret=1
+[PASS] L0b fu2other 登录成功 :: ret=1
+[PASS] E2 夹具：目标目录存在（MKDIR 后磁盘可验证） :: 
+=== 验收1：命中不传正文、条目立即可读 ===
+[PASS] A1-miss 首次预检查未命中（hit=false, nextOffset=0） :: {'ret': True, 'hit': False, 'version': 1, 'fileId': -1, 'sessionId': 3850, 'nextOffset': 0, 'nameLen': 0, 'name': ''}
+[PASS] A1-no-obj-yet 未命中时未建对象/条目 :: 
+[PASS] A1-up 未命中后顺序分块上传成功 :: 
+[PASS] A1-entry 上传完成即落逻辑条目 :: 
+[PASS] A1-hit 同内容二名预检查命中（hit=true） :: {'ret': True, 'hit': True, 'version': 1, 'fileId': 3420, 'sessionId': 3851, 'nextOffset': 0, 'nameLen': 7, 'name': 'two.bin'}
+[PASS] A1-hit-name 命中返回服务端最终展示名 :: two.bin
+[PASS] A1-zero-body 命中路径未发送任何分块 PDU :: chunks=0
+[PASS] A1-hit-visible 命中条目立即可读（flushfile 立刻可见） :: entries=['one.bin', 'two.bin']
+[PASS] A1-hit-obj 命中复用同一物理对象且引用 +1 :: 
+=== 验收2：单物理对象 + 稳定同名递推 ===
+[PASS] A2-miss2 不同内容未命中 :: {'ret': True, 'hit': False, 'version': 1, 'fileId': -1, 'sessionId': 3852, 'nextOffset': 0, 'nameLen': 0, 'name': ''}
+[PASS] A2-up2 不同内容顺序上传成功 :: 
+[PASS] A2-suffix 同名不同内容得到稳定递推名 one(1).bin :: name=one(1).bin
+[PASS] A2-two-objects 两种内容各自独立物理对象 :: 
+[PASS] A2-stable 重放同一请求键不产生第三个对象/条目 :: 
+=== 验收3：伪造与越权不命中、复算失败不转正 ===
+[PASS] A3-forged-miss 伪造摘要不命中既有对象（不泄露他人对象存在性） :: {'ret': True, 'hit': False, 'version': 1, 'fileId': -1, 'sessionId': 3853, 'nextOffset': 0, 'nameLen': 0, 'name': ''}
+[PASS] A3-mismatch-miss 摘要/内容不符先按未命中登记 :: {'ret': True, 'hit': False, 'version': 1, 'fileId': -1, 'sessionId': 3854, 'nextOffset': 0, 'nameLen': 0, 'name': ''}
+[PASS] A3-staging-created 未命中即建暂存实体（.part） :: new=['2fcb159c3166b35f9c1ac57de10c6fa3646a00b2.part']
+[PASS] A3-no-entry 复算不符 -> 不建条目 :: 
+[PASS] A3-no-object 复算不符 -> 不建对象 :: 
+[PASS] A3-session-failed 复算不符 -> 会话置 failed :: 
+[PASS] A3-staging-cleaned 复算不符 -> 本次新建的 staging 实体被删除（不留碎片） :: new=['2fcb159c3166b35f9c1ac57de10c6fa3646a00b2.part'] leftover=[]
+[PASS] A3-retry-accepted 失败会话同请求键重试被受理（不因 uk_req 冲突失败） :: {'ret': True, 'hit': False, 'version': 1, 'fileId': -1, 'sessionId': 3854, 'nextOffset': 0, 'nameLen': 0, 'name': ''}
+[PASS] A3-retry-upload 重试后顺序上传成功并落条目 :: 
+[PASS] A3-retry-single-row 同请求键仍只一条会话行（uk_req 守住） :: 
+[PASS] A3-cross-user 跨用户目录一律拒绝 :: {'ret': False, 'hit': False, 'version': 1, 'fileId': 0, 'sessionId': 0, 'nextOffset': 0, 'nameLen': 0, 'name': ''}
+[PASS] A3-unauth 未认证连接 FASTCHECK 收到类型正确的失败响应（分派登记生效） :: type=98
+=== 验收4：两路并发相同内容 -> 单对象 ===
+[PASS] A4-both-ok 两路并发均成功（未命中路径各含 hit+ok） :: paths=['miss+ok', 'miss+ok']
+[PASS] A4-one-object 并发后同内容仅一个物理对象 :: 
+[PASS] A4-refcount 并发后引用计数 = 2 :: 
+[PASS] A4-two-entries 并发后两条逻辑条目（各账号一条） :: paths=['miss+ok', 'miss+ok']
+=== 验收5：续传、幂等复用、清理不伤已有对象 ===
+[PASS] A5-setup 预检查未命中并登记会话 :: {'ret': True, 'hit': False, 'version': 1, 'fileId': -1, 'sessionId': 3857, 'nextOffset': 0, 'nameLen': 0, 'name': ''}
+[PASS] A5-resume-offset 重发同请求键 -> 同会话 + nextOffset=已确认偏移 :: {'ret': True, 'hit': False, 'version': 1, 'fileId': -1, 'sessionId': 3857, 'nextOffset': 600, 'nameLen': 0, 'name': ''}
+[PASS] A5-resume-finish 从 nextOffset 续传至完成 :: 
+[PASS] A5-idempotent-done 完成态重发同请求键 -> hit=true 且不新增条目 :: fileId=3425
+[PASS] A5-cleanup-safe 过期/失败会话与孤儿暂存清理不动已完成对象与条目 :: objects 85->85 清孤儿part=0
+[PASS] A5-cleanup-entry-alive 清理后已完成条目仍可下载（对象物理留存） :: 
+
+=== 汇总 ===
+46/46 passed

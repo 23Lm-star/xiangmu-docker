@@ -1,0 +1,39 @@
+[PASS] migration_applied :: last_seq=1 table=1 schema=2026100101
+[PASS] unique_indexes_present :: PRIMARY,idx_group_created,uk_group_client_msg,uk_group_seq
+[PASS] setup_group_a :: gid=27
+[PASS] p1_send_ok :: {'code': 0, 'key': b'idem-k1', 'seq': 6, 'msg_id': 3402, 'created': 1790821658074}
+[PASS] p1_first_broadcast_once :: events=1
+[PASS] p1_serial_replay_same_seq :: seq=6 msg_id=3402
+[PASS] p1_replay_returns_existing :: code=0 rows=1 content=idem-1
+[PASS] p1_pipelined_replay_one_row :: codes=[0, 0] seqs=[6, 6] rows=1
+[PASS] p1_replay_no_rebroadcast :: events=0
+[PASS] p1_cross_sender_rejected :: code=4294965192
+[PASS] p2_seq_contiguous_unique :: burst=16 uniq=16 rows=22 contig=True errs=[]
+[PASS] p3_oversize_rejected_no_broadcast :: code=4294965294 rows=22/22 events=0
+[PASS] p3_empty_content_rejected :: code=4294965193
+[PASS] p3_send_while_member_offline_persisted :: code=0
+[PASS] p3_offline_catchup_pull :: unread=23 base=22 pulled=[b'offline-catchup-1']
+[PASS] p5_outsider_denied_all :: send=4294965195 pull=4294965195 confirm=4294965195
+[PASS] p5_left_member_denied_all :: leave=0 send=4294965195 pull=4294965195 confirm=4294965195
+[PASS] p5_removed_member_denied_all :: send=4294965195 pull=4294965195 confirm=4294965195
+[PASS] p5_system_messages_recorded :: system_rows=7
+[PASS] p5_unauth_gate_reject :: code=4294966295
+[PASS] p4_offline_unread_equals_m :: unread=5
+[PASS] p4_offline_pull_from_cursor :: pulled=[b'offline-msg-0', b'offline-msg-1', b'offline-msg-2', b'offline-msg-3', b'offline-msg-4']
+[PASS] p4_confirm_read_zeroes_unread :: eff=6 unread=0
+[PASS] p6_forward_pages :: m=110 next=13
+[PASS] p6_pull_unread_field :: unread=12 last=13
+[PASS] p6_backward_pages_ascending :: pages=[[9, 10, 11, 12, 13], [4, 5, 6, 7, 8], [1, 2, 3]] has_more=[1, 1, 0] next=[9, 4, 1]
+[PASS] p6_limit_bounds :: lim0=4294965294 lim101=4294965294 lim100=0
+[PASS] p6_confirm_monotonic_clamped :: 7->7 3->7 999->13
+[PASS] p3_dissolved_send_rejected_no_broadcast :: code=4294965194 rows=1 events=0
+[PASS] p7_burst_persisted :: sent=800 rows=802
+[PASS] p7_slow_conn_dropped :: drops_log=462 recv=338/800
+[PASS] p7_fast_conns_unaffected :: m1=800/800 log_m1=0
+[PASS] p7_pull_catchup_complete :: pulled=800/800
+[PASS] p7_unread_reflects_all :: unread=800
+[PASS] p8a_one_to_one_online :: fwd=1 issuccess=1
+[PASS] p8b_one_to_one_offline_row :: issuccess=0
+[PASS] p8c_publish_link_flow :: res_ok=True landed=['g2p8.bin']
+[PASS] p8d_group001_lifecycle_regression :: rc=0 tail=RESULT 15/15 PASS
+RESULT 38/38 PASS commit=03dc01d

@@ -1,0 +1,20 @@
+== group-002 既有红 归因（FACT） ==
+-- 本工作树（b861351）与本候选未触碰该 harness：
+   （空 = 零改动）
+
+-- harness 的 ROOT 解析（project-docs/evidence/REQ-EXT-GROUP-002/verify.py）：
+32:ROOT = Path(__file__).resolve().parents[2]
+243:    lines = (ROOT / 'Server' / 'connect.config').read_text(encoding='utf-8').splitlines()
+579:fsroot = Path((ROOT / 'Server' / 'connect.config').read_text(encoding='utf-8').splitlines()[2])
+
+-- ROOT=parents[2] 解析结果与真实配置位置：
+  resolved ROOT      = E:\qt\xiangmu\build\wt-indtest\project-docs
+  harness 期望路径    = E:\qt\xiangmu\build\wt-indtest\project-docs\Server\connect.config
+  exists?            = False
+  真实配置           = E:\qt\xiangmu\build\wt-indtest\Server\connect.config exists? True
+
+-- 两次独立运行的输出（dev@e49e8aa / 本次@b861351）除 commit 戳外逐字节相同：
+1c1
+< [SETUP] users ready; candidate commit e49e8aa
+---
+> [SETUP] users ready; candidate commit b861351

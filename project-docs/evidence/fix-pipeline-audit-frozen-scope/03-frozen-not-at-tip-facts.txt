@@ -1,0 +1,8 @@
+throwaway branch tmp/verify-frozen-not-tip
+frozen change commit: 27ea030
+docs-only tip commit:  8f03da3
+merge-base master..HEAD: 0da0cc6c58a7cd7a1074c78af68216b79ec99cb7
+$ git diff --name-only $(git merge-base master HEAD)..HEAD
+Client/protocol.h
+pipeline/audit.ps1
+project-docs/tmp-docs-only-probe.txt

@@ -1,0 +1,11 @@
+# handoff: REQ-FS-003 (dev+pipeline done, merge held for audit)
+branch: fix/path-traversal-and-ownership
+head: 7b185f03bc13a47f7246d7179889379added654f
+tier: MEDIUM
+node: audit
+audit: pending
+next: 主人另开独立审计会话（只读 worktree @f808daf），通过后通知合并 master
+blockers: none
+evidence: project-docs/evidence/REQ-FS-003/
+owner: claude-code
+date: 2026-09-29

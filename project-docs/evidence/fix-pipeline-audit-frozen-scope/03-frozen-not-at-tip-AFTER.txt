@@ -1,0 +1,6 @@
+FROZEN-PATH HIT: Client/protocol.h -> escalate to LARGE + user approval
+docs-only commit: evidence from 27ea030
+NO test evidence for 27ea030 (run pipeline/test.ps1)
+impact-check: NOT_CHECKED (no test glob configured; affected test set is not meaningful)
+audit RED: frozen:Client/protocol.h, evidence
+exit=1

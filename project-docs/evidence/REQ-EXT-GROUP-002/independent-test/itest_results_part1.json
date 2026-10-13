@@ -1,0 +1,292 @@
+[
+ {
+  "label": "S1_migration_applied",
+  "ok": true,
+  "detail": "last_seq=1 table=1 schema=2026100101"
+ },
+ {
+  "label": "S1_unique_indexes",
+  "ok": true,
+  "detail": "PRIMARY,idx_group_created,uk_group_client_msg,uk_group_seq"
+ },
+ {
+  "label": "S1_client_msg_id_nullable",
+  "ok": true,
+  "detail": "nullable=1"
+ },
+ {
+  "label": "S2_group_a_created",
+  "ok": true,
+  "detail": "gid=44"
+ },
+ {
+  "label": "IDEM_serial_first_ok",
+  "ok": true,
+  "detail": "{'code': 0, 'key': b'idem-1', 'seq': 6, 'msg_id': 4905, 'created': 1790822852027}"
+ },
+ {
+  "label": "IDEM_first_broadcast_once",
+  "ok": true,
+  "detail": "events=1"
+ },
+ {
+  "label": "IDEM_broadcast_fields",
+  "ok": true,
+  "detail": "[{'gid': 44, 'seq': 6, 'msg_id': 4905, 'sender': 'it2a', 'type': 0, 'created': 1790822852027, 'content': 'hello-1'}]"
+ },
+ {
+  "label": "IDEM_serial_replay_same_ids",
+  "ok": true,
+  "detail": "{'code': 0, 'key': b'idem-1', 'seq': 6, 'msg_id': 4905, 'created': 1790822852027}"
+ },
+ {
+  "label": "IDEM_replay_no_rebroadcast",
+  "ok": true,
+  "detail": "rebroadcast=0"
+ },
+ {
+  "label": "IDEM_replay_diff_content_returns_original",
+  "ok": true,
+  "detail": "row=(6, 'hello-1') r3={'code': 0, 'key': b'idem-1', 'seq': 6, 'msg_id': 4905, 'created': 1790822852027}"
+ },
+ {
+  "label": "IDEM_single_row",
+  "ok": true,
+  "detail": "rows=1"
+ },
+ {
+  "label": "IDEM_cross_sender_same_key_rejected",
+  "ok": true,
+  "detail": "{'code': -2104}"
+ },
+ {
+  "label": "IDEM_cross_sender_no_new_row",
+  "ok": true,
+  "detail": "rows=1"
+ },
+ {
+  "label": "IDEM_pipelined_all_ok",
+  "ok": true,
+  "detail": "[0, 0, 0, 0, 0, 0, 0, 0]"
+ },
+ {
+  "label": "IDEM_pipelined_single_seq",
+  "ok": true,
+  "detail": "[7, 7, 7, 7, 7, 7, 7, 7]"
+ },
+ {
+  "label": "IDEM_pipelined_one_row",
+  "ok": true,
+  "detail": "rows=1"
+ },
+ {
+  "label": "PERM_leave_ok",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "PERM_remove_ok",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "PERM_state_left",
+  "ok": true,
+  "detail": "left"
+ },
+ {
+  "label": "PERM_state_removed",
+  "ok": true,
+  "detail": "removed"
+ },
+ {
+  "label": "PERM_nonmember_send_rejected",
+  "ok": true,
+  "detail": "{'code': -2101}"
+ },
+ {
+  "label": "PERM_nonmember_pull_rejected",
+  "ok": true,
+  "detail": "-2101"
+ },
+ {
+  "label": "PERM_nonmember_confirm_rejected",
+  "ok": true,
+  "detail": "{'code': -2101, 'effective': None}"
+ },
+ {
+  "label": "PERM_left_send_rejected",
+  "ok": true,
+  "detail": "{'code': -2101}"
+ },
+ {
+  "label": "PERM_left_pull_rejected",
+  "ok": true,
+  "detail": "-2101"
+ },
+ {
+  "label": "PERM_left_confirm_rejected",
+  "ok": true,
+  "detail": "{'code': -2101, 'effective': None}"
+ },
+ {
+  "label": "PERM_removed_send_rejected",
+  "ok": true,
+  "detail": "{'code': -2101}"
+ },
+ {
+  "label": "PERM_removed_pull_rejected",
+  "ok": true,
+  "detail": "-2101"
+ },
+ {
+  "label": "PERM_removed_confirm_rejected",
+  "ok": true,
+  "detail": "{'code': -2101, 'effective': None}"
+ },
+ {
+  "label": "AUTH_unauth_type88_rejected_-1001",
+  "ok": true,
+  "detail": "code=-1001"
+ },
+ {
+  "label": "AUTH_unauth_type91_rejected_-1001",
+  "ok": true,
+  "detail": "code=-1001"
+ },
+ {
+  "label": "AUTH_unauth_type93_rejected_-1001",
+  "ok": true,
+  "detail": "code=-1001"
+ },
+ {
+  "label": "AUTH_unauth_type95_rejected_-1001",
+  "ok": true,
+  "detail": "code=-1001"
+ },
+ {
+  "label": "DISS_dissolved_ok",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "DISS_send_rejected",
+  "ok": true,
+  "detail": "-2102"
+ },
+ {
+  "label": "DISS_pull_rejected",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "DISS_confirm_rejected",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "DISS_db_state",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "SYS_rows_exist",
+  "ok": true,
+  "detail": "system rows=7"
+ },
+ {
+  "label": "SYS_client_msg_id_null",
+  "ok": true,
+  "detail": "[None, None, None, None, None, None, None]"
+ },
+ {
+  "label": "SYS_share_seq_space",
+  "ok": true,
+  "detail": "n=9 max=9 last_seq=9"
+ },
+ {
+  "label": "SYS_delivered_via_pull",
+  "ok": true,
+  "detail": "7 vs 7"
+ },
+ {
+  "label": "CC_base_is_system_seqs",
+  "ok": true,
+  "detail": "base=3 (3 join system msgs)"
+ },
+ {
+  "label": "CC_all_ok",
+  "ok": true,
+  "detail": "n=200 bad=[]"
+ },
+ {
+  "label": "CC_no_duplicates",
+  "ok": true,
+  "detail": "n=200 uniq=200"
+ },
+ {
+  "label": "CC_contiguous",
+  "ok": true,
+  "detail": "min=4 max=203 n=200 expect=200"
+ },
+ {
+  "label": "CC_db_matches",
+  "ok": true,
+  "detail": "rows=203 max=203 last_seq=203"
+ },
+ {
+  "label": "OFF_messages_persisted",
+  "ok": true,
+  "detail": "last=8 base=1"
+ },
+ {
+  "label": "OFF_unread_count_equals_M",
+  "ok": true,
+  "detail": "unread=7 M=7"
+ },
+ {
+  "label": "OFF_catchup_all_M",
+  "ok": true,
+  "detail": "[b'offline-0', b'offline-1', b'offline-2', b'offline-3', b'offline-4', b'offline-5', b'offline-6']"
+ },
+ {
+  "label": "OFF_has_no_more",
+  "ok": true,
+  "detail": "hm=0 lastseq=8"
+ },
+ {
+  "label": "OFF_confirm_effective",
+  "ok": true,
+  "detail": "{'code': 0, 'effective': 8}"
+ },
+ {
+  "label": "OFF_unread_zero_after",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "OFF_summary_zero",
+  "ok": true,
+  "detail": "(8, 8, 0)"
+ },
+ {
+  "label": "READ_no_rollback",
+  "ok": true,
+  "detail": "{'code': 0, 'effective': 8}"
+ },
+ {
+  "label": "READ_clamped_to_last_seq",
+  "ok": true,
+  "detail": "{'code': 0, 'effective': 8}"
+ },
+ {
+  "label": "READ_db_persisted",
+  "ok": true,
+  "detail": "8"
+ },
+ {
+  "label": "READ_does_not_affect_other_member",
+  "ok": true,
+  "detail": "owner_eff=2 owner_db=2 off_db=8"
+ }
+]

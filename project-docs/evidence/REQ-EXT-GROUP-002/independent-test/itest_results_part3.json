@@ -1,0 +1,67 @@
+[
+ {
+  "label": "CTB_baseline_send_ok",
+  "ok": true,
+  "detail": "{'code': 0, 'key': b'ctb-ok', 'seq': 2, 'msg_id': 9933, 'created': 1790823025471}"
+ },
+ {
+  "label": "CTB_baseline_broadcast",
+  "ok": true,
+  "detail": "[{'gid': 55, 'seq': 2, 'msg_id': 9933, 'sender': 'it2own', 'type': 0, 'created': 1790823025471, 'content': 'committed'}]"
+ },
+ {
+  "label": "CTB_invalid_content_rejected",
+  "ok": true,
+  "detail": "{'code': -2103}"
+ },
+ {
+  "label": "CTB_failure_no_event",
+  "ok": true,
+  "detail": "events=0"
+ },
+ {
+  "label": "CTB_failure_no_row",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "CTB_failure_no_seq_consumed",
+  "ok": true,
+  "detail": "last_seq=2 was=2"
+ },
+ {
+  "label": "CTB_nonmember_rejected",
+  "ok": true,
+  "detail": "{'code': -2101}"
+ },
+ {
+  "label": "CTB_nonmember_no_event",
+  "ok": true,
+  "detail": "events=0"
+ },
+ {
+  "label": "CTB_nonmember_no_row",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "CTB_seq_unbroken_after_rejections",
+  "ok": true,
+  "detail": "last_seq=2"
+ },
+ {
+  "label": "CTB_seq_contiguous_after_failures",
+  "ok": true,
+  "detail": "{'code': 0, 'key': b'ctb-next', 'seq': 3, 'msg_id': 9934, 'created': 1790823028476}"
+ },
+ {
+  "label": "CTB_db_seqs_dense",
+  "ok": true,
+  "detail": "[1, 2, 3]"
+ },
+ {
+  "label": "CTB_dropped_broadcasts_still_persisted",
+  "ok": true,
+  "detail": "rows=802 last_seq=802"
+ }
+]

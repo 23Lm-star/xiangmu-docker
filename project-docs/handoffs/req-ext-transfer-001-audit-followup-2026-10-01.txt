@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-001 independent audit (follow-up; candidate tip 84bfb26 / code face 35dfce7; detached worktree build/wt-audit-35dfce7, read-only, removed)
+branch: feat/req-ext-transfer-001-parallel-transfer
+head: 84bfb26
+tier: LARGE
+node: audit
+audit: pending
+next: master decides integration vs further repair. Audit verdict PASS with no blocking item, BUT F-3 dynamic face (client's 4th 29 not sent) and design 6.3 ten GUI items remain NEEDS-HUMAN -> integration three-fact line NOT yet satisfied. Before implementing anything from design 3.1, note DOC-1 is now consistent with code (LegacySlotGuard text removed).
+blockers: none blocking. AUD-3 (98 echoes 97 reqId on both accept/reject; client attributes by token) and AUD-4 (deferred release + staging aligned to confirmed_offset) verified by source read + independent rebuild (baseline parallel_e2e 53/53, fastupload 46/46) + reverse probe (revert to 119e6d3 -> T-20b 6/6 FAIL, T-21a/b FAIL, 50/53; probe fully reverted, git status clean, HEAD unchanged, zero commits). Frozen face zero-diff since 119e6d3; D6 3/3 unchanged. Residual limits: cross-CLI independence did NOT hold (Codex CLI unavailable); 5 of 7 suites not re-run; no GUI.
+evidence: build/evidence/claude-req-ext-transfer-001-audit/84bfb26c9625fce5a880f597ec2a90beee557fe4/audit-report.md (+4 suite logs). Non-blocking: N-1 late-98 discard leaves a bounded server-side id=0 placeholder + upload_session row (never idle-reaped; suggest setting ctx.lastProgressMs in the 97 path); N-2 T-20 discriminating power rests on T-20b alone (T-20a/c pass pre-fix), T-22 is a static text assertion only. Repro note: audit-worktree dist/filesys must be primed from main (fresh filesys + shared DB => 46/53 false FAILs).
+owner: claude-code
+date: 2026-10-01

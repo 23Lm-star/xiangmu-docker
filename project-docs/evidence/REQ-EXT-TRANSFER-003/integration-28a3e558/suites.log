@@ -1,0 +1,28 @@
+=== sec001: rc=0 42s :: ==== 汇总: 48/48 PASS ====
+=== sec001-regression: rc=0 46s :: ==== 汇总: 48/48 PASS ====
+=== entry-ops: rc=0 17s :: 43/43 passed
+=== dedup: rc=0 4s :: 13/13 passed
+=== cross-tree: rc=0 20s :: 41/41 passed
+=== fastupload: rc=0 8s :: 46/46 passed
+=== group-002: rc=1 1s :: [SETUP] users ready; candidate commit 28a3e55
+=== groupfile: rc=0 6s :: 45/45 passed
+=== group004: rc=0 6s :: RESULT 23/23 PASS  commit=28a3e55  2026-10-09 10:23:18
+=== sec002: rc=0 5s :: 14/14 passed
+=== unique-login: rc=0 51s :: SUMMARY: 16/16 PASS, 0 FAIL
+=== transfer003: rc=1 14s :: NOTE: §6.3 NEEDS-HUMAN 五项（GUI 肉眼吞吐 / 面板进度回看 / 暂停继续单行 / 0 字节任务显示 / G7 断线秒级收敛与重连续传）不在本套件范围；客户端侧 C1–C9 的动态行为需客户端宿主，本套件以静态契约（S-02/S-04/S-05c）覆盖其接线与守卫。
+=== parallel-transfer: rc=0 95s :: NOTE: 纯客户端行为（多选选择器/任务列表/暂停继续取消按钮/**客户端队列不发起第 4 个 29**/大文件摘要不卡 UI）属 design §6.3 人工清单，非本套件可断言范围；wire 级握手保真（T-19：97→98→29→30→31/32）与客户端队列的**静态契约**（T-22）已由本套件覆盖，但客户端队列的**动态**断言（第 4 个 29 确实未发出）仍需人工项——本仓无客户端测试宿主。
+
+==== 手动执行汇总（非门禁结论）====
+sec001               rc=0     ==== 汇总: 48/48 PASS ====
+sec001-regression    rc=0     ==== 汇总: 48/48 PASS ====
+entry-ops            rc=0     43/43 passed
+dedup                rc=0     13/13 passed
+cross-tree           rc=0     41/41 passed
+fastupload           rc=0     46/46 passed
+group-002            rc=1     [SETUP] users ready; candidate commit 28a3e55
+groupfile            rc=0     45/45 passed
+group004             rc=0     RESULT 23/23 PASS  commit=28a3e55  2026-10-09 10:23:18
+sec002               rc=0     14/14 passed
+unique-login         rc=0     SUMMARY: 16/16 PASS, 0 FAIL
+transfer003          rc=1     NOTE: §6.3 NEEDS-HUMAN 五项（GUI 肉眼吞吐 / 面板进度回看 / 暂停继续单行 / 0 字节任务显示 / G7 断线秒级收敛与重连续传）不在本套件范围；客户端侧 C1–C9 的动态行为需客户端宿主，本套件以静态契约（S-02/S-04/S-05c）覆盖其接线与守卫。
+parallel-transfer    rc=0     NOTE: 纯客户端行为（多选选择器/任务列表/暂停继续取消按钮/**客户端队列不发起第 4 个 29**/大文件摘要不卡 UI）属 design §6.3 人工清单，非本套件可断言范围；wire 级握手保真（T-19：97→98→29→30→31/32）与客户端队列的**静态契约**（T-22）已由本套件覆盖，但客户端队列的**动态**断言（第 4 个 29 确实未发出）仍需人工项——本仓无客户端测试宿主。

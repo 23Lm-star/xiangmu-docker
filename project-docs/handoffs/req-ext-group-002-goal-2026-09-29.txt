@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-002 (goal — task summary written, branch cut+trunk-synced, awaiting owner approval)
+branch: codex/req-ext-group-002-group-messaging
+head: 324edb09b98bd2cc5c80e8b22e611da25e6111a5
+tier: LARGE
+node: goal
+audit: none
+next: GROUP-001 合并 master 后，主人批准 D1–D5（含 D2 PDU 编号分配表）再开 design/development 会话
+blockers: REQ-EXT-GROUP-001 未开始（成员事实源缺失）；SEC-001 已并入 7fc47c1 不再阻塞；未批准不动生产源码
+evidence: project-docs/tasks/REQ-EXT-GROUP-002/task.md（档位/依赖核查/盘点/T1–T7/D1–D5/停止条件）
+owner: claude-code
+date: 2026-09-29

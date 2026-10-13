@@ -1,0 +1,13 @@
+# evidence manifest -- written by record-evidence.py
+label: REQ-AUTH-002: salt applied, credentials no longer logged
+created_utc: 2026-09-29T14:30:37+08:00
+commit: 64804fed49de7f374a3360d2ff2aefe443b5ef88
+branch: fix/auth-security-baseline
+dirty: yes
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:30853b7bf105d67a9e608167aac7948e46fb54742b578db6a4703e7284b3c776  operatedb.cpp  (23407 bytes)
+sha256:e7fcd06eac3b30b9d72ef48b8a0b89203b4936fda05e1df9c7ce11ccdbb40abb  msghandler.cpp  (46050 bytes)
+sha256:95569563c212391633ceaaadcc9934d0c4f1708b2ad8ceec6ba1396992e0da1b  migrate_add_password_salt.sql  (354 bytes)

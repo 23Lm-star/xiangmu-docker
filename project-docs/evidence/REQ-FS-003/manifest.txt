@@ -1,0 +1,12 @@
+# evidence manifest -- written by record-evidence.py
+label: REQ-FS-003: sandbox path validation enforced on 10 entries
+created_utc: 2026-09-29T11:53:40+08:00
+commit: f808daf907602efecd6b9e9d2fc523dd1250d96f
+branch: fix/path-traversal-and-ownership
+dirty: yes
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:86693d9b57c4cca53a0032c74740c431bf993ee940779d31fafe9dde55a68820  msghandler.cpp  (45936 bytes)
+sha256:f46e984e4730f68244bbed9ccb17acc2431bfbf0dfe387d9151a10b449dccbdb  msghandler.h  (3772 bytes)

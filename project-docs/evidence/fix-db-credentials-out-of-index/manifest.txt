@@ -1,0 +1,12 @@
+# evidence manifest -- written by record-evidence.py
+label: pipeline: build GREEN + test GREEN + audit PASS on fix/db-credentials-out-of-index
+created_utc: 2026-09-29T10:24:59+08:00
+commit: 33b3deea0c8cc97d88c0e34a117cb2fd996ce2e6
+branch: fix/db-credentials-out-of-index
+dirty: yes
+host: Windows / 11 / AMD64
+python: 3.13.14
+
+# files
+sha256:64aa7073f93c5761b7d1ed629ac92d7b95beff9d629f8434b6c3f8745e9c65b5  .gitignore  (1196 bytes)
+sha256:b12d9bb4257f63d220036128341e3869a34374889d166bab176124ac757a2b93  connect.config.template  (69 bytes)

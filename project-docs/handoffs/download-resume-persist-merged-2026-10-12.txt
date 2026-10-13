@@ -1,0 +1,11 @@
+# handoff: 下载中断后续传失效修复 + 分片缺失可见提示 已并入 master（MEDIUM，GUI 人工复验通过）
+branch: master
+head: c5af881
+tier: MEDIUM
+node: merged
+audit: accepted by 主人, 2026-10-12
+next: ①已闭合：D-012 真因（下载期间不落盘，快照停在入队版、savePath 为空）由 beginReceiving 里 saveSnapshot() 修掉；D-014② 分片缺失不再静默改走新建、改为写可见提示 ②仍未处理：D-014① 相对路径绝对化（主人决定不改）、D-013 单机形态下客户端根==服务器根致下载件被 (N) 改名、D-015 一次性环境故障（非复现） ③桌面《开发缺陷日志》剩余：D-002/D-005/D-006/D-008/D-010 ④回报 devos 上游：bundle v1.14 pipeline/*.ps1 缺 UTF-8 BOM、audit.ps1 敏感路径不容忍行尾注释 ⑤P4：pipeline/ 仍 gitignored/per-worktree，本轮 4 处工具修复不入库也不传播——决定是否转为入库
+blockers: 无
+evidence: build/evidence/current/{build,test,audit}-546be36933197e52c1b77f6c6e2d72fe16ee5ece-run-20261012-06.*（per-worktree，gitignored；同一 RunId 三闸全绿）。产品验证由 GUI 人工完成——test_gate 的 14 套是 Python→服务端 socket harness，**不加载 Client.exe**，故本条拿不到自动证据；主人的复验结论：「现在都是从原来的分片文件传输，没有新文件出现」。候选 546be36 合并为 c5af881（parents 0485059+546be36，合并后树与候选逐字节相同）
+owner: claude-code
+date: 2026-10-12

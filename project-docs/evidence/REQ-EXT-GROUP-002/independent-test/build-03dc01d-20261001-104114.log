@@ -1,0 +1,5 @@
+config sync: Client\connect.config <- E:/qt/xiangmu (sha256 8604BD2BA3F1CDD018E75D8527220DC48B33D9FD78C6C5AC94764BAE372F1E6A)
+config sync: Server\connect.config <- E:/qt/xiangmu (sha256 025B7FC2A1A92D83A49813B6E2715C7EBE7E34020F03473C3A9046DA828F65D6)
+build OK: Client -> E:\qt\xiangmu\build\wt-test-group002\build\build-Client
+build OK: Server -> E:\qt\xiangmu\build\wt-test-group002\build\build-Server
+build GREEN: hash=03dc01d config=20261001-104114

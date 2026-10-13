@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-003 已 no-ff 合入主干 @28a3e558（合并树 == 4965738 树，逐字节）；shipped=上传数据通道分片 1 MiB（仅 31）/会话行复用与连续性/G7 断线收敛（R-1 登录名同步化 + D-a/D-b）；审计 A-1..A-6 与 test IND-1..6 去重后成 S1–S9（主人暂不开修）；回归=新增 transfer003 套件 59 条 + manifest 注册（13 套）；独立性披露：dev/test/repair/audit/integration 同为 claude-code，跨代理独立性未满足
+branch: feat/req-ext-transfer-003-upload-session-throughput（提交已被 master 可达，可删）
+head: 28a3e5582b87a205cdc3c05e5f42442cfeeee858
+tier: LARGE
+node: merged
+audit: accepted by 主人(wcy), 2026-10-09
+next: ①S1–S9 九条见 build/evidence/claude-req-ext-transfer-003-independent-b861351/followup-branch-plan.md（主人：暂不开修）②feat/req-ext-transfer-002 合并（其 owner；须先读 blockers）③主人补记「重试→续传完成」（build/evidence/claude-req-ext-transfer-003-repair/human-reverify-2026-10-09.md）
+blockers: 002@d45ae11 仍未合主干——design §8：002 在 Server/protocol.h 文件尾追加块、003 改中部常量区，文本不冲突，但两改动共存未经验证；002 合入者必须复查 frozen 面 + 上传/下载组合矩阵
+evidence: project-docs/evidence/REQ-EXT-TRANSFER-003/{integration-28a3e558,repair-4965738,independent-test-b861351,audit-4965738,goal,handoffs}/；本轮实跑 13 套矩阵 11 绿 + group-002 既有红 + transfer003 57/59（S-03a/b 在 trunk 空转，非产品红）
+owner: claude-code
+date: 2026-10-09

@@ -1,0 +1,5 @@
+pipeline on 0efccb9efd20678aa2becec8eac7b9b7ed5c6515 (B-1 repair):
+build: GREEN (0efccb9efd20678aa2becec8eac7b9b7ed5c6515, 20260929-214508)
+test: 0 automated tests registered (fill TESTS in pipeline/test.ps1)
+audit PASS (0efccb9)
+e2e: 48/47+K2d PASS (K2d = B-1 自我登记他人源→拒绝)

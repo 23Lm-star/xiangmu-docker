@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SESSION-001 (repair — audit REJECT 处置：文档修正+测试器根治+四形态死亡全部归因执行环境，产品零崩溃)
+branch: claude/req-ext-session-001-unique-login
+head: fc1b6c7
+tier: LARGE
+node: repair
+audit: pending
+next: 复审计（Codex，只读）：候选仍为 fc1b6c7（产品零变更）；探针必须用 run_supervised.py 或树外分离进程+PID 监护跑（SERVER_DIED rc=3=环境归因，不计产品失败）；保留原始日志到 build/evidence/，勿随 worktree 销毁；ACCEPT 后三事实行进 integration
+blockers: 无产品缺陷待修；三项审计发现处置=design.md 已修、test.ps1=0 为仓库基线（REQ-TEST-008B 域）、探针不稳定=运行器生命周期缺陷已根治
+evidence: project-docs/evidence/REQ-EXT-SESSION-001/（repair-supervised-run.txt 归因实录、repair-soak3-run.txt、repair-outoftree-run.txt 树外 8/8、independent-test-fc1b6c7.md）；task.md 归因取证闭环节
+owner: claude-code
+date: 2026-09-30

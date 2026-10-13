@@ -1,0 +1,10 @@
+# handoff: REQ-EXT-SEC-001 (goal — task summary written, awaiting owner approval)
+branch: codex/req-ext-sec-001-auth-context
+head: c1770dde1a9f7c9817a41146866e4f038fc23a75
+tier: LARGE
+node: goal
+next: 主人批准 D1–D5 后开 development 会话（T1–T5 实现，pipeline 绿后才进 independent test）
+blockers: 未获批准不动生产源码；两 protocol.h 零触碰（frozen）
+evidence: project-docs/tasks/REQ-EXT-SEC-001/task.md（档位/依赖核查/代码盘点/T1–T7/D1–D5/停止条件）
+owner: claude-code
+date: 2026-09-29

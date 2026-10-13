@@ -1,0 +1,46 @@
+# 任务契约模板（Task Contract Template）
+# 用途：每一个 Agent 任务都必须先生成一份任务契约，作为隔离、审批与集成门禁的凭证。
+# 所有字段为必填；缺失任一字段，集成者（Integrator）必须拒绝合并。
+# 本文件是“执行控制层”的入口，与 path-ownership.yaml / integration-policy.md / evidence-levels.md / active-locks.yaml 配套。
+
+schema_version: 1
+
+# ===== 一份任务的契约示例（实际任务复制此结构并填值） =====
+example_task:
+  task_id: T-2026-0730-R17-HEARTBEAT      # 全局唯一，建议 T-<日期>-<批次>-<主题>
+  title: 低耦合心跳机制实现
+  owner_role: project_engineer            # 实际动手写代码的角色（仅工程师）
+  base_commit: c6a472c                    # 不可变基线：任务从哪个 commit 切出独立分支/worktree
+  branch: task/R17-heartbeat              # 本任务独占的分支或 worktree
+  allowed_paths:                          # 白名单：本任务允许改动的文件/目录（必须显式列出）
+    - Client/msghandler.*
+    - Server/mytcpsocket.*
+    - Server/mytcpserver.*
+  protected_paths:                        # 禁改区：本任务任何人不得触碰（越界即拒绝）
+    - "*/protocol.h"
+    - "Server/operatedb.*"
+    - "*.pro"
+    - "*.sql"
+  allowed_symbols: []                     # 涉及协议/核心文件时才填：允许增改的消息类型/枚举/结构体
+  required_approvals:                     # 需要的审批（角色 + 节点）
+    - role: project_architect
+      gate: design                        # 设计/接口变更需架构师批准
+    - role: project_architect
+      gate: integrate                     # 合并前需架构师最终确认
+  # 提交链（由工具实际写入 hash，不可手写伪造）
+  engineer_commit: null                   # 工程实现完成后的提交
+  review_commit: null                     # Bug 查找师静态审查签署后的提交
+  test_commit: null                       # 测试师动态测试所基于的提交（必须 == 被测代码 commit）
+  evidence_level: null                    # 见 evidence-levels.md：L1 静态 / L2 模拟 / L3 动态 / L4 验收
+  unique_integrator: project_architect    # 唯一允许把本任务并入主线的角色
+  lock_ids: [LOCK-R17]                    # 引用的任务锁（见 active-locks.yaml）
+  status: draft                           # draft | in_progress | pending_review | pending_test | ready_to_integrate | integrated | rejected
+
+# ===== 校验规则（供 integration-policy 的脚本引用） =====
+validation:
+  - base_commit 必须存在于仓库且未被强制推送覆盖
+  - allowed_paths / protected_paths 必须显式列出，禁止 ".*" 通配整库
+  - engineer_commit -> review_commit -> test_commit 必须形成连续提交链（test_commit 必须包含前两者）
+  - test_commit 所测代码 == 待合并代码（hash 一致）；否则 evidence 无效
+  - evidence_level 低于变更类型要求时，禁止标称“通过/已修复”
+  - 未持有所需 approvals 与 lock 释放证明，unique_integrator 不得合并

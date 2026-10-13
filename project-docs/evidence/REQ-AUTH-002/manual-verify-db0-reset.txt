@@ -1,0 +1,9 @@
+mysql: [Warning] Using a password on the command line interface can be insecure.
+name	pwd	salt	online	is_legacy
+123	e10adc3949ba59abbe56e057f20f883e		0	1
+friend1	e10adc3949ba59abbe56e057f20f883e		0	1
+friend2	e10adc3949ba59abbe56e057f20f883e		0	1
+lilei	e10adc3949ba59abbe56e057f20f883e		0	1
+litaibai	e10adc3949ba59abbe56e057f20f883e		1	1
+tester	e10adc3949ba59abbe56e057f20f883e		0	1
+wcy	e10adc3949ba59abbe56e057f20f883e		0	1

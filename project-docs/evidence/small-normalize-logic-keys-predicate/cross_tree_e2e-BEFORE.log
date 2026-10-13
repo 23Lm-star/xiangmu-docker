@@ -1,0 +1,48 @@
+[PASS] TA1 Server 树A 启动 :: 
+[PASS] TA2 xtuser1 登录 :: ret=1
+[PASS] TA3 树A 上传 ct.bin 成功 :: 
+[PASS] TA4 条目键 parent_path='/'（根，'/' 结尾规范） :: 
+[PASS] TA5 对象 refcount=1 :: 
+[PASS] TA6 MKDIR sub 目录条目键 '/' :: 
+[PASS] TA7 树A 上传 sub/s.bin 成功 :: 
+[PASS] TA8 子目录条目键 parent_path='/sub/' :: 
+[PASS] TB0 树B junction filesys 建立 :: rc=0
+[PASS] TB1 Server 树B 启动（cwd=树B） :: 
+[PASS] TB2 xtuser1 树B 登录 :: ret=1
+[PASS] TB3 树B 同内容同名重复上传（初始化+分块 ack 正常） :: 
+[PASS] TB4 跨树幂等：条目仍 1 行 parent_path='/' :: 
+[PASS] TB5 跨树幂等：refcount 仍 1（无重复行/无重复计数） :: 
+[PASS] TB6 跨树幂等：'%'旧形态键零残留 :: 
+[PASS] TB7 树B flushfile 命中树A 建立的条目（逻辑键权威） :: names=['ct.bin', 'sub']
+[PASS] TB8 树B 下载树A 对象字节一致（storage_path 相对解析） :: bytes=800/800
+[PASS] TB9 树B 子目录条目仍 1 行 '/sub/' :: 
+[PASS] XT1 树B 同意分享→完成 :: pkt=(37, b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
+[PASS] XT2 接收者条目键 '/' 且引用同一对象 :: 
+[PASS] XT3 refcount=2 :: 
+[PASS] XT4 接收者树B 下载字节一致（物理零复制） :: bytes=800/800
+[PASS] CV1 Server 树B 重启（触发存量键转换） :: 
+[PASS] CV2 user_file 旧绝对键 → '/' 逻辑键 :: 
+[PASS] CV3 file_migration_map 绝对 old_path → 'filesys/...' 相对键 :: 
+[PASS] CVXA dupf 撞键：active 仅 1 行（最早旧行存活） :: 
+[PASS] CVXB dupf 撞键：loser 已软删（total 2，deleted 1） :: 
+[PASS] CVXC dupf loser 保留旧键未被改写（无 1062 路径） :: 
+[PASS] CVXD 无盘符 '/filesys/<user>' 探针 → '/' :: 
+[FAIL] CVXG 首段=filesys 且 '/' 结尾（旧谓词误判 canonical）→ '/sub/' :: 
+[FAIL] CVXH user_file 零 '/filesys/...' 残留 :: 
+[FAIL] CVXJ upload_session 同判别：'/filesys/...' → '/sub/' :: 
+[PASS] CV4 active 行零残留非逻辑键（deleted 保留旧键属预期） :: 
+[PASS] CV5 转换后条目在树B 列表可见（跨树命中） :: names=['ct.bin', 'dupf.txt', 'oldfile.txt', 'slashdir', 'sub']
+[PASS] CVXE 收敛镜像减引用（5 注入引用→loser -1=4） :: 
+[PASS] CV6 Server#重放启动 :: 
+[PASS] CV7 重放幂等：oldfile 行数不变 :: 
+[PASS] CV8 重放幂等：map 相对键行不变 :: 
+[PASS] CV9 重放幂等：refcount 仍 4（收敛只发生一次，deleted 行静默跳过） :: 
+[PASS] CVXF 重放幂等：dupf 1 active + 1 deleted 不变 :: 
+[FAIL] CVXK 重放幂等：fsdir 1 行 '/sub/' 不变、'/filesys/...' 仍零残留 :: 
+
+=== 汇总 cross_tree_e2e ===
+  FAIL -> CVXG 首段=filesys 且 '/' 结尾（旧谓词误判 canonical）→ '/sub/'
+  FAIL -> CVXH user_file 零 '/filesys/...' 残留
+  FAIL -> CVXJ upload_session 同判别：'/filesys/...' → '/sub/'
+  FAIL -> CVXK 重放幂等：fsdir 1 行 '/sub/' 不变、'/filesys/...' 仍零残留
+37/41 passed

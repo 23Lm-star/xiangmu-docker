@@ -1,0 +1,7 @@
+server pid: 54488
+[PASS] P1 超长 ID 截断存储 ≤64 且登录成功 :: len=64
+[PASS] P2 非打印字节被净化（仅 AB） :: cid='AB'
+[PASS] P3 无附加区/无NUL 兼容：登录成功、档案为空 :: ret=1 cid='NULL'
+[SERVER_DIED] 监护 PID=54488 在阶段 'P4-idle' 已不存在——失败归因于服务器进程消失（外部按镜像名 taskkill 或崩溃），非探针断言失败
+[ATTRIBUTION] SERVER_DIED：失败源于被监护进程消失（崩溃或外部按镜像名误杀），非产品断言失败
+probes rc= 3 alive_end= False

@@ -1,0 +1,11 @@
+# evidence manifest -- written by record-evidence.py
+label: build
+created_utc: 2026-10-08T19:57:52+08:00
+commit: b8613514a561143be0d0af5b1ae2ad0a53726ac7
+branch: HEAD
+dirty: no
+host: Windows / 10 / AMD64
+python: 3.6.5
+
+# files
+sha256:89e5cfe514c533bfc96d2600d7df37bf97cbaa3ec050a05fc5cd4528fbf731a5  build-b861351-20261008-195606.log  (446 bytes)

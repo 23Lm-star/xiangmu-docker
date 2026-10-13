@@ -1,0 +1,42 @@
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: xiangmu-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SERVER_DB_PASSWORD:-xiangmu_docker_pass}
+      MYSQL_DATABASE: mydb
+    # 本项目 schema 按 MySQL 5.7 设计（Antelope/COMPACT、767B 索引上限），勿升 8.0 除非重新验证
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8
+      --collation-server=utf8_general_ci
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${SERVER_DB_PASSWORD:-xiangmu_docker_pass}"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 30s
+    restart: unless-stopped
+
+  server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        SERVER_DB_PASSWORD: ${SERVER_DB_PASSWORD:-xiangmu_docker_pass}
+    image: xiangmu-server:latest
+    container_name: xiangmu-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data/filesys:/app/filesys
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  mysql-data:

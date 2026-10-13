@@ -1,0 +1,56 @@
+=== 静态复核 REQ-EXT-TRANSFER-003 @b861351 ===
+artifacts:
+  design.md(dev worktree): sha256=3e90e35086815b11
+  Server/protocol.h: sha256=419c1ead1c8184e3
+  Client/protocol.h: sha256=7226481b6f1d6ebe
+  verify.py: sha256=dacb1fe9ad1f1f8f
+
+[1] §9 批准稿（design.md 逐字抽取，531 字符 / 5 行）
+[2] protocol.h 第 197-201 行 == §9 批准稿（逐字节）：True
+[3] verify.py 的 APPROVED 字面量 == §9 批准稿：True
+[4] merge-base=d85e39f；Server/protocol.h 变更：+5/−2
+    新增行 == 批准稿各行：True
+    删除行 == 原两行常量：True
+    hunk 数 == 1：True（['@@ -194,8 +194,11 @@ static const int GROUP_FILE_DOWNLOAD_RESP_NAME_OFFSET     = 36;  // 展示名 UT']）
+[5] Client/protocol.h 零改动：True
+[6] 全分支 diff 触及文件（排除 project-docs）：
+    Client/client.cpp
+    Client/transfertask.cpp
+    Client/transfertask.h
+    Client/uploader.cpp
+    Client/uploader.h
+    Server/msghandler.cpp
+    Server/msghandler.h
+    Server/mytcpsocket.cpp
+    Server/operatedb.cpp
+    Server/operatedb.h
+    Server/protocol.h
+    Server/resumableuploadsession.cpp
+    Server/resumableuploadsession.h
+    Server/uploadwritetask.cpp
+    Server/uploadwritetask.h
+
+[7] 事实清单：
+    mytcpsocket.cpp:636: if (m_dpulist.size() > MAX_PENDING_INBOUND_BYTES) {
+    mytcpsocket.cpp:651: ? MAX_UPLOAD_DATA_PDU_SIZE : MAX_INBOUND_PDU_SIZE;
+    D5 超长块拒绝（mytcpsocket.cpp:352）先于 writeInFlight=true（:367）：True
+    MsgHandler 每连接一份（['mytcpsocket.cpp:26']）→ releaseOtherStagingHandles 的扫描域 = 单连接会话表
+    releaseOtherStagingHandles 定义：msghandler.cpp:1313-1328
+      1313: void MsgHandler::releaseOtherStagingHandles(quint64 keepId, const QString &stagingPath)
+      1314: {
+      1315:     if (stagingPath.isEmpty()) {
+      1316:         return;
+      1317:     }
+      1318:     for (QHash<quint64, UploadCtx>::iterator it = m_uploads.begin(); it != m_uploads.end(); ++it) {
+      1319:         if (it.key() == keepId) {
+      1320:             continue;
+      1321:         }
+      1322:         if (it->session.stagingFilePath() == stagingPath) {
+      1323:             it->session.releaseStagingFile();
+      1324:         }
+      1325:     }
+      1326: }
+      1327: 
+      1328: MsgHandler::UploadCtx& MsgHandler::currentUpload()
+      1329: {
+    遗留文案（常量已 1 MiB+8 KB，日志仍写 256 KB）：[635, 637]

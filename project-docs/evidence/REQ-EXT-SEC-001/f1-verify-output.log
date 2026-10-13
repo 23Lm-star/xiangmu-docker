@@ -1,0 +1,10 @@
+[PASS] E1 两个测试账号登录成功 :: f1owner:True f1taker:True
+[PASS] E2 两次生成均成功返回链接 :: l1=cloud-disk://share/nUA7Pmj7a1nUplzkDO-niA… l2=cloud-disk://share/c4e012e6bb0860da5484e629e6…
+[PASS] E3 首次链接可解析（回归） :: ok=True
+[PASS] E4 F-1 核心：去重复用的第二次链接也可解析 :: ok=True l2_is_hash64=True
+[PASS] E5 文件实际落到接收者本人根 :: landed=['f1(1).bin', 'f1.bin']
+Traceback (most recent call last):
+  File "E:\qt\xiangmu\build\sec001\f1verify.py", line 94, in <module>
+    print(f"\n==== {sum(res)}/{len(res)} PASS ====")
+                    ~~~^^^^^
+TypeError: unsupported operand type(s) for +: 'int' and 'str'

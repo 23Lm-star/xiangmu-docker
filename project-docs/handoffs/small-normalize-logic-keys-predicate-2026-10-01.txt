@@ -1,0 +1,11 @@
+# handoff: small/normalize-logic-keys-predicate (T3 / FINDING-DEV-3)
+branch: small/normalize-logic-keys-predicate
+head: 6175c54
+tier: SMALL
+node: merged
+audit: accepted by user, 2026-10-01 (audit PASS @6175c54)
+next: none — merged no-ff as fcceff8; 结论 FIXED：canonical 判别与 isLogicKeyForm/normalizeParent 对齐（user_file + upload_session 两处），夹具先行可红
+blockers: none
+evidence: project-docs/evidence/small-normalize-logic-keys-predicate/ (cross_tree 41/41，同夹具旧码 37/41；entry_ops 43/43；dedup 13/13；sec001 48/48；fastupload 46/46；groupfile 45/45；build/test GREEN；audit PASS)
+owner: claude-code
+date: 2026-10-01

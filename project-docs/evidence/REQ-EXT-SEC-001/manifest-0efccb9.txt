@@ -1,0 +1,15 @@
+# evidence manifest -- written by record-evidence.py
+label: REQ-EXT-SEC-001 B-1 repair: share source ownership at registration; 48/48 e2e
+created_utc: 2026-09-29T21:49:40+08:00
+commit: 0efccb9efd20678aa2becec8eac7b9b7ed5c6515
+branch: codex/req-ext-sec-001-auth-context
+dirty: no
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:f7a7eb830091ec88e07a7cead03670cac5cc525d17db2a89cb359544cb2d65cd  verify-output.log  (4053 bytes)
+sha256:6a454861364dca22aba4744424ed982152ad695f91b2bf883153a8cda5402e59  server-console.log  (2716 bytes)
+sha256:c7f8388173a2294b25a761d5e4872b22e98f7f467fee2245e1e3443989d002c0  reject-lines.log  (3114 bytes)
+sha256:84cc9c602562d8adc2b7281e2e084090c8515d457a951deb704334f7a40a61f1  verify.py  (15520 bytes)
+sha256:743b3a6a56087d4a94345f376c96a2f7fbe79f0751bbf96ab9f6cf2d5d83feaf  pipeline-run.log  (294 bytes)

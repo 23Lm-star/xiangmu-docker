@@ -1,0 +1,51 @@
+# REQ-EXT-GROUP-003 integration — raw fact check (2026-10-01)
+
+## trunk / merge
+$ git rev-parse --short master   -> 495e552
+$ git log --oneline -1 master    -> 495e552 merge: REQ-EXT-GROUP-003 群文件目录与访问控制 (LARGE; ...)
+$ git rev-parse --short HEAD~1   -> 285b4b0   (master pre-merge, first parent)
+$ git rev-parse --short HEAD^2   -> 9129900   (requirement branch tip, second parent)
+$ git merge-base 285b4b0 9129900 -> 60a5fc9   (pre-merge trunk base; disjoint file sets -> conflict-free no-ff)
+$ git diff --shortstat 60a5fc9..9129900 -> 37 files changed, 2366 insertions(+), 26 deletions(-)
+
+## FACT 1 — independent audit report exists and is accepted
+project-docs/evidence/REQ-EXT-GROUP-003/audit/report.md
+  conclusion: PASS on 0b83aab — 0 blocking defects; frozen paths append-only 99-106 within the
+  goal-approved contract change (PDU 99-106, group_file table, schema_version 2026100103).
+  6 non-blocking observations recorded -> archived, not repair-gated (does not block integration).
+  Accepted by user 2026-10-01 (audit acceptance AND same-agent independence both accepted; the
+  auditor was claude-code, same as the development owner — recorded truthfully, cross-agent not met).
+  No conflict with the development/test conclusions -> no arbitration needed.
+
+## FACT 2 — frozen-path diff empty (no frozen change beyond the approved contract change)
+$ git diff 0b83aab..495e552 --stat -- Client/protocol.h Server/protocol.h
+# (no output = zero frozen delta between the audited candidate and the merged result)
+$ git diff 60a5fc9..9129900 --name-only -- Client/protocol.h Server/protocol.h
+ Client/protocol.h
+ Server/protocol.h
+# = exactly the approved append 99-106 in both files. Independent audit re-verified:
+#   zero deletion lines (append-only), Client/Server constant blocks byte-identical (sha256 前16位
+#   both 86007a7f2971bd34…), no renumbering of 1-98, ENUM_MSG_TYPE_MAX unchanged.
+# Zero code commits exist above the audited candidate on the branch:
+#   git diff --name-only 0b83aab..9129900 -- Client Server pipeline tools tests src include -> (empty)
+
+## FACT 3 — pipeline on the merged result
+$ powershell -File pipeline/build.ps1  -> build GREEN (495e552, 20261001-145917)
+$ powershell -File pipeline/test.ps1   -> test GREEN-WARN: 0 automated tests registered (honest-0)
+$ powershell -File pipeline/audit.ps1  -> audit PASS (495e552)
+# audit PASS (not RED) is expected under the current branch-scoped frozen check
+#   (small/pipeline-audit-frozen-scope, merge 1e79197): on trunk merge-base(master,HEAD)==HEAD,
+#   so the frozen range is empty and an already-merged --no-ff merge reports no frozen hit
+#   ("its delta is history, not a new change" — audit.ps1 header).
+# The frozen change WAS caught at the branch layer, where it belongs:
+#   independent-test/pipeline-audit.log -> "audit RED: frozen:Client/protocol.h, frozen:Server/protocol.h"
+#   (the goal-approved contract change; LARGE + user approval, recorded in task.md).
+# impact-check: NOT_APPLICABLE (manifest-declared: 0 statically-reachable automated tests;
+#   regression carried by the e2e socket harnesses under project-docs/evidence/).
+
+## regression carried into the merge (evidence anchored on 0b83aab, verified by independent test)
+  groupfile_e2e.py 45/45; dedup 13/13; entry_ops 43/43; cross_tree 37/37; sec001 48/48;
+  fastupload 46/46; group lifecycle 15/15.
+  NOTE: these harnesses are NOT wired into pipeline/test.ps1 (0 registered tests), so the merge's
+  own test gate is honest-0. The e2e numbers are the evidence of record; no GUI smoke was run
+  (NEEDS-HUMAN carried forward from the test node).

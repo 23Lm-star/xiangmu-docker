@@ -1,0 +1,23 @@
+approved block lines = 5
+  A0: 'static constexpr uint MAX_INBOUND_PDU_SIZE = 16 * 1024;   // 通用入站单包上限（16 KB）——REQ-EXT-TRANSFER-003 抬高的只有上传数据通道'
+  A1: '// ===== REQ-EXT-TRANSFER-003：上传数据通道（31）分片上限（仅 31 生效；客户端 Client/uploader.h 的 UPLOAD_CHUNK_MAX 须 ≤ 此处） ====='
+  A2: 'static constexpr uint MAX_UPLOAD_DATA_CHUNK = 1024 * 1024;                    // 31 单块正文上限 1 MiB'
+  A3: 'static constexpr uint MAX_UPLOAD_DATA_PDU_SIZE = MAX_UPLOAD_DATA_CHUNK + 4096; // 31 整包上限 = 正文 + 头/余量'
+  A4: 'static constexpr int  MAX_PENDING_INBOUND_BYTES = 1024 * 1024 + 8192;         // 每连接入站累积上界（≥ 单包上限 + 余量；原 256 KB）'
+
+actual file lines 197..201 of Server/protocol.h@4965738:
+  G0: 'static constexpr uint MAX_INBOUND_PDU_SIZE = 16 * 1024;   // 通用入站单包上限（16 KB）——REQ-EXT-TRANSFER-003 抬高的只有上传数据通道'
+  G1: '// ===== REQ-EXT-TRANSFER-003：上传数据通道（31）分片上限（仅 31 生效；客户端 Client/uploader.h 的 UPLOAD_CHUNK_MAX 须 ≤ 此处） ====='
+  G2: 'static constexpr uint MAX_UPLOAD_DATA_CHUNK = 1024 * 1024;                    // 31 单块正文上限 1 MiB'
+  G3: 'static constexpr uint MAX_UPLOAD_DATA_PDU_SIZE = MAX_UPLOAD_DATA_CHUNK + 4096; // 31 整包上限 = 正文 + 头/余量'
+  G4: 'static constexpr int  MAX_PENDING_INBOUND_BYTES = 1024 * 1024 + 8192;         // 每连接入站累积上界（≥ 单包上限 + 余量；原 256 KB）'
+
+BYTE-EXACT (block a): True
+
+Client/protocol.h diff d85e39f..4965738: ''  -> zero-change: True
+Server/protocol.h: +5 -2; hunks=2
+added set == approved set: True
+removed: ['static constexpr uint MAX_INBOUND_PDU_SIZE = 16 * 1024;', 'static constexpr int MAX_PENDING_INBOUND_BYTES = 256 * 1024;']
+
+sha256(approved block joined) = 4695f639fdea64269e14f70b327b05f349bb1f3965a0dfb125ee932bec79c7a7
+sha256(actual  block joined) = 4695f639fdea64269e14f70b327b05f349bb1f3965a0dfb125ee932bec79c7a7

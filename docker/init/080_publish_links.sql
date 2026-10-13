@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS publish_links (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    short_code VARCHAR(32) UNIQUE NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    creator_name VARCHAR(32) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

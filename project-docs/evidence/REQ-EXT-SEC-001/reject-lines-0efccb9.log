@@ -1,0 +1,34 @@
+[WARNING] Ignore caches that are heterogeneous
+warning: Environment variable QT_LOGGING_TO_CONSOLE is deprecated, use
+QT_ASSUME_STDERR_HAS_CONSOLE and/or QT_FORCE_STDERR_LOGGING instead.
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 9  type= 19  session= 0
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 10  type= 29  session= 0
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 11  type= 23  session= 0
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 12  type= 25  session= 0
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 13  type= 40  session= 0
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 14  type= 58  session= 0
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 15  type= 56  session= 0
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 16  type= 7  session= 0
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 17  type= 15  session= 0
+xmu.fs: [flushfile] 拒绝越权列目录 conn= 18 : "./filesys/sec001b"
+xmu.fs: [deldir] 拒绝越权删除 conn= 18  路径: "E:/qt/xiangmu\\Server\\filesys\\sec001b\\secret.txt"
+xmu.fs: [downloadfile] 拒绝越权下载 conn= 18  路径: "E:/qt/xiangmu\\Server\\filesys\\sec001b\\secret.txt"
+xmu.fs: uploadfileinit 拒绝越权目录 conn= 18 : "./filesys/sec001b"
+xmu.fs: [changedir] 拒绝越权路径探测 conn= 18 : "./filesys/sec001b"
+xmu.fs: [queryFilePublishLink] owner 字段与连接身份不符，按连接身份查询 conn= 18
+xmu.net: [chat] 发送人字段与连接身份不符，按连接身份改写 conn= 18  claimed= "sec001v"
+xmu.auth: [logoff] PDU 用户名字段与连接身份不符，按连接身份受理 conn= 18
+xmu.db: logoff: user/pwd mismatch or user not found: "sec001a"
+xmu.auth: [AUTH] 注销撤销业务访问（连接保留）conn= 21  session= 2
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 21  type= 23  session= 2
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 21  type= 40  session= 2
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 24  type= 23  session= 0
+xmu.fs: [sharefile] 分享人字段与连接身份不符，按连接身份改写 conn= 18
+xmu.fs: [sharefilemove] 接收者字段与连接身份不符，按连接身份生成目标 conn= 22
+xmu.fs: [MKDIR] 拒绝越权建目录 conn= 18  路径: "./filesys/sec001a"  名: "evil\\..\\out"
+xmu.fs: [changedir] 拒绝越权路径探测 conn= 18 : "C:/Windows"
+xmu.fs: [renamefile] 拒绝越权重命名目录 conn= 18 : "./filesys/sec001b"
+xmu.fs: [sharefilemove] 拒绝：源无分享握手登记 conn= 22 : "./filesys/sec001a/workdir/up2.bin"
+xmu.fs: [sharefilemove] 拒绝：源无分享握手登记 conn= 22 : "./filesys/sec001a/workdir/up2.bin"
+xmu.fs: [sharefile] 拒绝：分享源不属于分享人，不登记不转发 conn= 18  源: "./filesys/sec001b/secret.txt"
+xmu.fs: [sharefilemove] 拒绝：源无分享握手登记 conn= 18 : "./filesys/sec001b/secret.txt"

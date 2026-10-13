@@ -1,0 +1,40 @@
+=== unique-login final attempt, no external server, filesys=clone, Fri Oct  9 18:57:11     2026 ===
+server up, db ready
+[PASS] E2a 未认证验证码正常 :: type=45
+[PASS] E2b 未认证心跳 PONG 正常 :: type=51
+[PASS] E0 unilog1 首登录成功 :: ret=1
+[PASS] E1a 第二设备登录成功 :: ret=1
+[PASS] E1b 旧连接业务请求被切断且未处理（无 FINDU 响应+EOF） :: eof=True pkts=0
+[PASS] E1c login_record 恰两行、版本 1/2 连续 :: '1\tA1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1\n2\tB2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2'
+[PASS] E1d user_info.login_version=2 :: lv=2
+[PASS] E4 旧连接断开后在线态仍为 1（守卫生效） :: online=1
+[PASS] E6 过期已认证连接心跳被切断、无 PONG :: eof=True pkts=0
+[PASS] E5 空 ID 登录成功且 login_record.client_id 为空值 :: ret=1 cid='' rows=1
+[PASS] E3a 并发登录恰两行、版本不重复不倒退 :: [1, 2]
+[PASS] E3b user_info.login_version 等于最大版本 :: lv=2 rows=[1, 2]
+[PASS] E3c 最高版本连接存活（有响应） :: eof=False pkts=1
+[PASS] E3d 较低版本连接已失效（EOF 或后续被切断） :: eof=True pkts=0
+[FAIL] E7a SEC-001 全量回归无 FAIL :: pass=46 fails=['[FAIL] L1b 登录后本人根内 MKDIR 成功 :: ret=False', '[FAIL] R1d 注销后本人目录已删（既有行为保留） :: 不存在']
+[PASS] E7b 分支 diff 对两 protocol.h 零命中 :: ''
+
+SUMMARY: 15/16 PASS, 1 FAIL
+=== unique-login w/ SEC001_SBX=dist/filesys, Fri Oct  9 18:58:17     2026 ===
+server up, db ready
+[PASS] E2a 未认证验证码正常 :: type=45
+[PASS] E2b 未认证心跳 PONG 正常 :: type=51
+[PASS] E0 unilog1 首登录成功 :: ret=1
+[PASS] E1a 第二设备登录成功 :: ret=1
+[PASS] E1b 旧连接业务请求被切断且未处理（无 FINDU 响应+EOF） :: eof=True pkts=0
+[PASS] E1c login_record 恰两行、版本 1/2 连续 :: '1\tA1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1\n2\tB2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2'
+[PASS] E1d user_info.login_version=2 :: lv=2
+[PASS] E4 旧连接断开后在线态仍为 1（守卫生效） :: online=1
+[PASS] E6 过期已认证连接心跳被切断、无 PONG :: eof=True pkts=0
+[PASS] E5 空 ID 登录成功且 login_record.client_id 为空值 :: ret=1 cid='' rows=1
+[PASS] E3a 并发登录恰两行、版本不重复不倒退 :: [1, 2]
+[PASS] E3b user_info.login_version 等于最大版本 :: lv=2 rows=[1, 2]
+[PASS] E3c 最高版本连接存活（有响应） :: eof=False pkts=1
+[PASS] E3d 较低版本连接已失效（EOF 或后续被切断） :: eof=True pkts=0
+[PASS] E7a SEC-001 全量回归无 FAIL :: pass=48 fails=[]
+[PASS] E7b 分支 diff 对两 protocol.h 零命中 :: ''
+
+SUMMARY: 16/16 PASS, 0 FAIL

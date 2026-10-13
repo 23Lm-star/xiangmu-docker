@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-003 independent audit（candidate 4965738）— PASS、无阻塞项；4 条非阻塞发现；合并前仍缺 3 项
+branch: feat/req-ext-transfer-003-upload-session-throughput
+head: 4965738
+tier: LARGE
+node: audit
+audit: pending
+next: ①主人审阅并接受本报告（改 `audit: accepted by 主人, <日期>`）②主人补一句"点重试→从断点续传至完成"及其 json 落盘确认（人工面 ⑤ 现只完成一半）③owner 走集成三事实线（报告在册且被接受 + 冻结面 diff 仅 §9 批准块【已成立】+ 合并结果 pipeline 绿）→ no-ff 合入主干；N-1（group-002 harness ROOT off-by-one）另立 SMALL，N-2（unique-login E7b 口径）归 design owner
+blockers: 无阻塞项。合并前缺 next ①②③（均非审计可代劳）。N-3（LOGIN_RESPOND 登录失败也调 onConnectionRestored）为 CLAIM、未动态复现、影响有界且非 repair 引入；本节点零提交、未改任何源码/配置/测试/验收条件
+evidence: build/evidence/claude-req-ext-transfer-003-audit/4965738946ff98a09e9e1e0b840d24a36e08f201/audit-report.md + 工作间 build/wt-audit/build/audit-repair.diff（b861351..4965738 全量）、build/wt-audit/build/audit_frozen_check.py
+owner: claude-code
+date: 2026-10-09

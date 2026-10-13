@@ -1,0 +1,13 @@
+C:/Qt/Tools/mingw730_64/bin/mingw32-make -f Makefile.Release
+mingw32-make[1]: Entering directory 'E:/qt/xiangmu/build/build-Client'
+mingw32-make[1]: Nothing to be done for 'first'.
+mingw32-make[1]: Leaving directory 'E:/qt/xiangmu/build/build-Client'
+build OK: Client -> E:\qt\xiangmu\build\build-Client
+C:/Qt/Tools/mingw730_64/bin/mingw32-make -f Makefile.Release
+mingw32-make[1]: Entering directory 'E:/qt/xiangmu/build/build-Server'
+'C:\Qt\5.14.2\mingw73_64\bin\rcc.exe' -name config ../../Server/config.qrc -o release/qrc_config.cpp
+g++ -c -fno-keep-inline-dllexport -O2 -std=gnu++11 -Wall -Wextra -Wextra -fexceptions -mthreads -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN -I../../Server -I. -IC:/Qt/5.14.2/mingw73_64/include -IC:/Qt/5.14.2/mingw73_64/include/QtWidgets -IC:/Qt/5.14.2/mingw73_64/include/QtGui -IC:/Qt/5.14.2/mingw73_64/include/QtANGLE -IC:/Qt/5.14.2/mingw73_64/include/QtNetwork -IC:/Qt/5.14.2/mingw73_64/include/QtSql -IC:/Qt/5.14.2/mingw73_64/include/QtCore -Irelease -I/include -IC:/Qt/5.14.2/mingw73_64/mkspecs/win32-g++  -o release/qrc_config.o release/qrc_config.cpp
+g++ -Wl,-s -Wl,-subsystem,windows -mthreads -o ../../dist/Server.exe @object_script.Server.Release  C:/Qt/5.14.2/mingw73_64/lib/libQt5Widgets.a C:/Qt/5.14.2/mingw73_64/lib/libQt5Gui.a C:/Qt/5.14.2/mingw73_64/lib/libQt5Network.a C:/Qt/5.14.2/mingw73_64/lib/libQt5Sql.a C:/Qt/5.14.2/mingw73_64/lib/libQt5Core.a  -lmingw32 C:/Qt/5.14.2/mingw73_64/lib/libqtmain.a -LC:/openssl/lib -LC:/Utils/my_sql/mysql-5.7.25-winx64/lib -LC:/Utils/postgresql/pgsql/lib -lshell32 
+mingw32-make[1]: Leaving directory 'E:/qt/xiangmu/build/build-Server'
+build OK: Server -> E:\qt\xiangmu\build\build-Server
+build GREEN (c452eb3, 20261001-123039)

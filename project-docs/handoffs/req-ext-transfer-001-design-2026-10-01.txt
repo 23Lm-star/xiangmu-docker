@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-001 design — 契约已批准（同意），下发 development
+branch: feat/req-ext-transfer-001-parallel-transfer
+head: a8a5cc6
+tier: LARGE
+node: design
+audit: none
+next: 新会话开 development 节点——按 design.md §9 逐字批准稿写两端 protocol.h，再做 T2-T8（服务端 per-transfer 状态表 + ring 调度 + 107/108 + 上限/60s 回收；客户端 TransferManager + 路由改造 + 任务列表 UI + SHA-256 后台线程；新 e2e 套件；六套件回归 + 文档同步）
+blockers: 无。protoco.h 只许按 §9 逐字写入，超出批准稿的改动一律不允许（integration 事实线 #2 逐字比对）
+evidence: project-docs/tasks/REQ-EXT-TRANSFER-001/design.md（含 §9 逐字批准稿、§11 批准记录、18 例测试矩阵）
+owner: claude-code
+date: 2026-10-01

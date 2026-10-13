@@ -1,0 +1,43 @@
+=== candidate ===
+8f1c3d55acab4df8df76f219a0c3d8c7277d2798
+520c71444f993f7f74b1da84adb0fdb83bd1d92e
+=== diff --stat master...520c714 ===
+ Client/Client.pro                                  |   4 +-
+ Client/client.cpp                                  |  39 +-
+ Client/file.cpp                                    | 229 +++---
+ Client/file.h                                      |  14 +-
+ Client/groupfile.cpp                               | 138 +---
+ Client/groupfile.h                                 |  17 +-
+ Client/msghandler.cpp                              | 279 -------
+ Client/msghandler.h                                |  20 +-
+ Client/protocol.h                                  |  11 +
+ Client/transfertask.cpp                            | 879 +++++++++++++++++++++
+ Client/transfertask.h                              | 148 ++++
+ Client/uploader.cpp                                |   4 +-
+ Client/uploader.h                                  |   4 +-
+ Server/msghandler.cpp                              | 312 ++++++--
+ Server/msghandler.h                                |  49 +-
+ Server/mytcpserver.cpp                             |   6 +-
+ Server/mytcpserver.h                               |   4 +-
+ Server/mytcpsocket.cpp                             | 333 +++++---
+ Server/mytcpsocket.h                               |  33 +-
+ Server/protocol.h                                  |  11 +
+ Server/uploadwritetask.cpp                         |   4 +-
+ Server/uploadwritetask.h                           |   3 +-
+ project-docs/architecture.md                       |  60 +-
+ project-docs/code-map.md                           |  22 +-
+ .../evidence/REQ-EXT-TRANSFER-001/parallel_e2e.py  | 532 +++++++++++++
+ .../req-ext-transfer-001-design-2026-10-01.txt     |  11 +
+ .../req-ext-transfer-001-goal-2026-10-01.txt       |  11 +
+ project-docs/interfaces.md                         |  94 ++-
+ project-docs/modules.md                            |  60 +-
+ project-docs/requirements/BRANCH-ORDER.md          |   3 +-
+ ...XT-TRANSFER-001-multi-file-parallel-transfer.md |  99 +++
+ project-docs/tasks/REQ-EXT-TRANSFER-001/design.md  | 423 ++++++++++
+ project-docs/tasks/REQ-EXT-TRANSFER-001/task.md    |  50 ++
+ 33 files changed, 3128 insertions(+), 778 deletions(-)
+=== frozen diff (insertions/deletions) ===
+11	0	Client/protocol.h
+11	0	Server/protocol.h
+=== frozen diff deletions (expect empty) ===
+(end deletions)

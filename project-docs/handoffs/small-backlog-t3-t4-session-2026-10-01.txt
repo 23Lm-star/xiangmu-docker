@@ -1,0 +1,11 @@
+# handoff: SMALL 遗留收尾批次 T3+T4（会话收口）
+branch: small/t3-t4-closeout
+head: 4f0ae8c
+tier: SMALL
+node: merged
+next: none — 批次全部收口；T3 small/normalize-logic-keys-predicate @6175c54→fcceff8；归档 small/archive-group001-test-handoff @2c8a99f→5d1cabb
+blockers: none
+evidence: project-docs/evidence/small-normalize-logic-keys-predicate/ + project-docs/tasks/small-normalize-logic-keys-predicate/task.md
+owner: claude-code
+date: 2026-10-01
+note: T3=FIXED（FINDING-DEV-3）；T4 已给出分支/合并哈希/结论/复跑计数汇总（见任务记录）。残留 worktree build/wt-test-group001-repair 处置：其唯一未入库文件 req-ext-group-001-independent-test-2026-09-30.txt 归档进 master 后删除 worktree，用户 2026-10-01 决定。

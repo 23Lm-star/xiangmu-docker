@@ -1,0 +1,11 @@
+# handoff: 文件页用户根改在登录成功时重算（修「重连后登录停在存储根目录」）
+branch: fix/client-filepath-after-reconnect
+head: 76e6ee4
+tier: SMALL
+node: audit
+audit: pending
+next: 等主人对候选 76e6ee4 的批准卡裁决（APPROVED/REJECTED/NEEDS_EXPLANATION）；批准后 `powershell -ExecutionPolicy Bypass -File pipeline/merge.ps1` 并入 master。GUI 人工面：客户端先启→服务端后启→等心跳超时→重连→登录→文件页路径栏应为 <root>/<用户名>，且存储根下不再出现 yyyy-MM 月份目录
+blockers: 无
+evidence: build/evidence/current/{build,test,audit}-76e6ee45b45a8a5764fcf05f31e18d64ed6faf69-run-20261012-13.*（同一 RunId 三闸全绿：build GREEN / test 14 套 514 断言全绿 / audit PASS）+ static-76e6ee4…-run-20261012-13.txt（S1–S3 静态契约 3/3）。产品验证为 GUI 人工面（test_gate 的 14 套是 Python→服务端 socket harness，不加载 Client.exe）。附带记录：run-20261012-12 中 parallel-transfer T-06a（「小文件 43 早于大文件 43」的完成序断言）偶发红，单跑 54/54 复现为时序抖动、与本客户端改动无关，run-20261012-13 加 -Retry 1 后全绿
+owner: claude-code
+date: 2026-10-12

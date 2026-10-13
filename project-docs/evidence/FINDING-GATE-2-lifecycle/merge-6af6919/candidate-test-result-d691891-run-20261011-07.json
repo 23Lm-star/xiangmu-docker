@@ -1,0 +1,40 @@
+{
+    "status":  "GREEN",
+    "reason":  "all blocking suites passed",
+    "gate":  "enforced",
+    "candidate_commit":  "d691891f82774f53165fa22dd469e9b41858a503",
+    "run_id":  "run-20261011-07",
+    "candidate_run_status":  "CANDIDATE_VALID",
+    "candidate_identity":  {
+                               "schema":  "worktree-identity-v1",
+                               "created_utc":  "2026-10-11T13:50:13+00:00",
+                               "repo_root":  "E:\\qt\\xiangmu",
+                               "candidate_commit":  "d691891f82774f53165fa22dd469e9b41858a503",
+                               "branch":  "codex/fix/finding-gate-2-lifecycle",
+                               "worktree_state":  "CLEAN",
+                               "tracked_diff_hash":  "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                               "untracked_hash":  "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                               "status_hash":  "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                               "manifest_hashes":  {
+                                                       "project-docs/project-manifest.yaml":  "sha256:cec79849b09fd74c07d810dde7b8941e798ec36d145bf4cd06fd182725287f6d"
+                                                   },
+                               "changed_paths":  [
+
+                                                 ],
+                               "classifications":  {
+                                                       "task":  [
+
+                                                                ],
+                                                       "generated":  [
+
+                                                                     ],
+                                                       "unknown":  [
+
+                                                                   ]
+                                                   },
+                               "worktree_diff_hash":  "sha256:bb7eecce5231d8f569fecadbf4501af6bc16591f897a609a2c2854506c4ae80f"
+                           },
+    "suite_count":  14,
+    "assertions":  514,
+    "failures":  0
+}

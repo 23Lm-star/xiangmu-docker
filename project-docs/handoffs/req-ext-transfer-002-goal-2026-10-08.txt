@@ -1,0 +1,12 @@
+# handoff: REQ-EXT-TRANSFER-002 goal — LARGE，最小增量（107 泛化 + 40/105 起点 + 41/106 采纳起点）
+branch: feat/req-ext-transfer-002-download-pause-resume
+head: d85e39f
+tier: LARGE
+node: goal
+audit: none
+next: 新会话开 design 节点——逐字节落位表 + 41/106 采纳起点契约措辞 + 错误码 + 测试矩阵 → design.md → 契约变更批准卡（主人批准后才可 development）
+blockers: 无（契约未批准前禁止编辑 Client/protocol.h / Server/protocol.h；新常量块须追加在 REQ-EXT-TRANSFER-001 常量块之后，插入其内部会破坏 parallel_e2e 的 P1-frozen-block 断言）
+evidence: project-docs/tasks/REQ-EXT-TRANSFER-002/task.md + project-docs/requirements/REQ-EXT-TRANSFER-002-download-pause-cancel-resume.md
+owner: claude-code
+date: 2026-10-08
+note: 目标层裁决——多文件并行（REQ-EXT-TRANSFER-001，d2148bf）已在 master，本次改取其自声明非目标「下载暂停/取消 + 下载续传」。现状取证 8 条（G1-G8）：pause 对下载早退、cancel 不发 107（服务端仍在推送）、失败即删分片、resume 另建 (N) 新文件、快照自述整文件重传。方案零新 PDU：107 泛化释放下载槽、40/105 caData[32..39] 带起点（0=旧语义）、41/106 caData[24..31] 回带采纳起点（旧服务端检测护栏）。必做防御：换 id 时摘旧 id 映射，否则在途 42 会串写续传文件。

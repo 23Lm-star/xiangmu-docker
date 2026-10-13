@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SHARE-001 外链分享生命周期（重新生成 / 续期）已并入 master（MEDIUM，GUI 人工复验通过）
+branch: master
+head: 7ad1a2f
+tier: MEDIUM
+node: merged
+audit: accepted by 主人, 2026-10-13
+next: ①本条已闭合：外链过期/撤销后「获取分享链接」「生成分享链接」两条入口都当场给三键框（重新生成链接 / 续期 7-30-90-365 天 / 取消，已撤销则禁用续期）；52 请求附加动作区 + 53/57 状态字均为仅追加、双向向后兼容 ②剩余缺陷：①注销后同名重注册登录被静默切断（probe_registry_bug.py 6/7）③服务端崩溃后幽灵在线（probe_abnormal.py 7/7）④客户端先于服务端启动不自动重连、登录/注册不检查连接 ③套件/工具缺口（各需独立 SMALL）：reclaim 套件未入闸；group-002 p8c 非 hermetic（跨 24h 过期边界必红）；parallel-transfer T-06a 与 sec001-regression（本次主干基线首跑在 c2.idle 处被 RST，单跑 2/2 48/48）均为时序抖动；unique-login 偶发 15/16 且失败项不落盘；audit.ps1 的 sensitive_paths 是空壳（不 diff、不产出 boundary finding）；artifacts.ps1 -Deploy 默认扫 build/build-*/ 会拿旧副本覆盖 dist（本次实测踩到，改用 --binary 显式指定）；**test.ps1 的 -Retry 是死参数**（声明了但未透传给 test-gate.py，静默不生效——W1 审计包里的「加 -Retry 1 后全绿」措辞据此更正）④桌面《开发缺陷日志》剩余 D-002/D-005/D-006/D-008/D-010
+blockers: 无
+evidence: 候选侧 build/evidence/current/{build,test,audit}-126ccfb48…-run-20261012-31.*（同一 RunId 三闸全绿：build GREEN / test 15 套 539 断言 / audit PASS）+ 审计包 build/evidence/merge-126ccfb/independent-ai-audit-package-126ccfb.json（sha256 ef27d290…）+ 批准记录 approval-dd941dfa…json；主干侧基线 build/evidence/current/{build,test,audit}-7ad1a2f7b64f69e6aa6b8a992d620536fee182de-run-20261013-11.*（同一 RunId 三闸全绿：15 套 539 断言）。GUI 人工面：主人 2026-10-13 按 build/audit-20261012/gui-check-share001.md 十步复验通过
+owner: claude-code
+date: 2026-10-13

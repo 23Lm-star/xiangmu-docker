@@ -1,0 +1,11 @@
+# handoff: 文件页用户根改在登录成功时重算（修「重连后登录停在存储根目录」）
+branch: fix/client-filepath-after-reconnect
+head: 76e6ee4
+tier: SMALL
+node: audit
+audit: accepted by 主人, 2026-10-13
+next: 已批准合并：`git checkout fix/client-filepath-after-reconnect` → `pipeline/merge.ps1 -Handoff <本文件> -AuditPackage build/evidence/merge-76e6ee4/audit-package-wrapper.json -ApprovalRecord build/evidence/merge-76e6ee4/approval/approval-*.json` → 切回 master `git merge --no-ff fix/client-filepath-after-reconnect`。GUI 人工复验已通过（主人 2026-10-13：客户端先启→服务端后启→心跳超时→重连→登录，文件页路径为 <root>/<用户名>，存储根不再出现月份目录）
+blockers: 无
+evidence: build/evidence/current/{build,test,audit}-76e6ee45b45a8a5764fcf05f31e18d64ed6faf69-run-20261012-13.*（同一 RunId 三闸全绿：build GREEN / test 14 套 514 断言全绿 / audit PASS）+ static-76e6ee45b45a8a5764fcf05f31e18d64ed6faf69-run-20261012-13.txt（S1–S3 静态契约 3/3）；审计包 build/evidence/merge-76e6ee4/independent-ai-audit-package-76e6ee4.json（sha256 3905f475674d74ff8ea20400279888a880ddd90ca30f811400a01c488398637e）。人工面：GUI 复验通过（主人 2026-10-13）
+owner: claude-code
+date: 2026-10-13

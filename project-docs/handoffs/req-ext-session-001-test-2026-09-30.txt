@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SESSION-001 independent-test PASS @fc1b6c7 (LARGE)
+branch: claude/req-ext-session-001-unique-login
+head: fc1b6c7
+tier: LARGE
+node: test
+audit: none
+next: independent audit（新会话、代理须≠开发者、只读 detached worktree@fc1b6c7）：输入=independent-test-fc1b6c7.md+分支 diff+codegraph 影响面；审计后三事实行进 integration
+blockers: 无缺陷需修复；已知信息项 I-1/I-2/I-3 见报告；C1 适配仍待 FILE-001 合并后 trunk-sync（merge 前置项不阻塞审计）
+evidence: project-docs/evidence/REQ-EXT-SESSION-001/（independent-test-fc1b6c7.md、itest-harness-run.txt 16/16、itest-probes-run.txt 8/8、unique_login_probes.py、manifest.txt）
+owner: claude-code
+date: 2026-09-30

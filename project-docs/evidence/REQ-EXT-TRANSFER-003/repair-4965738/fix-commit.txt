@@ -1,0 +1,26 @@
+commit 4965738946ff98a09e9e1e0b840d24a36e08f201
+Author: wcy <17732299309@163.com>
+Date:   Fri Oct 9 09:39:34 2026 +0800
+
+    fix(transfer): REQ-EXT-TRANSFER-003 G7 修复 R-1/D-a/D-b——登录名同步化 + 快照无静默丢写 + 切用户不清表重建 (FINDING-IND-7)
+    
+    - R-1（根因）：MsgHandler::handllogin() 同步返回登录名，LOGIN_RESPOND 分支先落 m_LoginName
+      再 setCurrentUser；1.5 s 定时器只保留 UI 切换与既有延迟刷新（首登拿到空名 → 整轮快照
+      no-op、同进程再登录清表重建 → 在途任务消失、重试续传不可达）
+    - D-a（防御）：saveSnapshot() 以"最近一次有效登录名" m_lastKnownUser 兜底，每条 return 前
+      有 qCWarning 告警，删除静默丢写路径
+    - D-b（防御）：setCurrentUser() 同名/空名早退、清表仅限"确实是另一个账号"；restoreSavedTasks()
+      按任务身份去重合并（内存为准、快照补缺），不再清表重建
+    - 契约：verify.py 只增 S-06a..S-06f 六条静态断言（manifest asserts 53 → 59）；
+      负对照（b861351 旧码）新增断言 6/6 FAIL，无永真
+    - 验证：transfer003 59/59；13 套回归与基线一致（11 绿 + group-002 harness 既有红 +
+      unique-login E7b 结构性既有红）
+
+ Client/client.cpp                                  |  6 +-
+ Client/msghandler.cpp                              | 13 ++--
+ Client/msghandler.h                                |  5 +-
+ Client/transfertask.cpp                            | 83 +++++++++++++++++-----
+ Client/transfertask.h                              |  7 +-
+ .../evidence/REQ-EXT-TRANSFER-003/verify.py        | 46 ++++++++++++
+ project-docs/project-manifest.yaml                 |  4 +-
+ 7 files changed, 134 insertions(+), 30 deletions(-)

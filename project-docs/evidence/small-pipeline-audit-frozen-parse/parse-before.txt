@@ -1,0 +1,5 @@
+BEFORE (PS5.1 default ANSI/ACP936 read) frozen count = 1
+  - Client/protocol.h
+(Server/protocol.h silently dropped: full-width ) 0xEF 0xBC 0x89 + LF 0x0A -> merged line)
+
+manifest working-tree EOL at capture time: LF (git ls-files --eol: i/lf w/lf)

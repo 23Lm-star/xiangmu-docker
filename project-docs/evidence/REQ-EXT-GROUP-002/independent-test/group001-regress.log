@@ -1,0 +1,17 @@
+[PASS] old_login_regression :: five users authenticated
+[PASS] create_group :: code=0 gid=54
+[PASS] invite_idempotent :: first=0/115 repeat=0/115
+[PASS] accept_invitation :: code=0
+[PASS] member_list_authorized :: code=0
+[PASS] member_list_unauthorized :: code=4294966284
+[PASS] owner_promote_admin :: code=0
+[PASS] admin_cannot_remove_owner :: code=4294966270
+[PASS] owner_transfer :: code=0
+[PASS] concurrent_accept_unique :: results=[0, 4294966277]
+[PASS] non_owner_cannot_dissolve :: code=4294966250
+[PASS] owner_dissolve :: code=0
+[PASS] dissolved_reject_write_gate :: code=4294966276 expected_nonzero
+[PASS] db_dissolved_state :: group_status=dissolved
+[PASS] db_no_duplicate_active_members :: active_members=3
+dissolved_invitation_status=pending
+RESULT 15/15 PASS

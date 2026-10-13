@@ -1,0 +1,17 @@
+== hygiene check (audit.ps1 item 2), PowerShell 5.1 ==
+no hits - hygiene PASS
+
+== REGRESSION line count in fresh audit output (expect 0) ==
+0
+
+== output vocabulary preserved across all runs ==
+FROZEN-PATH HIT: Client/protocol.h -> escalate to LARGE + user approval
+NO test evidence for 0da0cc6 (run pipeline/test.ps1)
+NO test evidence for 27ea030 (run pipeline/test.ps1)
+audit PASS (0da0cc6)
+audit PASS (8f03da3)
+audit PASS (bbff4e4)
+audit RED: evidence
+audit RED: frozen:Client/protocol.h, evidence
+docs-only commit: evidence from 27ea030
+docs-only commit: evidence from ffaaacf

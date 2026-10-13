@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-002 (branch head b0fba52; tested candidate 03dc01d, detached worktree, read-only)
+branch: codex/req-ext-group-002-group-messaging
+head: 03dc01d
+tier: LARGE
+node: test
+audit: none
+next: independent audit（新会话、不同代理、detached worktree 只读 03dc01d）：只读复核冻结路径 88-96 追加、三门报告与 CodeGraph 影响闭包，不采信本轮 harness 结论
+blockers: none
+evidence: project-docs/evidence/REQ-EXT-GROUP-002/independent-test/report.md | PASS（0 条归因候选缺陷）；58/58·36/37·13/13·GROUP-001 15/15；唯一 FAIL=基线既有 FINDING-PRE1（getchatMsg 离线重复下发，与 master 字节一致，另开 SMALL 分支，不阻断）
+owner: claude-code
+date: 2026-10-01

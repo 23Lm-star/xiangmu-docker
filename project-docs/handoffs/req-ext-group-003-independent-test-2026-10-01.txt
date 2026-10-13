@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-003 (tested candidate 0b83aab, detached worktree build/wt-test-group003, read-only)
+branch: codex/req-ext-group-003-group-files
+head: 0b83aab
+tier: LARGE
+node: test
+audit: none
+next: independent audit（新会话、不同代理、read-only detached worktree at 0b83aab）：只读复核冻结面 99–106 追加、三门报告与 CodeGraph 影响闭包，不采信本轮 harness 结论
+blockers: none
+evidence: project-docs/evidence/REQ-EXT-GROUP-003/independent-test/report.md | PASS（0 条候选归因缺陷）；groupfile_e2e 45/45；既有回归 43/13/37/48/46 + 群生命周期 15/15；audit RED=预期冻结面命中（两端 protocol.h）
+owner: claude-code
+date: 2026-10-01

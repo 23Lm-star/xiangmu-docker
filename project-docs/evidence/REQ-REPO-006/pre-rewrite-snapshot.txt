@@ -1,0 +1,35 @@
+# REQ-REPO-006 重写前快照 2026-09-29 (pre-rewrite, per O4)
+## rev-list count
+58
+## .git size
+51M	.git
+## refs
+refs/heads/backup-runnable-2026-07-30 f02a0b20cf03f784d58df7c06a5f215b83abc75b
+refs/heads/chore/history-purge cb320f3758eb42d08170a1c96a8045a1f2cd0ca6
+refs/heads/docs/repo-chrome 1cdaaa1aaf810acca02f6bdceda4e62a4cab99b1
+refs/heads/fix/path-traversal-and-ownership a396c4da7dc7a567067638b9428e528dbe475305
+refs/heads/master 082ebd9fc2e09ac180e51c5baa15d5bba9b84fef
+refs/heads/worktree-agent-ac6d9e68 f02a0b20cf03f784d58df7c06a5f215b83abc75b
+refs/remotes/origin/HEAD f02a0b20cf03f784d58df7c06a5f215b83abc75b
+refs/remotes/origin/add_数据库连接池功能 d6c579c45e447d83c929de32a50a57710a2d6d72
+refs/remotes/origin/backup-runnable-2026-07-30 ee6a8288e69cbef424782b84f2dc8b9dcafcec90
+refs/remotes/origin/main 6599683bef5d850b6cb2b0f531e7417ae3bde5f0
+refs/remotes/origin/master f02a0b20cf03f784d58df7c06a5f215b83abc75b
+## top-10 blobs (size path)
+23942135 project-master/vod/TestFile/视频共享系统自动化测试.zip
+3304092 project-master/vod/TestFile/moban2023.zip
+2945361 Client/mag.png
+1435472 project-master/vod/test
+1090275 project-master/vod/TestFile/视频共享系统测试报告.zip
+548826 project-master/vod/www/img/thumbs/editors-large.jpg
+354536 project-master/vod/httplib.h
+349696 Server/qtbase/bin/licheck.exe
+298428 project-master/vod/www/img/backgrounds/review-background-img.jpg
+271189 Client/Makefile.debug.Release
+## Server/connect.config history commits
+a621309 fix(security): stop tracking Server/connect.config credentials
+85f58c4 docs: architect resolved BUG-DB-004 as risk-accepted (missing FK) and cleaned up dead code in operatedb.cpp
+1aa982d init: Client + Server 合并为单一仓库
+6599683 Initial import of Client and Server projects
+## project-master history path count
+91

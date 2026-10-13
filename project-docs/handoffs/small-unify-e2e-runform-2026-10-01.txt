@@ -1,0 +1,10 @@
+branch: small/unify-e2e-runform
+head: 9016154
+tier: SMALL
+node: merged
+next: T3 small/normalize-logic-keys-predicate (FINDING-DEV-3) from master; merged no-ff as 0d92607
+blockers: none
+evidence: project-docs/evidence/small-unify-e2e-runform/ (5 logs: dedup 13/13, entry_ops 43/43, cross_tree 37/37, sec001 48/48, fastupload 46/46; build GREEN; audit PASS)
+owner: claude-code
+date: 2026-10-01
+note: FINDING-DEV-2 FIXED — one run form (cwd=dist, dist/Server.exe, filesPath=./filesys relative, self-managed lifecycle); env change: untracked Server/connect.config line 3 = ./filesys, CRLF-required

@@ -1,0 +1,2 @@
+test: 0 automated tests registered (fill TESTS in pipeline/test.ps1)
+GUI/manual verification is recorded as human-verified evidence, not BLOCKED.

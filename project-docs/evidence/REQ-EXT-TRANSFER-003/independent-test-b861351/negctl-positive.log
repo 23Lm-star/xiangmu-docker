@@ -1,0 +1,11 @@
+=== exe=E:/qt/xiangmu/build/wt-indtest/dist/Server.exe expect=done ===
+[PASS] N0 登录 :: ret=1
+[PASS] N1 97 建预检查槽 :: 
+[PASS] N2 29 INIT（同一暂存） :: 
+[PASS] N3 首块 1 MiB 接受 :: 
+[PASS] N4 97 复用未完成行 :: 
+[PASS] N5 末块提交（32 回执 ok） :: complete=1
+    DB: '3950\tdone\t2097152'  rows=1
+    object: '2097152'  download: ok=True fin=True len=2097152 bytes_equal=True
+[PASS] N6 对照判定（expect=done） :: status=done rows=1
+=== 7/7 ===

@@ -1,0 +1,11 @@
+# handoff: REQ-DOC-005
+branch: master
+head: 08265d5aeb9b460a4a466316483e9fd31b915932
+tier: SMALL
+node: merged
+audit: none
+next: powershell -File pipeline/state.ps1
+blockers: none
+evidence: project-docs/evidence/REQ-DOC-005/
+owner: claude-code
+date: 2026-09-29

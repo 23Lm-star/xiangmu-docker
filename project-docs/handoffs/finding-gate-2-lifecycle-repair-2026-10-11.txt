@@ -1,0 +1,11 @@
+# handoff: FINDING-GATE-2 收口 + test_gate enforced 基线转绿（候选 4e76269 三闸 GREEN，待主人批准合并）
+branch: codex/fix/finding-gate-2-lifecycle
+head: 4e76269
+tier: LARGE
+node: integration
+audit: pending
+next: ①主人批准后合并入 master（三闸同一 RunId run-20261011-06：build GREEN / test GREEN 14 套 514 断言 / audit PASS；merge.ps1 另需 approval record）②三条工具缺口未修，建议合并后另立 SMALL：（a）build.ps1 只改 .pro 不重链→报 GREEN 而二进制是旧的（b）artifacts.ps1:70-74 递归 build-* 扫 exe，会部署 build-Server-diag 等遗留二进制（c）artifacts.ps1:115-121 用源 exe 同目录 DLL 覆盖 dist，本次把 2018 版 Qt 灌进 dist 致 14 套全红，已手工还原 9 个 DLL ③pipeline/*.ps1 无 UTF-8 BOM（PS 5.1/ACP936 下中文注释吞掉下一行）与 audit.ps1 敏感路径不容忍行尾注释，两处属 bundle v1.14 上游缺陷须回报 ④P4：v1.14 pipeline/ 传播到其余 6 个 worktree，或关闭
+blockers: 无。audit gate 已 PASS，但合并需主人的批准记录（approval record），故 audit 记 pending
+evidence: build/evidence/current/{build,test,audit}-4e762693ff17cb6394b89a42961576c68b0116b7-run-20261011-06.*（per-worktree，gitignored）。历史跑保留未覆盖：run-20261011-02@6d597e6（3 红）、@4e15cb1（1 红）、run-20261011-05@4e76269（14 套全红，artifacts.ps1 缺陷所致，非产品）
+owner: claude-code
+date: 2026-10-11

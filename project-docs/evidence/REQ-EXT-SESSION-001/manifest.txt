@@ -1,0 +1,9 @@
+REQ-EXT-SESSION-001 development-node evidence manifest
+candidate: fc1b6c7 (branch claude/req-ext-session-001-unique-login, base master@ccfd5de)
+harness: unique_login_e2e.py 16/16 PASS, two consecutive runs identical (harness-run.txt)
+regression: SEC-001 archived verify.py 48/48 PASS, zero edit (E7a)
+frozen paths: branch diff protocol.h zero-hit (E7b + audit PASS)
+pipeline: build GREEN (fc1b6c7) / audit PASS (fc1b6c7) / test = 0 registered (repo baseline, harness carries acceptance)
+env facts: py3.13 (C:/Users/王晨扬/AppData/Local/Programs/Python/Python313); Qt PATH-first C:/Qt/5.14.2/mingw73_64/bin; mysql CLI "C:/Program Files/MySQL/MySQL Server 5.7/bin/mysql.exe" -h localhost -u root -p123456 mydb; Server.exe cwd=Server/ port 5000
+schema state (dev env): login_record.client_id NULL (QMYSQL empty-string->NULL, measured); user_info.login_version BIGINT DEFAULT 0
+pending: independent test (new session, clean worktree at fc1b6c7) -> audit -> integration three-fact-lines -> merge no-ff; FILE-001 unmerged at dev time, C1 adaptation deferred to post-merge trunk-sync

@@ -1,0 +1,10 @@
+--- extracted block: 46 lines, check() call sites: 6
+
+[FAIL] S-06a :: R-1：LOGIN_RESPOND 分支内登录名赋值先于 setCurrentUser（同步取值，非 1.5 s 后） :: assign@-1 setUser@111
+[FAIL] S-06b :: R-1：handllogin 同步返回登录名且 1.5 s 定时器内不再写 m_LoginName :: ret=False in_body_assign=False
+[FAIL] S-06c :: D-a：saveSnapshot 无静默丢写（每条 return 前都有 qCWarning 告警） :: unwarned=['if (m_currentUser.isEmpty()) return;', 'if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)) return;']
+[FAIL] S-06d :: D-a：saveSnapshot 以最近一次有效登录名兜底（m_lastKnownUser） :: 
+[FAIL] S-06e :: D-b：setCurrentUser 同名/空名不清表；清表嵌于"另一个账号"条件内且仍调 restoreSavedTasks :: same_ret=True guard_line=2 clear_line=3 nested=False
+[FAIL] S-06f :: D-b：restoreSavedTasks 按身份去重合并（快照补缺、内存为准，不重复建行） :: dedup@-1 insert@1639
+
+b861351: 0/6 passed (expect 6/6 FAIL on the pre-repair revision)

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-FILE-001 merged to trunk — three fact lines complete, cross-suite check done, push pending owner
+branch: master
+head: 9faae6c93eea55674eb1b3bd8f9699232c16a7b7
+tier: LARGE
+node: merged
+audit: accepted by round-2 independent audit session, 2026-09-30
+next: 无（流程收口）；push 待主人明示；session-001 侧若重跑 e2e，E7a 台账见 file-001 task.md 集成节
+blockers: 无
+evidence: build/evidence/codex-req-ext-file-001-file-assets/9faae6c…/（合并态四套件+三门+跨面 probes/e2e/verify 判别）；……/5a07316…/audit-report.md；……/9fbdb70…/test-report.md
+owner: claude-code
+date: 2026-09-30

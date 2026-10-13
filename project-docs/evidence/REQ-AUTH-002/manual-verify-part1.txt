@@ -1,0 +1,7 @@
+[PASS] A1 注册 alice/123456 成功 :: ret=True
+[PASS] A2 新注册用户登录成功 :: ret=1
+[PASS] N1 错误密码登录被拒 :: ret=-1
+[PASS] A3 老数据(tester, salt='')登录成功 :: ret=1
+[PASS] N2 老数据错误密码登录被拒 :: ret=-1
+[PASS] A3+ 老数据(friend1)登录成功并自动补盐 :: ret=1
+[PASS] A3+ 老数据(friend2)登录成功并自动补盐 :: ret=1

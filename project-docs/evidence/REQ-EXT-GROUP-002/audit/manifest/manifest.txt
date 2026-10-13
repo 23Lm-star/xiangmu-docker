@@ -1,0 +1,17 @@
+# evidence manifest -- written by record-evidence.py
+label: REQ-EXT-GROUP-002 independent audit: candidate 03dc01d PASS
+created_utc: 2026-10-01T11:21:31+08:00
+commit: 4bed12775946bc3580d2db3a9945aac7c6a77b0d
+branch: codex/req-ext-group-002-group-messaging
+dirty: yes
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:cdf06ff1a8fb59df4905d872fbeecc345f2bb970a4dd0f635573b93ecff5a8c0  report.md  (13842 bytes)
+sha256:6fdbcf9dce0d63cc084bb5c90dfaaf47f957228e94f30467fddb7d00dbad2376  independent-verification.log  (4282 bytes)
+sha256:67d4830d25bf31c29158e3c8545934dedd675370f5f80b26d7d743ca838d9ca8  branch.diff  (107359 bytes)
+sha256:2b699c8f904ff24a09c2474b07ff9d86473ff202a2a60fac281267bffe6ef89e  audit-run-fresh.txt  (75 bytes)
+sha256:fcbe35a718bdc62a4c6040dafd041c4af11e978eec0eab18bbd5b47f43ea4b26  audit-run-with-evidence.txt  (22 bytes)
+sha256:635d71f3ae42f6e20796bbb6eac64e1660d274c26eb9517286df9ca3c8666a17  impact-check.json  (3543 bytes)
+sha256:22710ff361b5d15a6dcf73efada99f932bcccb6872e3afee22b365b0270a8abf  impact-check-denied.txt  (3173 bytes)

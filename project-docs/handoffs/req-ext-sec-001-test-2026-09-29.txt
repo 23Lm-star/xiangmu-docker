@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SEC-001 independent-test PASS @c7c4eed (LARGE)
+branch: codex/req-ext-sec-001-auth-context
+head: c7c4eed696dc0948ae2eb9db42092aa584b50edc
+tier: LARGE
+node: test
+result: PASS — pipeline GREEN/honest-0/audit PASS（实测 HEAD=7c2e4dd，与候选差异仅 docs）；frozen 0 命中，改动面=Server/ 四文件；verify.py 44/44（输出与 dev 逐字节同哈希）；独立探针未认证 24 类扫描+actor 覆盖判别验证全绿；拒绝日志 54 行仅 conn/type/原因，无密码/令牌/文件内容
+next: 主人开 independent audit 会话（新会话只读）→ integration 三事实行 → merge no-ff
+blockers: none（F-1 既有 createPublishLink 去重复用旧 hash 却回新 token→该链接永不可解析，不在本分支 diff 面，建议另立修复项；F-2 dev handoff 文件缺失）
+evidence: build/evidence/codex-req-ext-sec-001-auth-context/c7c4eed696dc0948ae2eb9db42092aa584b50edc/independent-test-report.md
+owner: claude-code
+date: 2026-09-29

@@ -1,0 +1,25 @@
+集成节点三事实线复核（本节点自行执行，不采信预检文字）
+日期: 2026-10-09 10:19:07 +0800   节点工作树: E:/qt/xiangmu/build/wt-integration
+
+== 事实线 1：独立审计报告在册且被接受 ==
+handoff  : project-docs/handoffs/req-ext-transfer-003-audit-2026-10-09.txt
+audit 行 : audit: accepted by 主人(wcy), 2026-10-09
+主报告   : project-docs/evidence/REQ-EXT-TRANSFER-003/audit-4965738/audit-report.md (23992 bytes)
+第二意见 : project-docs/evidence/REQ-EXT-TRANSFER-003/audit-4965738/second-opinion/audit-report.md
+判定     : PASS
+
+== 事实线 2：冻结面 diff 仅 §9 批准块 ==
+范围     : git diff d85e39f..4965738 -- Server/protocol.h Client/protocol.h
+结果     : Server/protocol.h +5/-2（1 hunk），Client/protocol.h 零改动
+逐字节   : added == design §9 (a) 代码块（5 行）→ True；sha256 844cb4c0da0eb914965e89069a05b58b126392199dcbc1fe57b4f7c452888889
+注       : design §9 正文散文写「新增四行」而代码块为 5 行——以代码块为准（预检文字不采信），比对取代码块
+判定     : PASS（见 frozen-face.txt / check-frozen-face.py）
+
+== 事实线 3：合并结果流水线 ==
+合并     : 28a3e5582b87a205cdc3c05e5f42442cfeeee858（no-ff，父 d85e39f + 4965738）
+树等价   : merge tree == 4965738 tree == ba790e861d8c69a5afc755d051a7424576f4e58b（YES）
+build.ps1: GREEN (28a3e55, 20261009-101237)
+test.ps1 : UNTESTED exit=3 —— test_gate.status=waived（主人既有决定，非本次引入）
+audit.ps1: PASS (28a3e55) —— 合并后 base==HEAD，冻结检查按设计静默；预合并基 d85e39f 下复现 1 命中
+13 套件  : NOT-RUN —— 端口 5000 被主人 GUI 复验会话占用（监听 PID 26708 = dist/Server.exe，客户端 PID 18584），本节点不杀主人进程
+判定     : build GREEN ✅ / audit PASS ✅ / 动态套件面 NOT-RUN（非失败）

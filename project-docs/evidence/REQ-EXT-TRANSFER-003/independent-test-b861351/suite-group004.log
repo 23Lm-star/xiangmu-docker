@@ -1,0 +1,27 @@
+=== 环境准备 ===
+[PASS] S0_migration_applied :: last_seq=1 group_message=1
+[SETUP] users ready; commit b861351
+[PASS] S1a_water_advanced_by_sends :: base=1 now=6 (期望 +5)
+[PASS] S1b_overflow_clamped_not_rejected :: code=0 effective=6 water=6
+[PASS] S1c_full_confirm_zeroes_unread :: last_read=6 unread=0
+[PASS] S2_late_confirm_no_rollback :: late_effective=9 cursor=9 期望=9
+[PASS] S3_monotonic_non_decreasing :: effs=[9, 9, 9, 9, 9]
+[PASS] S4a_unread_identity_on_summary :: last_read=3 unread=3 期望 3/3
+[PASS] S4b_unread_identity_on_pull :: unread=3 records=3 期望 3/3
+[PASS] S5a_non_member_confirm_rejected :: code=4294965195 期望=4294965195
+[PASS] S5b_dissolved_group_confirm_rejected :: dissolve=0 confirm_code=4294965194 期望=4294965194
+[PASS] C1_hole_buffers_no_advance :: cursor=10 unread=90 buf=1 (期望 cursor=10 unread=90 buf=1)
+[PASS] C2_pull_fills_hole_and_advances :: cursor=90 unread=10 buf=0 (期望 90/10/0)
+[PASS] C3_out_of_order_drains_on_connect :: cursor=13 buf=0 (期望 13/0)
+[PASS] C4_duplicate_and_late_ignored :: cursor=12 water=100 (期望 12/100)
+[PASS] C5_backward_page_never_advances :: cursor=50 unread=50 (期望 50/50 且无待上报)
+[PASS] C6_out_of_range_jump_only_buffers :: cursor=10 (期望 10)
+[PASS] C7_anchor_is_monotonic :: water=200 cursor=50 (期望 200/50)
+[PASS] C8_anchor_drops_buffered_below_cursor :: cursor=15 buf=0 (期望 15/0)
+[PASS] C9_report_gate_and_ack_monotonic :: 取锚点后=0 推进后=1 回认后=0 confirmed=20
+[PASS] C10_clear_resets_session_state :: cursor/water/confirmed/buf 全零
+[PASS] C11_water_moves_cursor_does_not :: water=50 cursor=0 (期望 50/0)
+[PASS] C12_reach_water_level :: cursor=100 unread=0 (期望 100/0/待上报)
+[PASS] C13_seq_zero_ignored :: cursor=10 (期望 10)
+
+RESULT 23/23 PASS  commit=b861351  2026-10-08 20:02:16

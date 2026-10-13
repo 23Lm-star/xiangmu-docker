@@ -1,0 +1,4 @@
+[PASS] N3 错误密码注销被拒 :: ret=False
+[PASS] A5 注销 alice 成功（加盐后比对） :: ret=True
+[PASS] N4 错误密码注销 tester 被拒（账号必须存活） :: ret=False
+[PASS] N4+ 失败注销后 tester 仍可正常登录（账号未受损） :: ret=1

@@ -1,0 +1,20 @@
+=== build.ps1 ===
+C:/Qt/Tools/mingw730_64/bin/mingw32-make -f Makefile.Release
+mingw32-make[1]: Entering directory 'E:/qt/xiangmu/build/build-Client'
+mingw32-make[1]: Nothing to be done for 'first'.
+mingw32-make[1]: Leaving directory 'E:/qt/xiangmu/build/build-Client'
+build OK: Client -> E:\qt\xiangmu\build\build-Client
+C:/Qt/Tools/mingw730_64/bin/mingw32-make -f Makefile.Release
+mingw32-make[1]: Entering directory 'E:/qt/xiangmu/build/build-Server'
+mingw32-make[1]: Nothing to be done for 'first'.
+mingw32-make[1]: Leaving directory 'E:/qt/xiangmu/build/build-Server'
+build OK: Server -> E:\qt\xiangmu\build\build-Server
+build GREEN (64804fe, 20260929-143011)
+build.exit=0
+=== test.ps1 ===
+test: 0 automated tests registered (fill TESTS in pipeline/test.ps1)
+GUI/manual verification is recorded as human-verified evidence, not BLOCKED.
+test.exit=0
+=== audit.ps1 ===
+audit PASS (64804fe)
+audit.exit=0

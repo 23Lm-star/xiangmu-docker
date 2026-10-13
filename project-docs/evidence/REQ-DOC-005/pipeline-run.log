@@ -1,0 +1,25 @@
+REQ-DOC-005 pipeline run @ docs/repo-chrome 1cdaaa1aaf810acca02f6bdceda4e62a4cab99b1 (2026-09-29 16:49)
+
+[build] powershell -File pipeline/build.ps1
+  build OK: Client -> E:\qt\xiangmu\build\build-Client
+  build OK: Server -> E:\qt\xiangmu\build\build-Server
+  build GREEN (1cdaaa1, 20260929-164944)
+
+[test] powershell -File pipeline/test.ps1
+  test: 0 automated tests registered (fill TESTS in pipeline/test.ps1)
+  GUI/manual verification is recorded as human-verified evidence, not BLOCKED.
+  exit 0 (bootstrap-stage honest report; no auto suite exists yet)
+
+[audit] powershell -File pipeline/audit.ps1
+  audit PASS (1cdaaa1)
+  (docs-only HEAD~1..HEAD diff: no frozen-path hit; O-4 false-report not triggered)
+
+A1/A2 判定依据：README「构建」一节命令即 pipeline/build.ps1，本次实测 GREEN。
+
+== post-merge addendum @ 08265d5aeb9b460a4a466316483e9fd31b915932 ==
+(1) audit 首跑：`NO test evidence for 08265d5` → audit RED —— O-4 如实触发
+    （仓库版 audit.ps1 无 docs-only 证据回溯，不会自动落到上一代码提交）。
+(2) 处置（不伪造、不改工具）：在合并结果上真跑 test.ps1 + build.ps1：
+    build GREEN (08265d5, 20260929-171524) / test honest-0 exit 0
+(3) audit 复跑：audit PASS (08265d5)
+A7 判定：三门在合并结果上以真实运行取得 GREEN/PASS。

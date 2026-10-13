@@ -1,0 +1,11 @@
+# handoff: REQ-AUTH-002 (goal node done, dev pending user approval)
+branch: fix/auth-security-baseline
+head: 4acb19d51df099327bcf83076e383320f7e7988c
+tier: MEDIUM
+node: goal
+audit: none
+next: 主人批准开发计划后进入 dev（先跑 pipeline/state.ps1）
+blockers: none
+evidence: project-docs/tasks/REQ-AUTH-002/task.md
+owner: claude-code
+date: 2026-09-29

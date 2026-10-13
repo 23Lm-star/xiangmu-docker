@@ -1,0 +1,10 @@
+# handoff: REQ-EXT-SEC-001 (development complete — 44/44 e2e, pipeline GREEN/honest-0/audit PASS)
+branch: codex/req-ext-sec-001-auth-context
+head: c7c4eed696dc0948ae2eb9db42092aa584b50edc
+tier: LARGE
+node: development
+next: 独立测试新会话：只读，在 c7c4eed 复跑 pipeline 三脚本与 build/sec001/verify.py 全 44 用例；只写证据与报告，不改产品源码
+blockers: 无（合并前仍需独立审计 + 三事实核验；push 未做待主人指令）
+evidence: build/evidence/codex-req-ext-sec-001-auth-context/c7c4eed…/manifest.txt (manifest-sha256 c56e2035…)
+owner: claude-code
+date: 2026-09-29

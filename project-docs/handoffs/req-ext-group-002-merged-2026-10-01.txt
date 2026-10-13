@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-002
+branch: master
+head: ffaaacf
+tier: LARGE
+node: merged
+audit: accepted, 2026-10-01 (independent audit PASS on 03dc01d, 0 blocking defects; frozen-path hits Client/protocol.h + Server/protocol.h are the D2-approved append-only PDU 88-96, user-approved; FINDING-PRE1 is baseline pre-existing, deferred)
+next: state.ps1; pick next requirement goal (candidate: FINDING-PRE1 one-to-one offline redelivery, SMALL branch)
+blockers: none
+evidence: project-docs/evidence/REQ-EXT-GROUP-002/ (development + independent-test + audit + integration/merge-facts.txt)
+owner: user
+date: 2026-10-01

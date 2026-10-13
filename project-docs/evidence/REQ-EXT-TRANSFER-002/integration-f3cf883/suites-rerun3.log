@@ -1,0 +1,133 @@
+=== RERUN3 filesys=wt-test-clone Fri Oct  9 18:18:26     2026 ===
+Traceback (most recent call last):
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-SEC-001\verify.py", line 165, in <module>
+    ensure_user(u)
+    ~~~~~~~~~~~^^^
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-SEC-001\verify.py", line 129, in ensure_user
+    c = Conn()
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-SEC-001\verify.py", line 71, in __init__
+    s.sock = socket.create_connection((HOST, PORT), timeout=10)
+             ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 868, in create_connection
+    raise exceptions[0]
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 853, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+=== G1 未认证连接拒绝（验收1/4-群留待GROUP分支 D5） ===
+[PASS] G1-mkdir 未认证 mkdir 被拒且失败响应 :: resp=20
+[PASS] G1-upload-init 未认证 upload-init 被拒且失败响应 :: resp=30
+[PASS] G1-flushfile 未认证 flushfile 被拒且失败响应 :: resp=24
+[PASS] G1-delfile 未认证 delfile 被拒且失败响应 :: resp=26
+[PASS] G1-download 未认证 download 被拒且失败响应 :: resp=41
+[PASS] G1-listdir 未认证 listdir 被拒且失败响应 :: resp=59
+[PASS] G1-query-publink 未认证 query-publink 被拒且失败响应 :: resp=57
+[PASS] G1-onlineuser 未认证 onlineuser 被拒且失败响应 :: resp=8
+[PASS] G1-chat 未认证 chat 被拒（无响应，服务端日志记录） :: 见 AUTHGATE type=15 日志
+=== L1 登录绑定后本人操作正常（验收4回归） ===
+[PASS] L1a sec001a 登录成功 ret=1 :: ret=1
+[PASS] L1b 登录后本人根内 MKDIR 成功 :: ret=True
+[PASS] L1c 登录后本人根 FLUSHFILE 有条目 :: msg_len=36
+=== X1 伪造路径字段拿不到他人资源（验收2） ===
+[PASS] X1-列他人目录 sec001a 会话中 列他人目录 被拒 :: ret=False len=0
+[PASS] X1-删他人文件 sec001a 会话中 删他人文件 被拒 :: ret=False len=0
+[PASS] X1-下载他人文件 sec001a 会话中 下载他人文件 被拒 :: ret=False len=0
+[PASS] X1-传到他人目录 sec001a 会话中 传到他人目录 被拒 :: ret=False len=0
+[PASS] X1-切入他人目录 sec001a 会话中 切入他人目录 被拒 :: ret=False len=0
+[PASS] X1-victim 他人文件完好 :: 内容一致
+[PASS] X1-跨查链接 以他人 owner 字段查链接无效（按 actor 查） :: exists=False
+=== X2 伪造发送者字段无效（验收2） ===
+[PASS] X2a sec001b 登录成功 :: ret=1
+[PASS] X2b B 收到的转发报文发送人=服务端actor(非伪造名) :: sender=b'sec001a'
+=== X3 伪造注销用户名删不掉他人账号（验收2/危险面） ===
+[PASS] X3a A 会话发注销V：按actor=A校验且密码错→被拒 :: ret=False
+[PASS] X3b V 账号仍存活可登录 :: ret=1
+[PASS] X3c V 文件根目录仍在 :: 存在
+=== R1 注销后旧连接业务被拒（验收3） ===
+[PASS] R1a sec001r 登录成功 :: ret=1
+[PASS] R1b 注销前本人 MKDIR 成功 :: ret=True
+[PASS] R1c 本人正确密码注销成功 :: ret=True
+[PASS] R1d 注销后本人目录已删（既有行为保留） :: 不存在
+[PASS] R1e 注销后同连接业务请求被拒（空响应=失败响应） :: len=0
+[PASS] R1f 注销后不能继续访问群文件（下载他人被拒） :: ret=False
+=== R2 断线后新连接无残留身份（验收3） ===
+[PASS] R2a sec001b 重新登录成功（账号存活） :: ret=1
+[PASS] R2b1 V 在线且 B 不在自己的在线列表 :: online=['wcy', 'sec001a', 'sec001v']
+[PASS] R2b2 V 断线后从在线列表移除（撤销生效） :: online=['wcy', 'sec001a']
+[PASS] R2c 新连接未登录读他人根被拒 :: len=0
+=== K1 上传/下载/分享回归（验收4） ===
+[PASS] K1a 本人根内上传初始化成功 :: ret=True
+[PASS] K1b 上传分块全部 ack 成功 :: chunks=2
+[PASS] K1c 条目落盘+对象摘要一致+用户树无物理写(D5适配) :: sha=785b0751 physical=False
+[PASS] K1d 下载流式回读内容一致 :: bytes=1024/1024
+[PASS] K1e B 收到分享请求且署名=actor(伪造V无效) :: sharer=b'sec001a'
+[PASS] K1f 接收者谎报目标名：条目仍只落 B 本人根(D5适配) :: ret=True inB=1 inA=0
+[PASS] K1g 穿越名段仍被拒（FS-003 回归） :: ret=False
+[PASS] K1h 沙箱外探测按不存在（回归） :: isExist=False
+[PASS] K1i 本人重命名成功 :: ret=True
+[PASS] K1j 重命名他人文件被拒 :: ret=False
+=== K2 M-1 分享握手登记：伪造/重放同意 ===
+[PASS] K2a 未分享给 B 的源伪造同意被拒且无落地 :: ret=False landed=False
+[PASS] K2b 握手登记后正常同意成功落地(D5适配为条目落地) :: agree=True ret=True
+[PASS] K2c 登记一次性消费：重放同意被拒 :: ret=False
+[PASS] K2d B-1：自我登记他人源→自我同意链被拒且无复制 :: ret=False stolen=False
+
+==== 汇总: 48/48 PASS ====
+=== unique-login + group-002 rerun after filesys swap ===
+server up, db ready
+[PASS] E2a 未认证验证码正常 :: type=45
+[PASS] E2b 未认证心跳 PONG 正常 :: type=51
+[PASS] E0 unilog1 首登录成功 :: ret=1
+[PASS] E1a 第二设备登录成功 :: ret=1
+[PASS] E1b 旧连接业务请求被切断且未处理（无 FINDU 响应+EOF） :: eof=True pkts=0
+[PASS] E1c login_record 恰两行、版本 1/2 连续 :: '1\tA1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1\n2\tB2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2'
+[PASS] E1d user_info.login_version=2 :: lv=2
+[PASS] E4 旧连接断开后在线态仍为 1（守卫生效） :: online=1
+[PASS] E6 过期已认证连接心跳被切断、无 PONG :: eof=True pkts=0
+[PASS] E5 空 ID 登录成功且 login_record.client_id 为空值 :: ret=1 cid='' rows=1
+[PASS] E3a 并发登录恰两行、版本不重复不倒退 :: [1, 2]
+[PASS] E3b user_info.login_version 等于最大版本 :: lv=2 rows=[1, 2]
+[PASS] E3c 最高版本连接存活（有响应） :: eof=False pkts=1
+[PASS] E3d 较低版本连接已失效（EOF 或后续被切断） :: eof=True pkts=0
+Traceback (most recent call last):
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-SESSION-001\unique_login_e2e.py", line 197, in <module>
+    r = subprocess.run([sys.executable, os.path.join("project-docs", "evidence", "REQ-EXT-SEC-001", "verify.py")],
+                       capture_output=True, text=True, timeout=600, env=env)
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 556, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1222, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1669, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Users\\王晨扬\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'project-docs\\evidence\\REQ-EXT-SEC-001\\verify.py']' timed out after 600 seconds
+[SETUP] users ready; candidate commit f3cf883
+Traceback (most recent call last):
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-GROUP-002\verify.py", line 268, in <module>
+    cols = db_one("SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() "
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  "AND table_name='group_info' AND column_name='last_seq'")[0]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-GROUP-002\verify.py", line 249, in db_one
+    with db_conn() as c:
+         ~~~~~~~^^
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-GROUP-002\verify.py", line 243, in db_conn
+    lines = (ROOT / 'Server' / 'connect.config').read_text(encoding='utf-8').splitlines()
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\pathlib\_abc.py", line 632, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\王晨扬\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\qt\\xiangmu\\project-docs\\Server\\connect.config'
+[E] 端口 5000 已被占用（监听 PID: [28232]）。本套件只按 PID 管理自己启动的进程，不会替你盲杀。若确认那些进程属于本套件的残留，请手动按 PID 结束后再跑。
+Traceback (most recent call last):
+  File "E:\qt\xiangmu\project-docs\evidence\REQ-EXT-SESSION-001\unique_login_e2e.py", line 121, in <module>
+    assert start_server(), "server did not start"
+           ~~~~~~~~~~~~^^
+AssertionError: server did not start

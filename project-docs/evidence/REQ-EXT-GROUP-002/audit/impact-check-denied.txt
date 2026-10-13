@@ -1,0 +1,72 @@
+----------------------------------------------------------------
+Code intelligence impact check (optional, advisory)
+----------------------------------------------------------------
+verdict        : PASS
+tool           : C:\Users\王晨扬\AppData\Roaming\npm\codegraph.CMD
+project root   : E:\qt\xiangmu
+index freshness: unknown
+changed files  : 16
+  - Client/Client.pro
+  - Client/client.cpp
+  - Client/group.cpp
+  - Client/group.h
+  - Client/groupchat.cpp
+  - Client/groupchat.h
+  - Client/protocol.h
+  - Server/migrate_ext_group_002.sql
+  - Server/msghandler.cpp
+  - Server/mytcpserver.cpp
+  - Server/mytcpserver.h
+  - Server/mytcpsocket.cpp
+  - Server/mytcpsocket.h
+  - Server/operatedb.cpp
+  - Server/operatedb.h
+  - Server/protocol.h
+symbols        : DATETIME, ENUM, GroupChat, LAST_INSERT_ID, VARCHAR, applyUnreadSummary, broadcastGroupMessage, confirmRead, enqueueOutbound, envelope, envelopeGroupId, getinstance, groupAppendSystemMessage, groupFailure, groupId, groupReadU64, groupReject, group_message, handleGroupMessageOperation, handleMessageEvent, handleMessageResponse, handleResponse, idx_group_created, insertMessage, loadOlder, locker, markRendered, onItemDoubleClicked, openSelectedChat, payload, pumpOutboundQueue, q, refreshUnreadBadge, requestPull, requestUnreadSummary, response, schema_version, sendCurrent, sendRequest, showEvent, singleShot, uk_group_client_msg, uk_group_seq, updateStatus
+affected tests : 0
+impact files   : 42
+  - Client/chat.cpp
+  - Client/client.cpp
+  - Client/file.cpp
+  - Client/file.h
+  - Client/folderselectdialog.cpp
+  - Client/friend.cpp
+  - Client/group.cpp
+  - Client/groupchat.cpp
+  - Client/groupchat.h
+  - Client/index.cpp
+  - Client/index.h
+  - Client/main.cpp
+  - Client/msghandler.cpp
+  - Client/onlineuser.cpp
+  - Client/protocol.h
+  - Client/reconnectdialog.cpp
+  - Client/sharefile.cpp
+  - Client/sharelinkdialog.cpp
+  - Client/userinformation.cpp
+  - Server/fileobjectstore.cpp
+  - Server/main.cpp
+  - Server/msghandler.cpp
+  - Server/mytcpserver.cpp
+  - Server/mytcpsocket.cpp
+  - Server/operatedb.cpp
+  - Server/operatedb.h
+  - Server/protocol.h
+  - Server/resumableuploadsession.cpp
+  - Server/server.cpp
+  - Server/sharelinkservice.h
+  - Server/uploadwritetask.cpp
+  - project-docs/evidence/REQ-EXT-FILE-001/cross_tree_e2e.py
+  - project-docs/evidence/REQ-EXT-FILE-001/dedup_e2e.py
+  - project-docs/evidence/REQ-EXT-FILE-001/sec001_regression.py
+  - project-docs/evidence/REQ-EXT-GROUP-002/independent-test/group_e2e_regress.py
+  - project-docs/evidence/REQ-EXT-GROUP-002/independent-test/itest_group002.py
+  - project-docs/evidence/REQ-EXT-GROUP-002/independent-test/itest_part2.py
+  - project-docs/evidence/REQ-EXT-GROUP-002/independent-test/itest_part3.py
+  - project-docs/evidence/REQ-EXT-GROUP-002/independent-test/probe_chatmsg.py
+  - project-docs/evidence/REQ-EXT-GROUP-002/independent-test/wire.py
+  - project-docs/evidence/REQ-EXT-GROUP-002/verify.py
+  - project-docs/evidence/REQ-EXT-SEC-001/verify.py
+notes          :
+  - impact resolved for 44 symbol(s)
+----------------------------------------------------------------

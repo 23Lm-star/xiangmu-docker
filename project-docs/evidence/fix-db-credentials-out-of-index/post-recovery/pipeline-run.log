@@ -1,0 +1,14 @@
+﻿g++ -Wl,-s -Wl,-subsystem,windows -mthreads -o release\Server.exe @object_script.Server.Release  C:\Qt\5.14.2\mingw73_64\lib\libQt5Widgets.a C:\Qt\5.14.2\mingw73_64\lib\libQt5Gui.a C:\Qt\5.14.2\mingw73_64\lib\libQt5Network.a C:\Qt\5.14.2\mingw73_64\lib\libQt5Sql.a C:\Qt\5.14.2\mingw73_64\lib\libQt5Core.a  -lmingw32 C:\Qt\5.14.2\mingw73_64\lib\libqtmain.a -LC:\openssl\lib -LC:\Utils\my_sql\mysql-5.7.25-winx64\lib -LC:\Utils\postgresql\pgsql\lib -lshell32 
+mingw32-make[1]: Leaving directory 'E:/qt/xiangmu/build/build-Server'
+build OK: Server -> E:\qt\xiangmu\build\build-Server
+build GREEN (48f992d, 20260929-102712)
+
+--- post-recovery verification (2026-09-29, HEAD=48f992d) ---
+1) Server/connect.config exists on disk .......... PASS
+2) Server/connect.config not tracked ............ PASS (git ls-files --error-unmatch fails)
+3) covered by .gitignore:75 /Server/connect.config PASS (git check-ignore -v)
+4) git status clean ............................. PASS
+5) build GREEN (48f992d) ........................ PASS
+reason: during the fix, mixing `git add <new template>` and `git rm --cached <old>`
+        in one batch triggered git's rename detection, which removed the working-tree
+        copy. Restored from connect.config.bak-20260929 and re-verified end to end.

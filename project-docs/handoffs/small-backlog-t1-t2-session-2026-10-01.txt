@@ -1,0 +1,10 @@
+branch: master
+head: 2ea8c8c
+tier: SMALL
+node: merged
+next: new session -> pipeline/state.ps1, then T3 small/normalize-logic-keys-predicate from master@2ea8c8c; T4 closes the batch after T3 (T1 merged 488f964, T2 merged 0d92607, no-ff, zero conflicts)
+blockers: session turn-cap reached (guard); T3 touches Server/ source and needs its own pipeline-green run - do not compress it
+evidence: T1 project-docs/evidence/small-pipeline-audit-frozen-parse/ (parse 1->2, scratch frozen branch 2x HIT); T2 project-docs/evidence/small-unify-e2e-runform/ (13/43/37/48/46 green); ledger in handoffs/req-ext-small-backlog-dispatch-2026-10-01.md
+owner: claude-code
+date: 2026-10-01
+env: Server/connect.config line 3 = ./filesys, MUST be CRLF (LF => dist/Server.exe segfault); dist/Server.exe rebuilt to match; spec project-docs/evidence/E2E-RUNFORM.md

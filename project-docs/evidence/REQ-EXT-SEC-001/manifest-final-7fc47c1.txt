@@ -1,0 +1,15 @@
+# evidence manifest -- written by record-evidence.py
+label: REQ-EXT-SEC-001 integration closeout: merged result 7fc47c1, 48/48 e2e, three fact lines satisfied
+created_utc: 2026-09-29T22:13:27+08:00
+commit: 7fc47c127a932acd56288ca6bf7f8ea130e965c8
+branch: master
+dirty: no
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:dcd3a7cec119fffb8db8d88a891759980eab7cf978fe8a718c2ef4bfaa897fc3  verify-output.log  (4053 bytes)
+sha256:b4d4e84c5f7870cd047ab7680e60553cd4efe73b7e077a157ec5b656d1a0756e  server-console.log  (2706 bytes)
+sha256:882c6cec7e83580bef2d44628cc62ad020632ad4de806c1d62c92cc9de53b290  reject-lines.log  (3104 bytes)
+sha256:84cc9c602562d8adc2b7281e2e084090c8515d457a951deb704334f7a40a61f1  verify.py  (15520 bytes)
+sha256:743b3a6a56087d4a94345f376c96a2f7fbe79f0751bbf96ab9f6cf2d5d83feaf  pipeline-run.log  (294 bytes)

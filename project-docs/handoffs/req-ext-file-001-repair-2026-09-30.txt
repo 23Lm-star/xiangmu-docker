@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-FILE-001 repair node complete (F-3/D5 logical-key fix, all suites green on final binary)
+branch: codex/req-ext-file-001-file-assets
+head: 915eeff5013976f96d0f2537ef82bbf6986f3354
+tier: LARGE
+node: repair
+audit: pending
+next: 独立测试新会话：在 915eeff 照 task.md 运行环境事实复跑 entry_ops_e2e 36/36、dedup 13/13、sec001_regression 48/48、cross_tree_e2e 31/31 与 pipeline 三脚本；只写报告与证据，不改产品源码与验收标准；随后独立审计新会话（只读，重点核 F-3/D5 收口：跨树键一致性与存量转换）
+blockers: 无（合并需重新独立测试 + 独立审计 ACCEPT + 三事实行；push 待主人指令）
+evidence: project-docs/evidence/REQ-EXT-FILE-001/（cross_tree_e2e.py 新增；三门于代码候选 915eeff GREEN/honest-0/PASS）
+owner: claude-code
+date: 2026-09-30

@@ -1,0 +1,12 @@
+# evidence manifest -- written by record-evidence.py
+label: REQ-REPO-004: Client/connect.config untracked, template + ignore rules added
+created_utc: 2026-09-29T15:01:06+08:00
+commit: a7be845d22b96e32d1a7b15b8ce15e05692b1863
+branch: chore/repo-sanitize
+dirty: no
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:bb44ee45cb8c48b9a0de6177e214054b02b88036262c603a2beb98f9e405d20b  .gitignore  (1331 bytes)
+sha256:8604bd2ba3f1cdd018e75d8527220dc48b33d9fd78c6c5ac94764bae372f1e6a  connect.config.template  (28 bytes)

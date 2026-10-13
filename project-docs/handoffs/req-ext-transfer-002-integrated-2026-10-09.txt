@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-002 收口——已合并 master@f3cf883（LARGE 全节点链闭合）
+branch: feat/req-ext-transfer-002-download-pause-resume
+head: c5e4d7a
+tier: LARGE
+node: integration
+audit: accepted by 主人, 2026-10-09
+next: ①主人 GUI 轮后补：8 项 + §4.7 旧服务端人工复验一步（暂停→分片留存→点继续须停在「失败：服务端未接受续传起点」）②design owner：F-1 E7b 口径 / F-3+N-2 运行态条目 / N-5 transfer003 S-03 断言族归位 ③repo-contract SMALL 另立：audit.ps1 骨架+F-2+F-4 元数据+append-event CRLF 链修复 ④owner 清理：桌面残留 worktree×3 + 旧候选 worktree 分支（待主人点头）
+blockers: 无。合并三事实线：①R2 审计在册且被接受 ②冻结面双端逐字节==§9 批准块 4/0（人工重导，audit.ps1 骨架在册）③合并后 pipeline：build GREEN + 14 套矩阵 12 绿+group-002 在册红(ROOT off-by-one 签名复现)+transfer003 57/59 S-03 空转族；parallel/transfer002 轮一红=主树 filesys 未 priming 悬空对象（置换 wt-test 克隆后 54/54/26/26，可逆备份 dist/filesys.stale-20261009）；sec001/unique-login 须 SBX=dist/filesys 形态（48/48、16/16）
+evidence: project-docs/evidence/REQ-EXT-TRANSFER-002/integration-f3cf883/（build/test/suites×4/summary/manifest sha256 ed256ffc5cf5764bb612eee94fc0073c12566d488ef8c46c46b540c3a6bfa80a@f3cf883）；dist 已 artifact-trace record=master@f3cf883（STALE 消警）；003 线漏归档证据同批补入库=3436d19
+owner: claude-code
+date: 2026-10-09

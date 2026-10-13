@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-FILE-002 goal+design closed — LARGE, contract change approved by owner
+branch: codex/req-ext-file-002-fast-upload
+head: b564ad2
+tier: LARGE
+node: goal
+audit: none
+next: 新会话开 development 节点（owner）——从本分支切 dev worktree，按 design.md §1–§4 落地，三门后 handoff
+blockers: 无（契约变更已批准；遗留 worktree build/wt-test-group001-repair 属他任务，未处置）
+evidence: project-docs/tasks/REQ-EXT-FILE-002/{task.md,design.md}
+owner: claude-code
+date: 2026-10-01

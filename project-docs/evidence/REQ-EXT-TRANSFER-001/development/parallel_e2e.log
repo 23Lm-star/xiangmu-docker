@@ -1,0 +1,66 @@
+=== 静态：冻结面 §9 ===
+[PASS] P1-frozen-block 两端 protocol.h 新增常量块逐字节一致 :: len=558
+[PASS] P2-107-108 ABORT 枚举 = 107/108 且两端一致 :: 
+[PASS] P3-no-renumber 旧编号未被重编号 :: 
+=== 环境准备 ===
+[PASS] E0 登录成功 :: ret=1
+[PASS] E0b 建测试目录 :: ./filesys/e2etx1/tx1
+[PASS] E1 建群成功 :: gid=84
+=== T-01 ===
+[PASS] T-01a 3 路 INIT 均 ret=true :: 
+[PASS] T-01b 3 路交错上传全部完成且无串扰 :: {11: 1500, 12: 700, 13: 2300}
+[PASS] T-01c 3 条 entry 内容与源逐字节一致 :: lens=[1500, 700, 2300]
+=== T-03 ===
+[PASS] T-03a 前 3 个 INIT ret=true，第 4 个 ret=false（不建状态） :: [True, True, True, False]
+[PASS] T-03b 被拒 id 的 31 → 32{ok=false}（未知 id 不回退） :: 
+[PASS] T-03c 107 释放槽位 ret=true 且回带 id :: 
+[PASS] T-03d 释放后第 4 个 INIT 成功且回带 id :: 
+=== T-17 ===
+[PASS] T-17a 对活跃 id 重发 INIT → ret=false :: 
+[PASS] T-17b 原上下文未被覆盖（仍可写入） :: 
+=== T-04 ===
+[PASS] T-04 逐 id 的 nextOffset 单调、无跳变、无串扰 :: 
+=== T-05 ===
+[PASS] T-05a 群/个人 INIT 均成功 :: 
+[PASS] T-05b 群引用落定（group_file_id 非 0） :: [{'id': 48, 'name': 't05_group.bin'}]
+[PASS] T-05c 个人上传同时落定 :: 
+=== T-16 ===
+[PASS] T-16 0 字节与块整倍文件均正确落定 :: 
+=== T-09 ===
+[PASS] T-09a 暂停 107 → ret=true :: 
+[PASS] T-09b 30 回带 resumeOffset == 已收字节（前缀未重传） :: offset=600
+=== T-10 ===
+[PASS] T-10 群 102 回带 nextOffset == 已收字节 :: next=600
+=== T-11 ===
+[PASS] T-11a 108 ret=true :: 
+[PASS] T-11b 会话置 expired :: status=expired
+[PASS] T-11c 文件列表无新条目 :: 
+[PASS] T-11d staging 文件仍在盘上 :: staging=E:/qt/xiangmu/dist/filesys/.staging/d26b2123afbb6f764f610d2fa699059bdce29ed4.part
+=== T-12 ===
+[PASS] T-12a 未知 id 的 107 → 108 ret=false :: 
+[PASS] T-12b 未知 id 的 31 → 32 ok=false :: 
+[PASS] T-12c 连接存活（心跳正常） :: 
+=== T-18 ===
+[PASS] T-18a 3 上传 + 3 下载同时受理（各算各的预算） :: up=[True, True, True] r41={121: True, 122: True, 123: True, 124: False}
+[PASS] T-18b 上传占满时第 4 个上传被上传预算拒（下载不占上传名额） :: 
+[PASS] T-18c 下载占满时第 4 个下载被下载预算拒（41 ret=false） :: r41={121: True, 122: True, 123: True, 124: False}
+[PASS] T-18d 3 路下载内容完整（并发不受上传影响） :: [524288, 524288, 524288]
+=== T-06 ===
+[PASS] T-06a 小文件的 43 均早于大文件的 43（round-robin 公平） :: order=[212, 213, 211]
+[PASS] T-06b 大文件数据完整 :: 524288
+=== T-07 ===
+[PASS] T-07 3 路并发下载内容各自正确、无交叉 :: [3000, 4500, 1500]
+=== T-08 ===
+[PASS] T-08 下载期间 PONG 往返均在阈值内（控制消息不被饿死） :: n=6 max=0.001s
+=== T-15 ===
+[PASS] T-15 id=0 的 29/31/40/42/43 全流程与今日一致 :: len=1200
+=== T-14 ===
+[PASS] T-14 断线后重连新传输正常（旧上下文已清理） :: 
+=== T-13 ===（约 80s）
+[PASS] T-13a 3 槽占满时第 4 个 INIT 被拒 :: 
+[PASS] T-13b 静默 > 60s 后槽位回收（第 4 个 INIT 成功） :: 
+[PASS] T-13c 被回收会话置 expired :: expired=11
+
+=== 汇总 ===
+43/43 passed
+NOTE: 纯客户端行为（多选选择器/任务列表/暂停继续取消按钮/客户端队列不发起第 4 个 29/大文件摘要不卡 UI）属 design §6.3 人工清单，非本套件可断言范围。

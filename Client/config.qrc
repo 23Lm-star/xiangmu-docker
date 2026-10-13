@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>connect.config</file>
+        <file>chat.png</file>
+        <file>friend.png</file>
+        <file>login.png</file>
+        <file>show.png</file>
+        <file>online.png</file>
+        <file>dir.png</file>
+        <file>file.png</file>
+        <file>shareFile.png</file>
+        <file>index.png</file>
+        <file>bg_main.jpg</file>
+        <file>bg_index.jpg</file>
+        <file>style.qss</file>
+    </qresource>
+</RCC>

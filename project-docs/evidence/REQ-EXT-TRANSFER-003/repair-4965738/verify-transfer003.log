@@ -1,0 +1,77 @@
+=== 静态：S-01..S-05 ===
+[PASS] S-01a Server/protocol.h REQ-EXT-TRANSFER-003 常量块逐字节 == §9 批准稿 :: len=531
+[PASS] S-01b 通用入站上限 MAX_INBOUND_PDU_SIZE 未被抬高（仍 16 KB） :: 
+[PASS] S-02a Client/uploader.h 三常量存在（1024 块 / 64 KiB 下限 / 1 MiB 上限） :: max=1048576
+[PASS] S-02b 跨端一致：UPLOAD_CHUNK_MAX ≤ 服务端 MAX_UPLOAD_DATA_CHUNK :: 1048576 <= 1048576
+[PASS] S-03a 冻结面 diff 删除行 == 原两行常量（无其它删改） :: rem=['static constexpr uint MAX_INBOUND_PDU_SIZE = 16 * 1024;', 'static constexpr int MAX_PENDING_INBOUND_BYTES = 256 * 1024;']
+[PASS] S-03b 冻结面 diff 新增行 == §9 批准稿五行（逐字） :: n=5
+[PASS] S-03c Client/protocol.h 零改动 :: 
+[PASS] S-04a G7 接线①：onSocketDisconnected 调用 onConnectionLost :: 
+[PASS] S-04b G7 接线②：onServerLost 调用 onConnectionLost :: 
+[PASS] S-04c G7 接线③：pump() 首部有 m_connectionDown 闸 :: 
+[PASS] S-04d G7 接线④：LOGIN_RESPOND 分支调用 onConnectionRestored :: 
+[PASS] S-05a G7 防复活①：群上传 SHA 回调含 state != Hashing 守卫 :: 
+[PASS] S-05b G7 防复活②：submitFastcheck 含 state != Hashing 守卫 :: 
+[PASS] S-05c C4 摘旧映射：pause/resume 上传分支均 m_idToKey.remove(t->id) :: 
+[PASS] S-06a R-1：LOGIN_RESPOND 分支内登录名赋值先于 setCurrentUser（同步取值，非 1.5 s 后） :: assign@279 setUser@383
+[PASS] S-06b R-1：handllogin 同步返回登录名且 1.5 s 定时器内不再写 m_LoginName :: ret=True in_body_assign=False
+[PASS] S-06c D-a：saveSnapshot 无静默丢写（每条 return 前都有 qCWarning 告警） :: unwarned=[]
+[PASS] S-06d D-a：saveSnapshot 以最近一次有效登录名兜底（m_lastKnownUser） :: 
+[PASS] S-06e D-b：setCurrentUser 同名/空名不清表；清表嵌于"另一个账号"条件内且仍调 restoreSavedTasks :: same_ret=True guard_line=4 clear_line=7 nested=True
+[PASS] S-06f D-b：restoreSavedTasks 按身份去重合并（快照补缺、内存为准，不重复建行） :: dedup@1015 insert@1775
+=== 环境准备 ===
+[PASS] E0 登录成功 :: ret=1
+[PASS] E0b 测试目录就绪 :: ./filesys/e2etx3/tx3
+=== T3-01 ===
+[PASS] T3-01-init 4 MiB INIT ret=true :: off=0
+[PASS] T3-01a 上传中进度单调不减 :: [1048576, 2097152, 3145728, 4194304]
+[PASS] T3-01b 末次采样 ≥ 已发字节 − 1 MiB（节流上限） :: last=4194304 sent=4194304
+[PASS] T3-01c 完成后 confirmed_offset == expected_size 且 status=done :: done/4194304
+[PASS] T3-01d 4 MiB 逐字节正确（转正对象可下载且内容一致） :: len=4194304
+=== T3-02 ===
+[PASS] T3-02a 107 后：108 ret=true 且该逻辑上传仅 1 行（status=expired） :: 108=1 rows=1
+[PASS] T3-02b 续传（新 id 29）→ 完成后仍 1 行且 status=done、confirmed=size :: rows=1 off=1048576
+[PASS] T3-02c 续传结果逐字节正确 :: len=3145728
+=== T3-03 ===
+[PASS] T3-03-init 97 miss：98 ret=true/hit=false :: hit=0
+[PASS] T3-03a 新 reqId 再 97：未完成会话仍仅 1 行 :: rows=1
+[PASS] T3-03b client_request_id 改写为最后一次 reqId :: 2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b
+[PASS] T3-03c 完成后仍 1 行且 done :: rows=1
+=== T3-04 ===
+[PASS] T3-04-init 建群成功 :: gid=231
+[PASS] T3-04-init2 101 未命中续传起点 0 :: off=0
+[PASS] T3-04a 群上传 101→107→101 全程 1 行且续传起点=已收字节 :: ack=True rows=1->1 off=1048576
+[PASS] T3-04b 群上传完成落定（done 且 confirmed=size） :: done	2097152
+=== T3-05 ===
+[PASS] T3-05a 单块 1 MiB 接受（32 ok=true） :: next=1048576
+[PASS] T3-05c 1 MiB + 1 字节块被 32{ok=false} 明确拒绝 :: ok=0
+[PASS] T3-05d 拒绝后连接存活且后续合法块被接受 :: next=2097152
+[PASS] T3-05b 大分片上传结果逐字节正确 :: len=3145728
+=== T3-06 ===
+[PASS] T3-06a 8 MiB / 64 KiB 分片吞吐 ≥ 8 MiB/s（基线 0.28 MiB/s @4 KB） :: 60.31 MiB/s (0.13s)
+[PASS] T3-06b 吞吐路径结果逐字节正确 :: len=8388608
+=== T3-07 ===
+[PASS] T3-07a 边界 0 字节：转正且对象 sha/大小一致 :: ok=True obj=(0,e3b0c442)
+[PASS] T3-07b 边界 65536 字节：转正且对象 sha/大小一致 :: ok=True obj=(65536,e58d119b)
+[PASS] T3-07c 边界 65636 字节：转正且对象 sha/大小一致 :: ok=True obj=(65636,95820f6a)
+[PASS] T3-07d 边界 1048576 字节：转正且对象 sha/大小一致 :: ok=True obj=(1048576,f1ed3602)
+[PASS] T3-07e 边界 1048577 字节：转正且对象 sha/大小一致 :: ok=True obj=(1048577,1e847d25)
+=== T3-08 ===
+[PASS] T3-08a 3 路大分片并发各自逐字节正确、互不串扰 :: lens=[2097152, 2097152, 2097152]
+[PASS] T3-08b 3 路各自只有 1 行会话（无重复行/无串行） :: [1, 1, 1]
+=== T3-09 ===
+[PASS] T3-09a 107 后 29 回带 resumeOffset == 暂存物理大小 :: off=1048576 staging=1048576
+[PASS] T3-09b 首块首字节 == 源[offset]（前缀来自暂存、后缀为新写） :: eq_pl2=True eq_pl=False
+=== T3-10 ===
+[PASS] T3-10a 6 轮 31→107：108 全 ret=true :: 
+[PASS] T3-10b 每轮 confirmed_offset == 暂存物理大小（无越过/无落后） :: 
+[PASS] T3-10c 每轮续传起点 == 暂存物理大小 :: 
+=== T3-11 ===
+[PASS] T3-11a 17 KB 非 31 报文仍走非法 PDU（无响应）且连接存活 :: resp=False pong=True
+=== T3-12 ===
+[PASS] T3-12a id=0 旧单流（4 KB 分片）全流程逐字节不变 :: ok=True len=262144
+[PASS] T3-12b 旧路径同样单行贯穿（1 行、done） :: rows=1
+
+=== 汇总 ===
+59/59 passed
+NOTE: §6.3 NEEDS-HUMAN 五项（GUI 肉眼吞吐 / 面板进度回看 / 暂停继续单行 / 0 字节任务显示 / G7 断线秒级收敛与重连续传）不在本套件范围；客户端侧 C1–C9 的动态行为需客户端宿主，本套件以静态契约（S-02/S-04/S-05c）覆盖其接线与守卫。

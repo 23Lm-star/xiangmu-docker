@@ -1,0 +1,5 @@
+[22:11:27] START r1-base
+[22:13:17] DONE r1-base rc=0 dur=104s pass=53 fail=0 traceback=0
+[22:13:20] START r1-cand
+[22:15:08] DONE r1-cand rc=0 dur=102s pass=54 fail=0 traceback=0
+[22:15:11] START r2-base

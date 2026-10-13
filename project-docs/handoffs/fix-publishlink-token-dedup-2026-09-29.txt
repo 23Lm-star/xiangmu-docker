@@ -1,0 +1,11 @@
+# handoff: fix/publishlink-token-dedup — F-1 fixed and merged (SMALL closeout)
+branch: master
+head: fad502b
+tier: SMALL
+node: integration
+merge: fix/publishlink-token-dedup @4ae532e no-ff 合入 master；build GREEN / test honest-0 / audit PASS；f1verify 5/5（核心：去重复用的第二次链接经 hash 形式可直接解析）
+next: REQ-EXT-SEC-001 功能分支合并前先 git merge master（同文件 createPublishLink 区域相邻，需预解冲突并重跑流水线）
+blockers: 无
+evidence: build/evidence/fix-publishlink-token-dedup/4ae532e…/manifest.txt (manifest-sha256 07297f4c…)
+owner: claude-code
+date: 2026-09-29

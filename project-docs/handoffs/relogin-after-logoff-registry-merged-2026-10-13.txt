@@ -1,0 +1,11 @@
+# handoff: 注销账号后同名重注册登录被误杀 已并入 master（MEDIUM；候选 d07a6b7，主人 2026-10-13 APPROVED）
+branch: master
+head: 53b296a
+tier: MEDIUM
+node: merged
+audit: accepted by 主人, 2026-10-13
+next: ①本条已闭合：注销成功时显式释放该用户的登录版本登记表条目（Server/mytcpsocket.cpp LOGOFF 分支，在 m_strLoginName.clear() 之前），修「同名重注册→登记表残留旧版本→小版本被单调 CAS 丢弃→closeStaleSockets 误杀刚登录连接→online=1 幽灵」；authoritative 防误踢守卫零改动；新增 relogoff-login 套件（13 断言）已入闸 ②剩余缺陷（各需独立任务）：③服务端崩溃后幽灵在线（probe_abnormal.py 7/7）；④客户端先于服务端启动不自动重连、登录/注册不检查连接 ③套件/工具缺口（各需独立 SMALL）：reclaim 套件未入闸；group-002 p8c 非 hermetic（跨 24h 过期边界必红）；parallel-transfer T-06a 与 sec001-regression 为时序抖动；unique-login 偶发 15/16；audit.ps1 的 sensitive_paths 不自动发 boundary finding；artifacts.ps1 -Deploy 默认扫 build/build-*/ 会拿旧副本覆盖 dist；test.ps1 的 -Retry 是死参数 ④桌面《开发缺陷日志》剩余 D-002/D-005/D-006/D-008/D-010
+blockers: 无
+evidence: 候选侧 build/evidence/current/{build,test,audit}-d07a6b76ccd668c7ca3a36f233373437a27d9a60-run-20261013-12.*（同一 RunId 三闸全绿：build GREEN / test GREEN 16 套 552 断言 failures=0 / audit PASS）+ 审计包 build/evidence/merge-d07a6b7/independent-ai-audit-package-d07a6b7.json（sha256 7a1bdd2e5c59ab9300aef8eb8fc46add753f192aaf82d427dbd7c7eae5b1218b）+ audit-package-wrapper.json + approval-2/approval-72ac110539f34eb79e2e95171d6ada0e.json（local-personal，SID-backed APPROVED）+ 探针 probe-BEFORE.txt（修复前 6/7，B6 ret=-99、B7 online=1 幽灵）/ probe-AFTER.txt（修复后 7/7，B6 ret=1）；主干侧基线 build/evidence/current/{build,test,audit}-53b296a4916e8e012672bcffb5da7ff380943172-run-20261013-13.*（同一 RunId 三闸全绿：16 套 552 断言）+ dist 溯源 artifact-trace verify matches HEAD
+owner: claude-code
+date: 2026-10-13

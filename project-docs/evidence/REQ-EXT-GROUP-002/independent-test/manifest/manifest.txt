@@ -1,0 +1,27 @@
+# evidence manifest -- written by record-evidence.py
+label: independent-test
+created_utc: 2026-10-01T10:51:49+08:00
+commit: b0fba52204f953320c9098563c3cdc067f5539ed
+branch: codex/req-ext-group-002-group-messaging
+dirty: yes
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:6eb6f367920a35d5575aa1aa0c9e01a7f9716d2c2d1b0891cde99fa36af69d01  group_e2e_regress.py  (7752 bytes)
+sha256:59f285c404d09def740724ae05f6bddb9f5b51d114f7613e83119879c72a1d39  itest_group002.py  (20319 bytes)
+sha256:9a9d43a52b9effdf3af87219c1493fcaaca8b94e909d8c0f125018374d15e6c6  itest_part2.py  (13142 bytes)
+sha256:3b26d0fd4e9417e7f28eefa71d1b986d42918e329cc70d6ab2c11441bf986d7a  itest_part3.py  (3109 bytes)
+sha256:87ffee4b680d80d7bfa405e93f9cad40a36b332eed9dde47c25dcfa2aa623623  probe_chatmsg.py  (1169 bytes)
+sha256:36e9798dd0d880437a89bf63abfb430dabcf3295f9639c6abaee411224fa6da8  wire.py  (8358 bytes)
+sha256:7f0d2b8ac37d8b88e40b1efb486995b9e551d184faa27a55ed62a0b81121d223  build-03dc01d-20261001-104114.log  (458 bytes)
+sha256:638c1dfd9e15d6a4bd11cb579acae1519c7e05c92de23c2d8dd0c00c2d2f8dac  group001-regress.log  (788 bytes)
+sha256:a60ee269844404589c8aaeda225486b82e3ba55b79874777ba3e2cf9884fc7e8  part1-run.log  (3562 bytes)
+sha256:c1eb58ee3726ad087137ecf12f072c9ca89d0fa9fe7046c1549975459d121da7  part2-run.log  (2802 bytes)
+sha256:97fce99eb7cae7d2dd562c2270407ebb31c9f8922b8866a1f1f3e0361a53b4d3  part3-run.log  (938 bytes)
+sha256:f716d93836b50725cd83ee3e78ad482c2ce34d2e630139cc44903e4d0d871bb9  server-console.log  (179159 bytes)
+sha256:4fe556dc9e6c4bed30ba4b44e9aef81387dccbd531f98a4632fae34fe854191f  test-03dc01d-20261001-105033.log  (54 bytes)
+sha256:dc0cbf88fa5e3fcb8084d05fc1a62a559f68a6a9681efd8b7a82ae508304398a  itest_results_part1.json  (5796 bytes)
+sha256:c9dd22fc42de6479d763c2dd62fc3a78d1289d45a072dd369b87293af83da8ad  itest_results_part2.json  (4315 bytes)
+sha256:26b604391bc7ad281f09359ac6ec61a7ecc58a5618f32c4d02cbab57e875ad9c  itest_results_part3.json  (1437 bytes)
+sha256:5dfc64a581c832e1d15f0496307bc42f2f2c198880c39508c0d313c3c97b87b0  report.md  (7546 bytes)

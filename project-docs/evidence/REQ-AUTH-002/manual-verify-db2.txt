@@ -1,0 +1,5 @@
+mysql: [Warning] Using a password on the command line interface can be insecure.
+alice_rows_remaining
+0
+name	salt	still_salted_ok
+tester	78bd78b9a4496c8c2dbfe0fda057a909	1

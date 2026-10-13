@@ -1,0 +1,320 @@
+/* ============================================
+   云盘聊天系统 — 全局科技风深色主题
+   基调：半透明黑灰 + 蓝色发光边框 + 圆角
+   ============================================ */
+
+/* --- 全局基础（REQ-UX-001：白色文字 + 放大字号）--- */
+QWidget {
+    color: #ffffff;
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    font-size: 20px;
+}
+
+/* --- 窗口背景统一为登录页背景（REQ-UX-001 A4）---
+   此前只有 #Client/#Index 设了背景，其余顶层窗口落到 Qt 默认浅色底，
+   与全局浅色字叠加成"浅底浅字"不可读。此处按类名统一覆盖所有窗口。 */
+QWidget#Client,
+QWidget#Index,
+OnlineUser, GroupChat, GroupFile, Chat, Friend, File, Group,
+ShareFile, ShareLinkDialog, FolderSelectDialog, UserInformation,
+ReconnectDialog, SimpleCaptcha, TransferTaskPanel {
+    background-color: #0d1b2a;
+    background-image: url(:/bg_main.jpg);
+    background-position: center;
+    color: #ffffff;
+}
+
+/* --- 标签（亮色文字）--- */
+QLabel {
+    color: #ffffff;
+    background: transparent;
+    font-size: 20px;
+}
+QLabel#titleLabel {
+    color: #ffffff;
+    font-size: 34px;
+    font-weight: bold;
+}
+
+/* --- 行输入框 --- */
+QLineEdit {
+    border: 2px solid #2a4a6a;
+    border-radius: 10px;
+    padding: 10px 14px;
+    background: rgba(15, 25, 45, 200);
+    color: #ffffff;
+    font-size: 21px;
+    selection-background-color: #1e6fa0;
+    selection-color: #ffffff;
+}
+QLineEdit:focus {
+    border-color: #3cb8d8;
+    background: rgba(20, 35, 55, 220);
+}
+QLineEdit:hover {
+    border-color: #356a90;
+}
+
+/* --- 多行文本框（聊天区域）--- */
+QTextEdit {
+    border: 2px solid #2a4a6a;
+    border-radius: 10px;
+    padding: 8px;
+    background: rgba(10, 20, 35, 210);
+    color: #ffffff;
+    font-size: 20px;
+    selection-background-color: #1e6fa0;
+}
+QTextEdit:focus {
+    border-color: #3cb8d8;
+}
+
+/* --- 普通按钮（扁平发光风格）--- */
+QPushButton {
+    border: 1px solid #2a5a8a;
+    border-radius: 10px;
+    padding: 10px 24px;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(30, 60, 100, 220),
+        stop:1 rgba(15, 35, 60, 220));
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: bold;
+    min-height: 20px;
+}
+QPushButton:hover {
+    border-color: #3cb8d8;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(40, 85, 140, 230),
+        stop:1 rgba(20, 45, 80, 230));
+    color: #e0f0ff;
+}
+QPushButton:pressed {
+    border-color: #1e80b0;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(15, 40, 70, 240),
+        stop:1 rgba(10, 25, 45, 240));
+    color: #90c8f0;
+    padding-top: 11px;
+    padding-bottom: 9px;
+}
+QPushButton:disabled {
+    border-color: #1a3045;
+    background: rgba(20, 30, 45, 150);
+    color: #506080;
+}
+
+/* --- 注册按钮（绿色基调）--- */
+QPushButton#register_PB {
+    border-color: #1e6a3a;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(30, 120, 60, 220),
+        stop:1 rgba(15, 60, 30, 220));
+    color: #b0f0c0;
+}
+QPushButton#register_PB:hover {
+    border-color: #30c060;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(40, 150, 75, 230),
+        stop:1 rgba(20, 75, 40, 230));
+    color: #d0ffe0;
+}
+QPushButton#register_PB:pressed {
+    border-color: #208040;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(15, 60, 30, 240),
+        stop:1 rgba(10, 40, 20, 240));
+}
+
+/* --- 登录按钮（蓝色基调）--- */
+QPushButton#login_PB {
+    border-color: #2a5a8a;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(40, 100, 180, 220),
+        stop:1 rgba(18, 50, 100, 220));
+    color: #b8d8ff;
+}
+QPushButton#login_PB:hover {
+    border-color: #48b0f0;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(50, 120, 210, 230),
+        stop:1 rgba(22, 60, 120, 230));
+    color: #d0e8ff;
+}
+QPushButton#login_PB:pressed {
+    border-color: #2070b0;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(18, 50, 100, 240),
+        stop:1 rgba(12, 35, 70, 240));
+}
+
+/* --- 侧边导航按钮（Index 面板）--- */
+QPushButton#friend_PB, QPushButton#file_PB {
+    border: 1px solid #325d88;
+    border-radius: 8px;
+    padding: 16px 8px;
+    background: rgba(10, 25, 45, 180);
+    color: #ffffff;
+    font-size: 28px;
+    font-family: "Agency FB", "Microsoft YaHei";
+}
+QPushButton#friend_PB:hover, QPushButton#file_PB:hover {
+    border-color: #4cc9f0;
+    background: rgba(20, 50, 90, 220);
+    color: #ffffff;
+}
+QPushButton#friend_PB:checked, QPushButton#file_PB:checked {
+    border-color: #4cc9f0;
+    background: rgba(30, 70, 120, 240);
+    color: #ffffff;
+}
+
+/* --- 列表控件（带半透明深色底色）--- */
+QListWidget {
+    border: 2px solid #2a4a6a;
+    border-radius: 10px;
+    padding: 4px;
+    background: rgba(8, 18, 35, 210);
+    color: #ffffff;
+    font-size: 20px;
+    outline: none;
+    alternate-background-color: rgba(15, 28, 48, 180);
+}
+QListWidget::item {
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin: 2px 4px;
+    background: transparent;
+}
+QListWidget::item:hover {
+    background: rgba(30, 70, 120, 160);
+    color: #e0f0ff;
+}
+QListWidget::item:selected {
+    background: rgba(40, 90, 150, 200);
+    color: #ffffff;
+    border: 1px solid rgba(60, 150, 220, 120);
+}
+
+/* --- 堆叠控件（透明）--- */
+QStackedWidget {
+    background: transparent;
+}
+
+/* --- 加载动画覆盖层 --- */
+QLabel#loadingLabel {
+    background: rgba(8, 18, 35, 220);
+    color: #ffcc00;
+    font-size: 30px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+/* --- 滚动条 --- */
+QScrollBar:vertical {
+    border: none;
+    background: rgba(10, 20, 35, 150);
+    width: 8px;
+    border-radius: 4px;
+    margin: 2px;
+}
+QScrollBar::handle:vertical {
+    background: rgba(40, 80, 130, 180);
+    border-radius: 4px;
+    min-height: 30px;
+}
+QScrollBar::handle:vertical:hover {
+    background: rgba(50, 100, 160, 200);
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+QScrollBar:horizontal {
+    border: none;
+    background: rgba(10, 20, 35, 150);
+    height: 8px;
+    border-radius: 4px;
+    margin: 2px;
+}
+QScrollBar::handle:horizontal {
+    background: rgba(40, 80, 130, 180);
+    border-radius: 4px;
+    min-width: 30px;
+}
+QScrollBar::handle:horizontal:hover {
+    background: rgba(50, 100, 160, 200);
+}
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    width: 0px;
+}
+
+/* --- 提示框 --- */
+QToolTip {
+    border: 1px solid #2a5a8a;
+    border-radius: 6px;
+    padding: 4px 8px;
+    background: rgba(15, 30, 50, 230);
+    color: #ffffff;
+    font-size: 18px;
+}
+
+/* --- 表格（传输任务列表等）---
+   此前未覆盖：表头浅灰底浅灰字、单元格白底白字，全不可读（主人截图实测）。 */
+QTableWidget, QTableView {
+    background: rgba(8, 18, 35, 210);
+    alternate-background-color: rgba(15, 28, 48, 180);
+    color: #ffffff;
+    gridline-color: #24405e;
+    border: 2px solid #2a4a6a;
+    border-radius: 8px;
+    selection-background-color: #1e6fa0;
+    selection-color: #ffffff;
+    font-size: 19px;
+}
+QTableWidget::item, QTableView::item {
+    padding: 4px 8px;
+}
+QTableWidget::item:selected, QTableView::item:selected {
+    background: #1e6fa0;
+    color: #ffffff;
+}
+QHeaderView::section {
+    background: #16283f;
+    color: #ffffff;
+    border: 1px solid #2a4a6a;
+    padding: 6px 8px;
+    font-weight: bold;
+    font-size: 19px;
+}
+QTableCornerButton::section {
+    background: #16283f;
+    border: 1px solid #2a4a6a;
+}
+
+/* --- 系统弹窗深色化（QMessageBox/QInputDialog/QFileDialog）---
+   这些对话框不在窗口类名清单里，落到系统浅灰底，与全局白字叠加不可读。
+   统一为登录页同款深色背景。 */
+QMessageBox, QInputDialog, QFileDialog {
+    background-color: #0d1b2a;
+    background-image: url(:/bg_main.jpg);
+    background-position: center;
+    color: #ffffff;
+}
+QMessageBox QLabel, QInputDialog QLabel {
+    background: transparent;
+    color: #ffffff;
+}
+QComboBox {
+    border: 2px solid #2a4a6a;
+    border-radius: 8px;
+    padding: 6px 10px;
+    background: rgba(15, 25, 45, 200);
+    color: #ffffff;
+    font-size: 20px;
+}
+QComboBox QAbstractItemView {
+    background: #0d1b2a;
+    color: #ffffff;
+    selection-background-color: #1e6fa0;
+    selection-color: #ffffff;
+}

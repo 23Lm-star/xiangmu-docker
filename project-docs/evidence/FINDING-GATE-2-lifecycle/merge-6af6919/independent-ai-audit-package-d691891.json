@@ -1,0 +1,135 @@
+{
+  "schema_version": "independent-ai-audit-package-v1",
+  "audit_id": "AUD-20261011-FINDING-GATE-2",
+  "generated_at": "2026-10-11T22:05:00+08:00",
+  "candidate_commit": "d691891f82774f53165fa22dd469e9b41858a503",
+  "candidate_subject": "docs(manifest): 修正 4 处与候选自身代码/证据矛盾的散文（NB-1）",
+  "branch": "codex/fix/finding-gate-2-lifecycle",
+  "trunk": "master",
+  "candidate_identity": {
+    "repo_root": "E:/qt/xiangmu",
+    "branch": "codex/fix/finding-gate-2-lifecycle",
+    "worktree_state": "CLEAN",
+    "worktree_diff_hash": "sha256:bb7eecce5231d8f569fecadbf4501af6bc16591f897a609a2c2854506c4ae80f",
+    "manifest_hashes": {
+      "project-docs/project-manifest.yaml": "sha256:cec79849b09fd74c07d810dde7b8941e798ec36d145bf4cd06fd182725287f6d"
+    },
+    "run_id": "run-20261011-07"
+  },
+  "candidate_run_status": "CANDIDATE_VALID",
+  "scope": ["merge", "candidate"],
+  "scope_detail": {
+    "files": [
+      "Server/Server.pro",
+      "project-docs/evidence/_harness/server_ctl.py",
+      "project-docs/evidence/REQ-EXT-GROUP-002/verify.py",
+      "project-docs/evidence/REQ-EXT-SEC-001/verify.py",
+      "project-docs/evidence/REQ-EXT-SESSION-001/unique_login_e2e.py",
+      "project-docs/evidence/REQ-EXT-TRANSFER-001/parallel_e2e.py",
+      "project-docs/evidence/REQ-EXT-TRANSFER-003/verify.py",
+      "project-docs/project-manifest.yaml"
+    ],
+    "symbols": [
+      "ServerCtl.__init__/start/stop",
+      "REQ-EXT-GROUP-002 ROOT/DIST/start_server/stop_server",
+      "T003_FROZEN_BASE",
+      "APPROVED",
+      "test_gate.status",
+      "group-002 asserts 15->38"
+    ],
+    "tests": [
+      "sec001", "sec001-regression", "entry-ops", "dedup", "cross-tree", "fastupload",
+      "group-002", "groupfile", "group004", "sec002", "unique-login",
+      "parallel-transfer", "transfer002", "transfer003"
+    ]
+  },
+  "machine_result": "GREEN",
+  "ai_verdict": "PASS",
+  "independence": "limited",
+  "independence_note": "A fresh context performed the review, but it is the same model/CLI family and the same operator as the commits under audit, and it re-verified from artifacts rather than re-executing the suites. The strongest independent signal is that non-vacuous assertions pass (group-002 p7_slow_conn_dropped requires >0 real server-console drop matches; transfer003 S-03a/b requires an exact 2-removed/5-added byte match against the approved literal).",
+  "confirmed_facts": [
+    "HEAD=d691891f82774f53165fa22dd469e9b41858a503, master=01953849ae4b8c623579c9c5baf4c391bd30884c, branch 5 ahead, git status --porcelain empty (CLEAN)",
+    "git diff 4e76269..d691891 touches exactly one file (project-docs/project-manifest.yaml, +17/-15) across four hunks; no cmd:/asserts:/blocking:/timeout_s:/isolation:/id: field moved",
+    "YAML parse: test_gate.status=enforced, 14 suites, asserts sum=514 (48,48,43,13,41,46,38,45,23,14,16,54,26,59), identical to the previous candidate",
+    "manifest sha256 cec79849b09fd74c07d810dde7b8941e798ec36d145bf4cd06fd182725287f6d matches all three run-20261011-07 gate JSONs",
+    "all seven run-20261011-07 evidence hashes recomputed and byte-for-byte matched",
+    "test-runner run-20261011-07: status=GREEN, gate=enforced, suite_count=14, assertions=514, observed==declared for every suite, mismatch=[], worktree_state=CLEAN",
+    "test-result reason=all blocking suites passed, failures=0; audit-result status=GREEN, findings=[]",
+    "NB-1 (prior audit condition) resolved: the four stale claims are corrected and grep for 491 / 11 of 14 / Residual / no CONFIG / literal E:/qt / blocked by RED / Twelve / 406 over the manifest returns nothing",
+    "prior audit 4e76269 verdict CONDITIONAL_PASS, sole condition NB-1, now closed"
+  ],
+  "assumptions": [
+    "read-only mandate: no suite was re-executed during this audit; run-20261011-07 results are trusted from evidence plus the previously verified console relink",
+    "dist/ is not in the candidate diff; its Qt runtime was hand-repaired and its provenance re-recorded rather than rebuilt end-to-end and is therefore taken as given",
+    "the approval recorder preserves the --scope argument order and the residual-risk string without reformatting"
+  ],
+  "blocking_findings": [],
+  "non_blocking_findings": [
+    {
+      "id": "NB-2",
+      "class": "test_gap",
+      "severity": "low",
+      "confidence": "confirmed",
+      "fact": "test-gate.py counts assertions as the last \\d+/\\d+ match in suite output; parallel_e2e.py was changed to print its summary after the NOTE to work around it.",
+      "hypothesis": "Any future suite whose trailing prose contains an x/y token will silently corrupt its observed count.",
+      "evidence": "pipeline tests: test log line 571 NOTE before line 572 '54/54 passed'",
+      "business_impact": "Latent false-red or false-green in the enforced gate.",
+      "suggested_fix": "Parse a structured count line instead of the last regex match.",
+      "residual_risk": "Coverage accounting can drift silently."
+    },
+    {
+      "id": "NB-4",
+      "class": "test_gap",
+      "severity": "low",
+      "confidence": "confirmed",
+      "fact": "unique_login_e2e.py:207-211 E7b uses 'git diff master...HEAD' and becomes vacuously true once this branch is merged into master.",
+      "hypothesis": "Post-merge the frozen-surface guard stops guarding.",
+      "evidence": "project-docs/evidence/REQ-EXT-SESSION-001/unique_login_e2e.py:207-211",
+      "business_impact": "A frozen-surface check goes inert after merge; same vacuity class as the transfer003 defect repaired here.",
+      "suggested_fix": "Pin a pre-change base as transfer003 now does.",
+      "residual_risk": "Silent loss of a guard."
+    },
+    {
+      "id": "NB-5",
+      "class": "test_gap",
+      "severity": "low",
+      "confidence": "confirmed",
+      "fact": "server_ctl.py:165 opens the log file before Popen; on the OSError path (line 180) the handle is not closed.",
+      "hypothesis": "Matters only if start() is retried in-process.",
+      "evidence": "project-docs/evidence/_harness/server_ctl.py:163-183 vs 219-225",
+      "business_impact": "Negligible; the OS reclaims the handle at process exit.",
+      "suggested_fix": "Close _logf on the Popen-failure path.",
+      "residual_risk": "Cosmetic."
+    },
+    {
+      "id": "NB-3",
+      "class": "environment",
+      "severity": "medium",
+      "confidence": "probable",
+      "fact": "Three pipeline tooling defects are disclosed and deliberately deferred by the owner: (a) build.ps1 does not relink on a .pro-only change; (b) artifacts.ps1 globs leftover build/build-* exes and can deploy a stale/foreign binary; (c) artifacts.ps1 copies source-side DLLs over dist and can poison the Qt runtime.",
+      "hypothesis": "They can produce a non-reproducible GREEN on another machine.",
+      "evidence": "observed live during this branch: run-20261011-05 had all 14 suites fail after artifacts.ps1 deployed a 2026-10-01 diag binary and 2018-era Qt DLLs; preserved, not overwritten",
+      "business_impact": "A future GREEN may not correspond to the candidate under test.",
+      "suggested_fix": "Repair the three defects, or have test.ps1 assert the deployed binary is not older than the candidate build.",
+      "residual_risk": "Non-reproducible gate result if triggered again."
+    }
+  ],
+  "residual_risk": "Gate GREEN at d691891 (14/14 suites, 514 assertions, every observed count equal to declared) but dist was hand-repaired rather than rebuilt end-to-end; unfixed residuals: test-gate.py last x/y assertion-count heuristic, unique-login E7b master...HEAD vacuity after merge, server_ctl log handle leaked if Popen fails, and three deferred pipeline tooling defects (no relink on .pro-only change; artifacts globs stray build exes; artifacts overwrites dist DLLs); transfer003 frozen base hard-codes f820e61, which relies on merge-commit history.",
+  "human_decision": "PENDING",
+  "merge_eligibility": "YES",
+  "audit_history": {
+    "prior_candidate": "4e762693ff17cb6394b89a42961576c68b0116b7",
+    "prior_verdict": "CONDITIONAL_PASS",
+    "prior_condition": "NB-1 manifest prose contradicted the candidate's own code/evidence in four places",
+    "resolution": "commit d691891 corrects all four; re-audit confirms no registry field moved and no new false claim"
+  },
+  "evidence": [
+    {"path": "build/evidence/current/build-result-d691891f82774f53165fa22dd469e9b41858a503-run-20261011-07.json", "sha256": "a2c860e485b66dbb8677f97146e1397498a5a9fdd202d9a0dd0a7ee25d2c6326"},
+    {"path": "build/evidence/current/test-result-d691891f82774f53165fa22dd469e9b41858a503-run-20261011-07.json", "sha256": "354d3d5782aa65a0c57d3af08a64dabea1728c07920c4372498274b0d7918d30"},
+    {"path": "build/evidence/current/test-runner-d691891f82774f53165fa22dd469e9b41858a503-run-20261011-07.json", "sha256": "d37afb86cbd9b13145f9b3fa872fa3f7c5c9f342d2b710ea51622484abb45347"},
+    {"path": "build/evidence/current/audit-result-d691891f82774f53165fa22dd469e9b41858a503-run-20261011-07.json", "sha256": "aa9925850452f9e90614300e650c487567e467d2dd4abf1f76146733a4615ae4"},
+    {"path": "build/evidence/current/build-d691891f82774f53165fa22dd469e9b41858a503-run-20261011-07.log", "sha256": "23449ef7b67d7886f088cf957edd2c094893cbabc4e911b9de65ca29532a8969"},
+    {"path": "build/evidence/current/test-d691891f82774f53165fa22dd469e9b41858a503-run-20261011-07.log", "sha256": "26ef2bf42b30e93724d6ad1614d8f0922a22055d339955b08bccd2d2af15d094"},
+    {"path": "build/evidence/current/audit-d691891f82774f53165fa22dd469e9b41858a503-run-20261011-07.log", "sha256": "9205e9ecd71a44150d70171feb30e7b379292541be18578c5eb747909432b7a6"}
+  ]
+}

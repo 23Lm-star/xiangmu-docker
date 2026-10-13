@@ -1,0 +1,65 @@
+==== REQ-EXT-GROUP-002 independent test ====
+candidate: 03dc01d86a38216f06c5c307cedaef718294601b
+server exe sha256: 4a5aca0f6c0aba1c72eccefbce0405d3aee21ba3b6a274cb19b45f2eb0dd1bfd
+[SETUP] users ready
+[PASS] S1_migration_applied :: last_seq=1 table=1 schema=2026100101
+[PASS] S1_unique_indexes :: PRIMARY,idx_group_created,uk_group_client_msg,uk_group_seq
+[PASS] S1_client_msg_id_nullable :: nullable=1
+[PASS] S2_group_a_created :: gid=44
+[PASS] IDEM_serial_first_ok :: {'code': 0, 'key': b'idem-1', 'seq': 6, 'msg_id': 4905, 'created': 1790822852027}
+[PASS] IDEM_first_broadcast_once :: events=1
+[PASS] IDEM_broadcast_fields :: [{'gid': 44, 'seq': 6, 'msg_id': 4905, 'sender': 'it2a', 'type': 0, 'created': 1790822852027, 'content': 'hello-1'}]
+[PASS] IDEM_serial_replay_same_ids :: {'code': 0, 'key': b'idem-1', 'seq': 6, 'msg_id': 4905, 'created': 1790822852027}
+[PASS] IDEM_replay_no_rebroadcast :: rebroadcast=0
+[PASS] IDEM_replay_diff_content_returns_original :: row=(6, 'hello-1') r3={'code': 0, 'key': b'idem-1', 'seq': 6, 'msg_id': 4905, 'created': 1790822852027}
+[PASS] IDEM_single_row :: rows=1
+[PASS] IDEM_cross_sender_same_key_rejected :: {'code': -2104}
+[PASS] IDEM_cross_sender_no_new_row :: rows=1
+[PASS] IDEM_pipelined_all_ok :: [0, 0, 0, 0, 0, 0, 0, 0]
+[PASS] IDEM_pipelined_single_seq :: [7, 7, 7, 7, 7, 7, 7, 7]
+[PASS] IDEM_pipelined_one_row :: rows=1
+[PASS] PERM_leave_ok
+[PASS] PERM_remove_ok
+[PASS] PERM_state_left :: left
+[PASS] PERM_state_removed :: removed
+[PASS] PERM_nonmember_send_rejected :: {'code': -2101}
+[PASS] PERM_nonmember_pull_rejected :: -2101
+[PASS] PERM_nonmember_confirm_rejected :: {'code': -2101, 'effective': None}
+[PASS] PERM_left_send_rejected :: {'code': -2101}
+[PASS] PERM_left_pull_rejected :: -2101
+[PASS] PERM_left_confirm_rejected :: {'code': -2101, 'effective': None}
+[PASS] PERM_removed_send_rejected :: {'code': -2101}
+[PASS] PERM_removed_pull_rejected :: -2101
+[PASS] PERM_removed_confirm_rejected :: {'code': -2101, 'effective': None}
+[PASS] AUTH_unauth_type88_rejected_-1001 :: code=-1001
+[PASS] AUTH_unauth_type91_rejected_-1001 :: code=-1001
+[PASS] AUTH_unauth_type93_rejected_-1001 :: code=-1001
+[PASS] AUTH_unauth_type95_rejected_-1001 :: code=-1001
+[PASS] DISS_dissolved_ok
+[PASS] DISS_send_rejected :: -2102
+[PASS] DISS_pull_rejected
+[PASS] DISS_confirm_rejected
+[PASS] DISS_db_state
+[PASS] SYS_rows_exist :: system rows=7
+[PASS] SYS_client_msg_id_null :: [None, None, None, None, None, None, None]
+[PASS] SYS_share_seq_space :: n=9 max=9 last_seq=9
+[PASS] SYS_delivered_via_pull :: 7 vs 7
+---- phase A done: 42/42 so far
+[PASS] CC_base_is_system_seqs :: base=3 (3 join system msgs)
+[PASS] CC_all_ok :: n=200 bad=[]
+[PASS] CC_no_duplicates :: n=200 uniq=200
+[PASS] CC_contiguous :: min=4 max=203 n=200 expect=200
+[PASS] CC_db_matches :: rows=203 max=203 last_seq=203
+[PASS] OFF_messages_persisted :: last=8 base=1
+[PASS] OFF_unread_count_equals_M :: unread=7 M=7
+[PASS] OFF_catchup_all_M :: [b'offline-0', b'offline-1', b'offline-2', b'offline-3', b'offline-4', b'offline-5', b'offline-6']
+[PASS] OFF_has_no_more :: hm=0 lastseq=8
+[PASS] OFF_confirm_effective :: {'code': 0, 'effective': 8}
+[PASS] OFF_unread_zero_after
+[PASS] OFF_summary_zero :: (8, 8, 0)
+[PASS] READ_no_rollback :: {'code': 0, 'effective': 8}
+[PASS] READ_clamped_to_last_seq :: {'code': 0, 'effective': 8}
+[PASS] READ_db_persisted :: 8
+[PASS] READ_does_not_affect_other_member :: owner_eff=2 owner_db=2 off_db=8
+---- phase B done: 58/58 so far
+PART1 TOTAL: 58/58

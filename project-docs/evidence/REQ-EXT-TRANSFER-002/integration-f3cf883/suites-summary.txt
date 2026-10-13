@@ -1,0 +1,14 @@
+[sec001] rc=1 
+[sec001-regression] rc=0 48/48
+[entry-ops] rc=0 passed
+[dedup] rc=0 passed
+[cross-tree] rc=0 passed
+[fastupload] rc=0 passed
+[group-002] rc=1 passed
+[groupfile] rc=0 passed
+[group004] rc=0 23/23
+[sec002] rc=0 passed
+[unique-login] rc=1 15/16
+[parallel-transfer] rc=1 31/32
+[transfer002] rc=1 passed
+[transfer003] rc=1 passed

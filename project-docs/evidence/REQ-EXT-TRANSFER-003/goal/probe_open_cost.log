@@ -1,0 +1,8 @@
+[probe] E:\qt\xiangmu\dist\_probe_open.tmp
+  每块 CreateFileW(RW)+write+CloseHandle     3.62s    14.13 ms/op   [CreateFileW 13.51 | write 0.29 | CloseHandle 0.32]
+  每块 CreateFileW(RW)+write+fsync+CloseHandle   4.90s    19.14 ms/op   [CreateFileW 13.62 | write 4.91 | CloseHandle 0.61]
+  每块 CreateFileW(RW)+CloseHandle（不写）       0.16s     0.64 ms/op   [CreateFileW 0.48 | write 0.00 | CloseHandle 0.16]
+  每块 CreateFileW(只读)+CloseHandle           0.32s     1.25 ms/op   [CreateFileW 0.70 | write 0.00 | CloseHandle 0.55]
+  单句柄 seek+write（基线）                       0.03s     0.13 ms/op   [CreateFileW 0.06 | write 0.07 | CloseHandle 0.00]
+  单句柄 seek+write+每块 fsync                  1.63s     6.36 ms/op   [CreateFileW 0.06 | write 6.30 | CloseHandle 0.00]
+  顺序写 32 MiB（单句柄+fsync）                    0.29s    112.0 MiB/s

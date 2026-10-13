@@ -1,0 +1,17 @@
+[PASS] S1 Server 启动并监听 :: 
+[PASS] L1 sec2a 登录 :: ret=1
+[PASS] U1 上传 e1.txt(C1) 建条目 :: 
+[PASS] U2 上传 e2.txt(C2) 建条目 :: 
+[PASS] U3 上传 d1/m1.txt 建条目 :: 
+[PASS] A1 未建条目文件+谎报 fileType=7 → 服务端推导为文件，实际改名成功（改前谎报成功不动） :: 
+[PASS] A2 条目同名重命名 → 幂等成功 :: 
+[PASS] A3 条目改名为物理幽灵占名 → 拒绝且条目未动（改前条目已改、物理撞车留告警） :: 
+[PASS] A4a 文件条目谎报 fileType=0(目录) → 条目照改（物理本无实体，不借声明走错分支） :: 
+[PASS] A4b 目录条目谎报 fileType=1(文件) → 按 e.isDir 走目录改名+子树级联 :: 
+[PASS] A5 move 错位声称名 → 条目按派生名 m1.txt 落 /d2/，无 evil 条目 :: echo=m1.txt
+[PASS] A6 move 未迁移物理文件+声称名 ../escape.txt → 留在用户根内，filesys 层无逃逸文件 :: 
+[PASS] A7 move caMsg 缺 '\0' 分隔符 → 显式拒绝 :: 
+[PASS] V1 根目录视图含 e1b/e2/ghost/d1ren/d2/esc2，不含被拒的改名 :: names=['d1ren', 'd2', 'e1b.txt', 'e2.txt', 'esc2.txt', 'ghost.txt', 'leg1r.txt']
+
+=== 汇总 ===
+14/14 passed

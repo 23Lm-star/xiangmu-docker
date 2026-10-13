@@ -1,0 +1,4 @@
+FROZEN-PATH HIT: Server/protocol.h -> escalate to LARGE + user approval
+NO test evidence for b861351 (run pipeline/test.ps1)
+impact-check: NOT_APPLICABLE (the C++ sources have no in-process unit tests; regression is carried by the socket harnesses under test_gate.suites, which are runtime/harness probes rather than statically-reachable code paths)
+audit RED: frozen:Server/protocol.h, evidence

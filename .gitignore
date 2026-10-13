@@ -1,0 +1,14 @@
+# 构建产物与运行时数据不入库
+build-*/
+dist/
+data/
+.env
+
+# Qt Creator 用户配置
+*.pro.user
+
+# 本机临时脚本与测试产物
+docker/vm_*.py
+docker/apply_port_edits.py
+docker/fix_*.py
+__pycache__/

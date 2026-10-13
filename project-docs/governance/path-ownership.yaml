@@ -1,0 +1,75 @@
+# 路径归属与审批矩阵（Path Ownership & Approval Matrix）
+# 作用：把“谁能改什么、改了要谁批”从自然语言约定变成可机器校验的表格。
+# 与 task-template.yaml 的 allowed_paths / protected_paths / required_approvals 联动。
+
+schema_version: 1
+
+# 模块归属：owner 是默认可改角色；protected=true 表示任何任务都不得触碰，除非 required_approvals 显式放行
+paths:
+  - path: "Client/**"
+    owner: project_engineer
+    protected: false
+    required_approvals: [project_architect]   # 跨模块/接口变更需架构师
+    note: 客户端源码；协议字段变更需架构师批
+  - path: "Server/**"
+    owner: project_engineer
+    protected: false
+    required_approvals: [project_architect]
+    note: 服务端源码
+  - path: "*/protocol.h"
+    owner: project_architect
+    protected: true
+    required_approvals: [project_architect]
+    note: 协议/PDU 契约；任何任务默认禁改，须架构师单独放行并登记 allowed_symbols
+  - path: "Server/operatedb.*"
+    owner: project_architect
+    protected: true
+    required_approvals: [project_architect]
+    note: 数据访问层；DB Schema/迁移相关
+  - path: "*.sql"
+    owner: project_architect
+    protected: true
+    required_approvals: [project_architect]
+    note: 数据库迁移与初始化脚本
+  - path: "*.pro"
+    owner: project_engineer
+    protected: true
+    required_approvals: [project_architect]
+    note: Qt 工程文件；构建配置默认禁改
+  - path: "Makefile*"
+    owner: project_engineer
+    protected: true
+    required_approvals: [project_architect]
+  - path: "project-docs/**"
+    owner: per_role                       # 各角色按协作总则维护自己负责的文档
+    protected: false
+    required_approvals: []
+    note: 治理文档；所有 Agent 可写但须声明身份与用途，禁止改他人维护文件的结构
+  - path: ".env"
+    owner: none
+    protected: true
+    required_approvals: [user]
+    note: 密钥/环境；任何 Agent 禁止读取写入（既有规则）
+  - path: ".git/**"
+    owner: none
+    protected: true
+    required_approvals: [user]
+    note: 版本库内部；禁止 Agent 直接操作，除 unique_integrator 的受控合并
+
+# 角色默认边界（冗余声明，便于审计）
+role_boundaries:
+  project_architect:
+    may_edit: [project-docs/architecture.md, project-docs/interfaces.md, project-docs/modules.md, project-docs/requirements.md, project-docs/non-functional.md, project-docs/decisions/**]
+    may_NOT: [产品代码, 构建配置, protocol.h, DB 迁移, 测试断言, 直接 commit/push/merge 共享主分支, 兼任集成者]
+  project_engineer:
+    may_edit: [Client/**, Server/**（在任务白名单内）, project-docs/fix-specs/**, project-docs/SOUL.md]
+    may_NOT: [protocol.h（未获批）, 跨模块接口变更, 直接宣布通过/交付]
+  bug_reviewer:
+    may_edit: [project-docs/bug-reports/**, project-docs/bug-fix-slove/**]
+    may_NOT: [任何产品代码, 构建配置, protocol.h, DB 迁移, 测试断言, 测试执行]   # 绝对禁止，无“原则上”
+  project_tester:
+    may_edit: [project-docs/test-reports/**, tests/**]
+    may_NOT: [产品代码, 构建配置, 直接宣布交付]
+  integrator:   # 唯一集成者（可设为架构师或独立角色，但同一时刻只能有一个）
+    may: [将已通过门禁的任务分支合并入主线, 打 tag]
+    may_NOT: [在主线直接写产品代码, 绕过门禁]

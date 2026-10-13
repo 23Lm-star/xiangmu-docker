@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SESSION-001 (goal — tier+conflict audit+T1-T6 written, branch cut from master, docs-only)
+branch: claude/req-ext-session-001-unique-login
+head: 3f9ded6
+tier: LARGE
+node: goal
+audit: none
+next: design 新会话（方案 a 细化：每请求校验查询 vs 内存缓存裁决、socket 版本成员归一、ID 附加区承载验证）；development 启动时查 FILE-001 合并态→已合并先 trunk-sync 适配 C1，未合并按禁触 hunk 清单照常
+blockers: 无外部阻塞；C1 规则内化（FILE-001 未合并前禁碰 main.cpp 启动钩子与 checkSchemaVersion）；零协议改动若证伪即停并上报决策卡
+evidence: project-docs/tasks/REQ-EXT-SESSION-001/task.md、project-docs/requirements/REQ-EXT-SESSION-001.md
+owner: claude-code
+date: 2026-09-30

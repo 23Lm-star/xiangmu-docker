@@ -1,0 +1,333 @@
+diff --git a/Client/client.cpp b/Client/client.cpp
+index e42756c..465fdcc 100644
+--- a/Client/client.cpp
++++ b/Client/client.cpp
+@@ -192,7 +192,11 @@ void Client::handlMsg(PDU *&pdu)
+         break;
+     }
+     case ENUM_MSG_TYPE_LOGIN_RESPOND:{
+-        m_mhptr->handllogin();
++        // R-1（REQ-EXT-TRANSFER-003）：登录名在同步路径就位——handllogin() 直接返回名字，
++        // 不再等 1.5 s 的 UI 定时器写 m_LoginName（否则首次登录 setCurrentUser 收到空名 →
++        // 快照整轮不落盘；同进程再登录则清表重建 → 在途任务从列表消失）。
++        const QString loginName = m_mhptr->handllogin();
++        if (!loginName.isEmpty()) m_LoginName = loginName;
+         // 按用户载入未完成传输快照（切用户会先落盘上一个用户的内存任务）
+         TransferManager::instance().setCurrentUser(m_LoginName);
+         // REQ-EXT-TRANSFER-003 G7/C7：重连登录后恢复调度（不依赖 setCurrentUser 的提前返回——同用户重连会提前返回）
+diff --git a/Client/msghandler.cpp b/Client/msghandler.cpp
+index e23cf1c..2cef5d0 100644
+--- a/Client/msghandler.cpp
++++ b/Client/msghandler.cpp
+@@ -55,17 +55,17 @@ void MsgHandler::handlrigist(){
+     }
+ }
+ 
+-void MsgHandler::handllogin()
++QString MsgHandler::handllogin()
+ {
+     int ret;
+     memcpy(&ret,pdu->caData,sizeof(ret));
+     if(ret==-2){
+         QMessageBox::information(&Client::getinstance(),"提示","验证码错误，请重新输入");
+-        return;
++        return QString();
+     }
+     if(ret==-3){
+         QMessageBox::information(&Client::getinstance(),"提示","验证码已过期，请重新获取");
+-        return;
++        return QString();
+     }
+     if(ret==-4){
+         int rem=0;
+@@ -74,15 +74,16 @@ void MsgHandler::handllogin()
+         Client::getinstance().startCaptchaCooldown(rem > 0 ? rem : 600, true);
+         QMessageBox::information(&Client::getinstance(),"提示",
+             QString("验证码错误次数过多，账号已锁定，请 %1 分钟后再试").arg(qMax(1,rem/60)));
+-        return;
++        return QString();
+     }
+     if(ret==1){
+         Client::getinstance().showLoadingAnimation(true);
+         char lName[32]={'\0'};
+         memcpy(lName,pdu->caData+32,sizeof(lName));
+         QString loginName=QString(lName);
++        // R-1：名字同步返回给调用方（Client::handlMsg 的 LOGIN_RESPOND 分支先落 m_LoginName
++        // 再 setCurrentUser）；本定时器此后只负责 UI 切换与既有延迟刷新。
+         QTimer::singleShot(1500,[loginName](){
+-            Client::getinstance().m_LoginName=loginName;
+             qCDebug(lcCli)<<"登录账号成功，用户名为:"<<loginName;
+             // REQ-EXT-GROUP-004：新会话丢弃上一会话的群读状态（换账号登录不得继承旧游标）
+             Client::getinstance().resetGroupStates();
+@@ -98,6 +99,7 @@ void MsgHandler::handllogin()
+                 // 文件列表刷新延迟到用户首次点击"文件"页时
+             });
+         });
++        return loginName;
+     }
+     else if(ret==-1){
+         Client::getinstance().showLoadingAnimation(false);
+@@ -111,6 +113,7 @@ void MsgHandler::handllogin()
+             QMessageBox::information(&Client::getinstance(),"提示","状态异常");
+         });
+     }
++    return QString();
+ }
+ 
+ void MsgHandler::handlonlineuser(){
+diff --git a/Client/msghandler.h b/Client/msghandler.h
+index 54249e0..a09bf02 100644
+--- a/Client/msghandler.h
++++ b/Client/msghandler.h
+@@ -11,7 +11,10 @@ public:
+     PDU* pdu;
+     MsgHandler();
+     void handlrigist();
+-    void handllogin();
++    // REQ-EXT-TRANSFER-003 R-1：登录成功时**同步**返回登录名（失败/异常返回空串）。
++    // 调用方必须把它写进 Client::m_LoginName 之后再做任何依赖用户名的动作——
++    // 1.5 s 后的 UI 定时器不再承担名字写入。
++    QString handllogin();
+     void handlfinduser();
+     void handlonlineuser();
+     void handlAddFriend();
+diff --git a/Client/transfertask.cpp b/Client/transfertask.cpp
+index 362431b..97ab04c 100644
+--- a/Client/transfertask.cpp
++++ b/Client/transfertask.cpp
+@@ -49,10 +49,10 @@ quint64 TransferManager::allocId()
+ // 设计：快照只在状态跃迁点写入（入队/完成/暂停/恢复/取消/重试），进度字节不落盘——
+ // 续传点由协议决定（个人上传 97/30 回带 offset；下载整文件重传），落盘进度只会误导。
+ 
+-QString TransferManager::snapshotPath() const
++QString TransferManager::snapshotPath(const QString& user) const
+ {
+     QString safe;
+-    for (const QChar &ch : m_currentUser) {
++    for (const QChar &ch : user) {
+         const ushort u = ch.unicode();
+         safe += ((u >= 'a' && u <= 'z') || (u >= 'A' && u <= 'Z') || (u >= '0' && u <= '9')
+                  || u >= 0x4E00) ? ch : QChar('_');   // 中文/字母数字保留，其余转 _（防路径注入）
+@@ -63,7 +63,15 @@ QString TransferManager::snapshotPath() const
+ 
+ void TransferManager::saveSnapshot()
+ {
+-    if (m_currentUser.isEmpty()) return;
++    // D-a：没有当前用户也不再静默丢写——以"最近一次有效登录名"兜底；两者皆无则明确告警。
++    const QString user = m_currentUser.isEmpty() ? m_lastKnownUser : m_currentUser;
++    if (user.isEmpty()) {
++        qCWarning(lcCli) << "[transfer] 快照跳过：既无当前用户也无历史登录名，本轮任务不落盘";
++        return;
++    }
++    if (m_currentUser.isEmpty()) {
++        qCWarning(lcCli) << "[transfer] 当前用户名为空，快照按最近一次登录名兜底写入 user=" << user;
++    }
+     QJsonArray arr;
+     for (auto it = m_tasks.constBegin(); it != m_tasks.constEnd(); ++it) {
+         const Task &t = it.value();
+@@ -79,20 +87,49 @@ void TransferManager::saveSnapshot()
+         o[QStringLiteral("totalBytes")] = double(t.totalBytes);
+         arr.append(o);
+     }
+-    const QString path = snapshotPath();
++    const QString path = snapshotPath(user);
+     QDir().mkpath(QFileInfo(path).absolutePath());
+     QFile f(path);
+-    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)) return;
++    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
++        qCWarning(lcCli) << "[transfer] 快照写入失败（无法打开）path=" << path;
++        return;
++    }
+     f.write(QJsonDocument(arr).toJson(QJsonDocument::Compact));
+ }
+ 
++// D-b：任务身份（快照合并用；不含 key/id/进度/状态）——同身份视为同一条任务，内存为准
++static bool sameTaskIdentity(const TransferManager::Task& a, const TransferManager::Task& b)
++{
++    if (a.kind != b.kind) return false;
++    if (a.kind == TransferManager::PersonalUpload) {
++        return a.localPath == b.localPath && a.displayName == b.displayName
++                && a.dirPath == b.dirPath;
++    }
++    if (a.kind == TransferManager::GroupUpload) {
++        return a.localPath == b.localPath && a.displayName == b.displayName
++                && a.groupId == b.groupId;
++    }
++    if (a.kind == TransferManager::PersonalDownload) return a.serverPath == b.serverPath;
++    return a.groupId == b.groupId && a.groupFileId == b.groupFileId;
++}
++
++// 内存里是否已有同身份任务（有则快照同名条目不再补入）
++static bool containsIdentity(const QHash<quint64, TransferManager::Task>& tasks,
++                             const TransferManager::Task& probe)
++{
++    for (auto it = tasks.constBegin(); it != tasks.constEnd(); ++it) {
++        if (sameTaskIdentity(it.value(), probe)) return true;
++    }
++    return false;
++}
++
+ void TransferManager::restoreSavedTasks()
+ {
+     if (m_currentUser.isEmpty()) return;
+     if (m_restoredUser == m_currentUser) return;   // 断线重连不重复恢复（内存为准）
+     m_restoredUser = m_currentUser;
+     m_restoredCount = 0;
+-    QFile f(snapshotPath());
++    QFile f(snapshotPath(m_currentUser));
+     if (!f.open(QIODevice::ReadOnly)) return;
+     const QJsonArray arr = QJsonDocument::fromJson(f.readAll()).array();
+     for (const QJsonValue &v : arr) {
+@@ -106,6 +143,9 @@ void TransferManager::restoreSavedTasks()
+         t.serverPath = o[QStringLiteral("serverPath")].toString();
+         t.groupId = quint64(o[QStringLiteral("groupId")].toDouble());
+         t.groupFileId = quint64(o[QStringLiteral("groupFileId")].toDouble());
++        // D-b：按键合并——内存已有同身份任务时不补入（内存为准、快照补缺），
++        // 既不清内存也不重复建行。
++        if (containsIdentity(m_tasks, t)) continue;
+         t.key = m_nextKey++;
+         t.id = allocId();   // Paused 任务无 wire 活动；resume 时会重新分配
+         if (t.isUpload()) {
+@@ -129,21 +169,28 @@ void TransferManager::restoreSavedTasks()
+     if (m_restoredCount > 0) emit tasksChanged();
+ }
+ 
++// D-b：不做"清表重建"。空名/同名（含断线重连、空名→真名）直接保持内存任务不动，
++// 恢复走按键合并；只有确实是另一个账号（m_currentUser 非空且名字不同）才丢弃内存任务。
+ void TransferManager::setCurrentUser(const QString& name)
+ {
+-    if (name.isEmpty() || name == m_currentUser) return;
+-    if (!m_currentUser.isEmpty()) saveSnapshot();   // 切用户：上一个用户的内存任务落盘
+-    m_tasks.clear();
+-    m_idToKey.clear();
+-    m_uploadQueue.clear();
+-    m_downloadQueue.clear();
+-    m_fastcheckQueue.clear();
+-    m_fastcheckInFlight = 0;
+-    m_fastcheckInFlightToken.clear();
+-    m_activeUploads = 0;
+-    m_activeDownloads = 0;
++    if (name.isEmpty()) return;
++    m_lastKnownUser = name;                      // D-a：兜底键随每次有效登录名更新
++    if (name == m_currentUser) return;           // 同一账号重连：内存为准，不清不重建
++    if (!m_currentUser.isEmpty()) {
++        // 确实是另一个账号：上一个账号的内存任务先落盘，再丢弃内存侧
++        saveSnapshot();
++        m_tasks.clear();
++        m_idToKey.clear();
++        m_uploadQueue.clear();
++        m_downloadQueue.clear();
++        m_fastcheckQueue.clear();
++        m_fastcheckInFlight = 0;
++        m_fastcheckInFlightToken.clear();
++        m_activeUploads = 0;
++        m_activeDownloads = 0;
++    }
+     m_currentUser = name;
+-    restoreSavedTasks();
++    restoreSavedTasks();                         // 恢复 = 合并（内存为准、快照补缺）
+ }
+ 
+ void TransferManager::saveSnapshotNow()
+diff --git a/Client/transfertask.h b/Client/transfertask.h
+index 5a6cfeb..9eb9785 100644
+--- a/Client/transfertask.h
++++ b/Client/transfertask.h
+@@ -87,8 +87,8 @@ public:
+     void showPanel();
+ 
+     // ===== 会话间持久化：按用户保存未完成任务，二次登录恢复 =====
+-    // 登录成功时调用：切换用户（落盘上一个用户的内存任务）并从快照恢复当前用户未完成任务。
+-    // 同一用户重复调用（如断线重连）只生效一次；内存中已有任务时不清不重（以内存为准）。
++    // 登录成功时调用。D-b：不清表重建——同用户（含 空名→真名）保持内存任务并按键合并快照
++    // （内存为准、快照补缺）；只有确实是另一个账号时才丢弃上一个账号的内存任务。
+     void setCurrentUser(const QString& name);
+     // 程序退出前落盘（把内存中非终态任务写进快照）
+     void saveSnapshotNow();
+@@ -145,8 +145,9 @@ private:
+     // 持久化（transfers_<user>.json，AppLocalDataLocation）
+     void saveSnapshot();
+     void restoreSavedTasks();
+-    QString snapshotPath() const;
++    QString snapshotPath(const QString& user) const;
+     QString m_currentUser;
++    QString m_lastKnownUser;              // D-a：最近一次有效登录名（m_currentUser 未就位时快照的兜底键）
+     QString m_restoredUser;               // 已为本用户恢复过快照（防断线重连重复恢复）
+     int m_restoredCount = 0;
+ };
+diff --git a/project-docs/evidence/REQ-EXT-TRANSFER-003/verify.py b/project-docs/evidence/REQ-EXT-TRANSFER-003/verify.py
+index e7a3161..2a0e03b 100644
+--- a/project-docs/evidence/REQ-EXT-TRANSFER-003/verify.py
++++ b/project-docs/evidence/REQ-EXT-TRANSFER-003/verify.py
+@@ -340,6 +340,52 @@ check("S-05b", "G7 防复活②：submitFastcheck 含 state != Hashing 守卫",
+ check("S-05c", "C4 摘旧映射：pause/resume 上传分支均 m_idToKey.remove(t->id)",
+       len(re.findall(r"m_idToKey\.remove\(t->id\)", tt)) >= 3, "")
+ 
++# ---- G7 修复面（FINDING-IND-7 / R-1 + D-a + D-b）源码静态契约：拦住这四处回归 ----
++mh = read("Client/msghandler.cpp")
++mhh = read("Client/msghandler.h")
++lr_body = lr.group(1) if lr is not None else ""
++m_assign = re.search(r"m_LoginName\s*=", lr_body)
++i_setuser = lr_body.find("setCurrentUser(")
++check("S-06a", "R-1：LOGIN_RESPOND 分支内登录名赋值先于 setCurrentUser（同步取值，非 1.5 s 后）",
++      m_assign is not None and i_setuser > m_assign.start() and "handllogin()" in lr_body,
++      f"assign@{m_assign.start() if m_assign else -1} setUser@{i_setuser}")
++hl = re.search(r"QString MsgHandler::handllogin\(\)\s*\{(.*?)\n\}", mh, re.S)
++hlb = hl.group(1) if hl else ""
++check("S-06b", "R-1：handllogin 同步返回登录名且 1.5 s 定时器内不再写 m_LoginName",
++      hl is not None and "return loginName" in hlb
++      and re.search(r"m_LoginName\s*=", hlb) is None
++      and re.search(r"QString\s+handllogin\s*\(\s*\)", mhh) is not None,
++      f"ret={'return loginName' in hlb} in_body_assign={re.search(r'm_LoginName\\s*=', hlb) is not None}")
++snp = re.search(r"void TransferManager::saveSnapshot\(\)\s*\{(.*?)\n\}", tt, re.S)
++sb = snp.group(1) if snp else ""
++sb_lines = sb.splitlines()
++unwarned = [ln.strip() for i, ln in enumerate(sb_lines)
++            if re.search(r"\breturn\s*;", ln) and "qCWarning" not in "\n".join(sb_lines[max(0, i - 4):i])]
++check("S-06c", "D-a：saveSnapshot 无静默丢写（每条 return 前都有 qCWarning 告警）",
++      snp is not None and "qCWarning" in sb and not unwarned, f"unwarned={unwarned}")
++check("S-06d", "D-a：saveSnapshot 以最近一次有效登录名兜底（m_lastKnownUser）",
++      snp is not None and "m_lastKnownUser" in sb, "")
++sc = re.search(r"void TransferManager::setCurrentUser\(.*?\)\s*\{(.*?)\n\}", tt, re.S)
++scb = sc.group(1) if sc else ""
++sc_lines = scb.splitlines()
++ind = lambda s: len(s) - len(s.lstrip())
++ln_guard = next((i for i, l in enumerate(sc_lines) if "!m_currentUser.isEmpty()" in l), -1)
++ln_clear = next((i for i, l in enumerate(sc_lines) if "m_tasks.clear()" in l), -1)
++same_ret = re.search(r"name\s*==\s*m_currentUser[^\n]*return", scb)
++check("S-06e", "D-b：setCurrentUser 同名/空名不清表；清表嵌于\"另一个账号\"条件内且仍调 restoreSavedTasks",
++      sc is not None and same_ret is not None and 0 <= ln_guard < ln_clear
++      and ind(sc_lines[ln_clear]) > ind(sc_lines[ln_guard])
++      and "restoreSavedTasks()" in scb,
++      f"same_ret={same_ret is not None} guard_line={ln_guard} clear_line={ln_clear} "
++      f"nested={ln_guard >= 0 and ln_clear > ln_guard and ind(sc_lines[ln_clear]) > ind(sc_lines[ln_guard])}")
++rs = re.search(r"void TransferManager::restoreSavedTasks\(\)\s*\{(.*?)\n\}", tt, re.S)
++rsb = rs.group(1) if rs else ""
++i_dedup = rsb.find("containsIdentity(")
++i_insert = rsb.find("m_tasks.insert(")
++check("S-06f", "D-b：restoreSavedTasks 按身份去重合并（快照补缺、内存为准，不重复建行）",
++      rs is not None and 0 <= i_dedup < i_insert and "continue;" in rsb[i_dedup:i_insert],
++      f"dedup@{i_dedup} insert@{i_insert}")
++
+ # ================= 环境准备 =================
+ print("=== 环境准备 ===")
+ if not _SRV.start():
+diff --git a/project-docs/project-manifest.yaml b/project-docs/project-manifest.yaml
+index 2a7d670..2e93bfb 100644
+--- a/project-docs/project-manifest.yaml
++++ b/project-docs/project-manifest.yaml
+@@ -160,12 +160,12 @@ test_gate:                # regression registry -- interpreted by pipeline/test.
+     - id: transfer003
+       cmd: ["py", "-3.13", "project-docs/evidence/REQ-EXT-TRANSFER-003/verify.py"]
+       cwd: "."
+-      asserts: 53
++      asserts: 59
+       timeout_s: 600
+       blocking: true
+       owner: REQ-EXT-TRANSFER-003
+       added: 2026-10-08
+-      note: "上传会话连续性（进度落库节流/会话行复用/共享暂存句柄）与新分片吞吐。53 条 = 14 条静态契约（冻结面 §9 逐字、跨端分片上限、G7 接线与防复活守卫）+ 37 条动态 + E0 登录/目录 2 条。自管生命周期；运行前自建 dist/filesys/<U>/tx3 并清空 .staging（暂存令牌确定性派生，跨轮残留会歪曲续传起点）。断言数只增不减，改套件须同步本行"
++      note: "上传会话连续性（进度落库节流/会话行复用/共享暂存句柄）与新分片吞吐。59 条 = 20 条静态契约（冻结面 §9 逐字、跨端分片上限、G7 接线与防复活守卫、G7 修复面 R-1/D-a/D-b 六条）+ 37 条动态 + E0 登录/目录 2 条。自管生命周期；运行前自建 dist/filesys/<U>/tx3 并清空 .staging（暂存令牌确定性派生，跨轮残留会歪曲续传起点）。断言数只增不减，改套件须同步本行"
+       isolation: {port: 5000, db: mydb, filesys: "./Server/filesys", kill_policy: pid_only, parallel_safe: false}
+ directory_contract:      # mirrors .gitignore
+   source: Client/, Server/

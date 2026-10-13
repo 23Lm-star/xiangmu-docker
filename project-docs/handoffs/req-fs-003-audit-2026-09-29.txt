@@ -1,0 +1,11 @@
+# handoff: REQ-FS-003 (independent audit FAIL — merge blocked)
+branch: fix/path-traversal-and-ownership
+head: 3c270bd1ed00db0be3ca385330e6125e5ddaeeb6
+tier: MEDIUM
+node: audit
+audit: FAIL (F-1 renamefile 名称段 ../ 绕过 dirPath 校验, A6; 其余 11 项通过)
+next: owner 新会话修复 F-1 (msghandler.cpp:538-539) + 名称段逃逸测试 + 重盖章, 再开复审会话
+blockers: F-1 High 未修复前禁止合并 master
+evidence: project-docs/evidence/REQ-FS-003/audit-report.md
+owner: claude-code
+date: 2026-09-29

@@ -1,0 +1,11 @@
+# handoff: REQ-FS-003 (merged to master)
+branch: master
+head: f937c9080fd5cd1389c5d74d21a64cf731674314
+tier: MEDIUM
+node: integration
+merge: 复审 PASS（F-1 关闭，O-5 记录在案）→ fix/path-traversal-and-ownership no-ff 合入 master @f937c90；合并结果 build GREEN / test 0 注册项 / audit PASS（20260929-131557）
+evidence: project-docs/evidence/REQ-FS-003/reaudit-report.md + repair/
+next: 需求 REQ-FS-003 关闭；O-1–O-5 残余观察另需处理时按档位开分支（O-3 建议独立 SMALL 分支）
+blockers: 无（push 到 origin 未做，待主人指令）
+owner: claude-code
+date: 2026-09-29

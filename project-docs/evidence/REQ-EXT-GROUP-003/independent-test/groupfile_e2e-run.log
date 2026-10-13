@@ -1,0 +1,56 @@
+=== 协议静态检查 ===
+[PASS] P1-same-block 两端 protocol.h 群文件常量块逐字节一致 :: len=1870
+[PASS] P2-new-enum 群文件新枚举 = 99..106 且两端一致 :: 99-106
+[PASS] P3-no-renumber 既有编号未重编号（抽样 1/15/31/40/88/98） :: ok
+=== 环境准备 ===
+[PASS] E0 环境隔离：本测试摘要无残留对象 :: 
+[PASS] L0 三方登录成功 :: 1/1/1
+[PASS] E1 建群成功 :: code=0 gid=66
+[PASS] E2 成员加入成功 :: code=0
+=== 验收1：列表元数据 / 非成员拒绝 ===
+[PASS] A1a-member-list 成员可列群文件（空目录 code=0） :: code=0
+[PASS] A1b-nonmember-denied 非成员列表被拒（-2101） :: code=-2101
+=== 验收2：上传落逻辑记录 / 同内容复用物理对象 ===
+[PASS] A2a-upload-miss 首次上传未命中并顺序分块完成 :: code=0 hit=False
+[PASS] A2a-gfrow 群目录出现一条 active 逻辑记录 :: 
+[PASS] A2a-meta 记录含名称/大小/上传者/时间四元数据 :: {'id': 8, 'size': 1150, 'ts': 1790834541000, 'uploader': 'gf3memb', 'name': 'alpha.bin'}
+[PASS] A2a-personal 上传者个人根同步落逻辑条目（文件标识） :: 
+[PASS] A2b-dedup-hit 同内容异名 -> 秒传命中（hit=true） :: code=0 hit=True
+[PASS] A2b-single-object 同内容复用同一物理对象 :: 
+[PASS] A2b-refcount 引用计数 = active user_file ∪ group_file 引用数 :: refcount=4 uf=2 gf=2
+=== 验收3：下载 / 移除后即时失权 ===
+[PASS] A3a-download 成员下载成功且正文一致 :: code=0 fin=True got=1150/1150 name=alpha.bin
+[PASS] A3b-remove-ok 群主移除成员成功 :: code=0
+[PASS] A3c-oldconn-list 被移除后老连接列表被拒（-2101） :: code=-2101
+[PASS] A3c-oldconn-upload 被移除后老连接上传被拒 :: code=-2101
+[PASS] A3c-oldconn-download 被移除后老连接下载被拒 :: code=-2101
+[PASS] A3c-oldconn-delete 被移除后老连接删除被拒 :: code=-2101
+[PASS] A3d-newconn-list 被移除后新连接列表被拒（-2101） :: code=-2101
+[PASS] A3d-newconn-download 被移除后新连接下载被拒 :: code=-2101
+=== 验收4：删除授权 / 引用隔离 ===
+[PASS] A4-setup 成员重新加入 :: code=0
+[PASS] A4a-owner-upload 群主上传成功 :: code=0 hit=False
+[PASS] A4b-member-cannot-delete-other 普通成员不能删除他人文件 :: code=-2103
+[PASS] A4c-member-hit-upload 同内容异名命中（成员上传） :: code=0
+[PASS] A4d-uploader-delete-own 上传者可删除自己上传的群文件 :: code=0
+[PASS] A4e-owner-delete-any 群主可删除任意群文件 :: code=0
+[PASS] A4f-object-survives 删除群引用不删除共享物理对象 :: obj=1->1
+[PASS] A4f-refcount-dec 删除群引用引用计数减一（不为 0） :: ref=3->2
+[PASS] A4g-group-row-removed 被删群记录转 removed（软删） :: 
+=== 验收5：路径与越权负向面 ===
+[PASS] A5-bogus-id 伪造 group_file_id 被拒且不泄露存在性 :: code=-2103
+[PASS] A5-cross-group 跨群 group_file_id 一律拒绝（P4） :: code=-2103
+[PASS] A5-slash-name 展示名含 '/' 被拒 :: code=-2002
+[PASS] A5-long-name 超长展示名（300B）被拒 :: code=-2002
+[PASS] A5-bad-sha 非法摘要（非 [0-9a-f]）被拒 :: code=-2002
+[PASS] A5-bad-limit-0 limit=0 越界被拒 :: code=-2002
+[PASS] A5-bad-limit-big limit=500 越界被拒 :: code=-2002
+[PASS] A5-trailing-bytes 载荷尾随字节（潜在路径注入）被拒 :: code=-2002
+[PASS] A5-unauth 未认证群文件请求收到类型正确的失败响应 :: code=-1001 type=100
+[PASS] A5-no-path-input 群文件请求无客户端路径入口（仅 offset/limit/size/sha/name/id） :: seglen=8244
+=== 验收6：既有面回归 ===
+[PASS] A6-group-ops 建群/邀请/接受等既有群操作仍可用 :: code=0
+[PASS] A6-newmember-list 新加入成员可列 B 群文件 :: code=0
+
+=== 汇总 ===
+45/45 passed

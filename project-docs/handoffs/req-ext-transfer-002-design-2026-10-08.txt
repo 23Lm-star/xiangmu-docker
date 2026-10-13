@@ -1,0 +1,12 @@
+# handoff: REQ-EXT-TRANSFER-002 design — 逐字节落位冻结，契约已批准（goal+design 同会话，主人授权连续执行）
+branch: feat/req-ext-transfer-002-download-pause-resume
+head: d85e39f
+tier: LARGE
+node: design
+audit: none
+next: 新会话开 development 节点——按 design.md §9 逐字编辑两端 protocol.h，实现 S1-S4 / C1-C10，新增证据套件 project-docs/evidence/REQ-EXT-TRANSFER-002/verify.py 并注册进 project-manifest.yaml test_gate，跑三门 + 12 套回归
+blockers: 无。冻结面编辑仅限 design.md §9 四行；插入点必须在 REQ-EXT-TRANSFER-001 常量块之后（parallel_e2e P1-frozen-block 以该块尾行为正则终点）
+evidence: project-docs/tasks/REQ-EXT-TRANSFER-002/design.md
+owner: claude-code
+date: 2026-10-08
+note: F1-F7 冻结。关键裁决：D6 41/106 回带采纳起点（旧服务端护栏：请求 N>0 收到 0 即明确失败，绝不静默拼坏文件）；D2 105 起点落 caData[32..39]（caMsg 群信封零改动 → 尾随字节检查不受影响）；D5 起点==文件大小受理为 0 字节正文+43 success；D7 失败保留分片、仅取消删除；4.3 换 id 必摘旧映射（防在途 42 串写）。测试矩阵 3 静态 + 14 动态 + 8 条 GUI 人工项 + 12 套回归（parallel_e2e 54/54 零改动）。本会话受 60 请求软上限约束，development 未开始——这是节点边界，不是遗留。

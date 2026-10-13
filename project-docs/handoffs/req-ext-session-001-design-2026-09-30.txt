@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SESSION-001 (goal+design — plan doc on branch, D1-D7 adjudicated, R1 closed by measurement; design 节点产物按 SEC-001 先例记入 goal 谱系，词表无 design)
+branch: claude/req-ext-session-001-unique-login
+head: 0cf4d23
+tier: LARGE
+node: goal
+audit: none
+next: development 新会话（主人已批准施工顺序=生产源码编辑授权）：T1 数据层+迁移SQL→T2 登记表/绑定/入口校验→T3 踢旧→T4 下线竞态守卫→T5 客户端 ID+断连提示→T6 证据 E1-E7；启动时复测 FILE-001 合并态（design 时点实测未合并 7eba642）
+blockers: 无；禁触清单=两 protocol.h、main.cpp 启动区、FILE-001 上传 hunk(:246区)；D4 语义（已认证过期连接含心跳均踢）随独立测试断言 E6
+evidence: project-docs/tasks/REQ-EXT-SESSION-001/design.md（决策表/数据层/改动点/锁序/E1-E7/风险/C1规则）
+owner: claude-code
+date: 2026-09-30

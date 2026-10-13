@@ -1,0 +1,10 @@
+branch: fix/req-ext-sec-002-server-confirm-rename-move
+head: d85e39f
+tier: MEDIUM
+node: merged
+next: 另开 SMALL 分支修既有项——group-002 套件 ROOT 少一层（connect.config 读不到）、audit.ps1 骨架（冻结清单解析+文档提交误判）
+blockers: none（12 套全绿；unique-login 15/16 为已登记 FINDING-GATE-2，非本改动）
+evidence: build/evidence/req-ext-sec-002/ + project-docs/evidence/REQ-EXT-SEC-002/verify.py
+owner: claude-code
+date: 2026-10-08
+note: rename27/move38 声明字段移交服务端确认——fileType 只对照不采信（条目 is_dir/物理推导），未知类型与源不存在不再谎报成功；同名幂等与物理占用前置由服务端判定；move 文件名权威=srcRel 末段派生（../逃逸与错位名堵死），缺 '\0' 显式拒；线格式与协议头零改动；entry-ops 43/43 证合法客户端行为不变，verify.py 14/14 证伪造面失效

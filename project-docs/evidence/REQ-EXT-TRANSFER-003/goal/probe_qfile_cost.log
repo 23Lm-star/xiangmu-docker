@@ -1,0 +1,5 @@
+[qfile] E:/qt/xiangmu/dist/filesys/.staging/_probe_qfile.tmp  (256 x 4096 B)
+  A 每块 QFile open+write+flush+close（服务端现状）    12.8 ms/op  [open 12.31 | write(+flush) 0.21 | close 0.22]
+  B 每块 QFile open+write+close（无 flush）    12.3 ms/op  [open 11.71 | write(+flush) 0.01 | close 0.60]
+  C1 单句柄 + 每块 seek+write（无 flush）     0.2 ms/op  [open 0.05 | write(+flush) 0.08 | close 0.05]
+  C2 单句柄 + 每块 seek+write+flush             0.1 ms/op  [open 0.04 | write(+flush) 0.06 | close 0.00]

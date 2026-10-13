@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-001 (goal — 归纳+主人答复 D1–D5 已记录，档位 LARGE；分支未切)
+branch: none (codex/req-ext-group-001-membership cut at development start)
+head: 8ca3ac8
+tier: LARGE
+node: goal
+audit: none
+next: REQ-EXT-FILE-001 合并 master 后，从当时 master 头切 codex/req-ext-group-001-membership 开 design 节点（出 GROUP-001+002 联合 PDU 编号表 60 起，编号授权自行分配）
+blockers: REQ-EXT-FILE-001 未合并 master；主人要求先不做开发
+evidence: project-docs/tasks/REQ-EXT-GROUP-001/task.md
+owner: claude-code
+date: 2026-09-29

@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>bg_main.jpg</file>
+        <file>bg_index.jpg</file>
+        <file>login.png</file>
+        <file>chat.png</file>
+        <file>friend.png</file>
+        <file>show.png</file>
+        <file>online.png</file>
+        <file>dir.png</file>
+        <file>file.png</file>
+        <file>shareFile.png</file>
+        <file>index.png</file>
+        <file>style.qss</file>
+        <file>mag.png</file>
+    </qresource>
+</RCC>

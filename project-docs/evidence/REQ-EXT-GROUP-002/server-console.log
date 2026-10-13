@@ -1,0 +1,931 @@
+[WARNING] Ignore caches that are heterogeneous
+xmu.net: [GROUP] 拒绝越界载荷 type= 88 conn= 16
+xmu.auth: [AUTHGATE] 拒绝：未认证连接发送业务请求 conn= 23  type= 88  session= 0
+xmu.net: [GROUP] 拒绝越界载荷 type= 91 conn= 16
+xmu.net: [GROUP] 拒绝越界载荷 type= 91 conn= 16
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 1
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 2
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 3
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 4
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 5
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 6
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 7
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 8
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 9
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 10
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 11
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 12
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 13
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 14
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 15
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 16
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 17
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 18
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 19
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 20
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 21
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 22
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 23
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 24
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 25
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 26
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 27
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 28
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 29
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 30
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 31
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 32
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 33
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 34
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 35
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 36
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 37
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 38
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 39
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 40
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 41
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 42
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 43
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 44
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 45
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 46
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 47
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 48
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 49
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 50
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 51
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 52
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 53
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 54
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 55
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 56
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 57
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 58
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 59
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 60
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 61
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 62
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 63
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 64
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 65
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 66
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 67
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 68
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 69
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 70
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 71
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 72
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 73
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 74
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 75
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 76
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 77
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 78
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 79
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 80
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 81
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 82
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 83
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 84
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 85
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 86
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 87
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 88
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 89
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 90
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 91
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 92
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 93
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 94
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 95
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 96
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 97
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 98
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 99
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 100
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 101
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 102
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 103
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 104
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 105
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 106
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 107
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 108
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 109
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 110
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 111
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 112
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 113
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 114
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 115
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 116
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 117
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 118
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 119
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 120
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 121
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 122
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 123
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 124
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 125
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 126
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 127
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 128
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 129
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 130
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 131
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 132
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 133
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 134
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 135
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 136
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 137
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 138
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 139
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 140
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 141
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 142
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 143
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 144
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 145
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 146
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 147
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 148
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 149
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 150
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 151
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 152
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 153
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 154
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 155
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 156
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 157
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 158
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 159
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 160
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 161
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 162
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 163
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 164
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 165
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 166
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 167
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 168
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 169
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 170
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 171
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 172
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 173
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 174
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 175
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 176
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 177
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 178
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 179
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 180
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 181
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 182
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 183
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 184
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 185
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 186
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 187
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 188
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 189
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 190
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 191
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 192
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 193
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 194
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 195
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 196
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 197
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 198
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 199
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 200
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 201
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 202
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 203
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 204
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 205
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 206
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 207
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 208
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 209
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 210
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 211
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 212
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 213
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 214
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 215
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 216
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 217
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 218
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 219
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 220
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 221
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 222
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 223
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 224
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 225
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 226
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 227
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 228
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 229
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 230
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 231
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 232
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 233
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 234
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 235
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 236
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 237
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 238
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 239
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 240
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 241
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 242
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 243
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 244
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 245
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 246
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 247
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 248
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 249
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 250
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 251
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 252
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 253
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 254
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 255
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 256
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 257
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 258
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 259
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 260
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 261
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 262
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 263
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 264
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 265
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 266
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 267
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 268
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 269
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 270
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 271
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 272
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 273
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 274
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 275
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 276
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 277
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 278
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 279
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 280
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 281
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 282
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 283
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 284
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 285
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 286
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 287
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 288
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 289
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 290
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 291
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 292
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 293
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 294
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 295
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 296
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 297
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 298
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 299
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 300
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 301
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 302
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 303
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 304
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 305
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 306
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 307
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 308
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 309
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 310
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 311
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 312
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 313
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 314
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 315
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 316
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 317
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 318
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 319
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 320
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 321
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 322
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 323
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 324
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 325
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 326
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 327
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 328
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 329
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 330
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 331
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 332
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 333
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 334
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 335
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 336
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 337
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 338
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 339
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 340
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 341
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 342
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 343
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 344
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 345
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 346
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 347
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 348
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 349
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 350
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 351
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 352
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 353
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 354
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 355
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 356
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 357
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 358
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 359
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 360
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 361
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 362
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 363
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 364
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 365
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 366
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 367
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 368
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 369
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 370
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 371
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 372
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 373
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 374
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 375
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 376
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 377
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 378
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 379
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 380
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 381
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 382
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 383
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 384
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 385
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 386
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 387
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 388
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 389
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 390
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 391
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 392
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 393
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 394
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 395
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 396
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 397
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 398
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 399
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 400
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 401
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 402
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 403
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 404
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 405
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 406
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 407
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 408
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 409
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 410
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 411
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 412
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 413
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 414
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 415
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 416
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 417
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 418
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 419
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 420
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 421
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 422
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 423
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 424
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 425
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 426
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 427
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 428
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 429
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 430
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 431
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 432
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 433
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 434
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 435
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 436
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 437
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 438
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 439
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 440
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 441
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 442
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 443
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 444
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 445
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 446
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 447
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 448
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 449
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 450
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 451
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 452
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 453
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 454
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 455
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 456
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 457
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 458
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 459
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 460
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 461
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.net: [GROUP] 广播队列满，丢弃该连接实时投递 conn= 24  user= "g2m2"  drops= 462
+xmu.net: [GROUP] 群消息广播队列满：丢弃实时投递连接数= 1 目标成员数= 3
+xmu.auth: [KICK] 登录版本过期，关闭旧连接 conn= 38  user= "grpuser"  ver= 14  latest= 15
+xmu.auth: [KICK] 过期连接断开，跳过下线写以保护新会话 conn= 38  user= "grpuser"

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-FILE-001 development node2 complete (acceptance 1-5 all green on real link)
+branch: codex/req-ext-file-001-file-assets
+head: 9cf701ca7749a41837ec5eef06a1f2248a944eed
+tier: LARGE
+node: development
+audit: pending
+next: 独立测试新会话：在 9cf701c 照 task.md 运行环境事实复跑 entry_ops_e2e 36/36、sec001_regression 48/48、dedup 13/13 与 pipeline 三脚本；只写报告与证据，不改产品源码与验收标准
+blockers: 无（合并仍需独立审计 ACCEPT + 三事实行；push 未做待主人指令）
+evidence: project-docs/evidence/REQ-EXT-FILE-001/（entry_ops sha 466da585…、sec001_reg 9a36fac1…、dedup 3b3d137d…；三门于代码候选 17af569 GREEN/honest-0/PASS）
+owner: claude-code
+date: 2026-09-30

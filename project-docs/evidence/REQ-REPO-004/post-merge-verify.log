@@ -1,0 +1,23 @@
+# REQ-REPO-004 post-merge verification (master 2304f231f7ef5fc271880d699b59246b39567a7d, 2026-09-29)
+
+[merge incident]
+git merge --no-ff recorded the change as rename connect.config -> connect.config.template (100%).
+Rename application deleted Client/connect.config from disk during the merge (A2 transiently violated),
+despite correct step-by-step execution on the branch. This is the second manifestation of the
+rename-detection trap documented in the requirement (first: command-joining on branch 1).
+
+[recovery -- requirement §九 prescribed path, backup from step 1]
+$ cp Client/connect.config.bak-20260929 Client/connect.config
+-rw-r--r-- 1 28 Sep 29 15:02 Client/connect.config          # restored, identical bytes
+
+[post-merge verification]
+$ ls -l Client/connect.config                               # exists (28 bytes)  A2 ✅
+$ git check-ignore -v Client/connect.config
+.gitignore:77:/Client/connect.config    Client/connect.config                     A4 ✅
+$ git status --short                                        # empty               A6 ✅
+$ powershell -File pipeline/build.ps1 -> build GREEN (2304f23, 20260929-150221)   A5 ✅
+$ powershell -File pipeline/test.ps1  -> exit 0 (0 registered tests)
+$ powershell -File pipeline/audit.ps1 -> audit PASS (2304f23)                     A7 ✅
+
+[branch-gate evidence] see manifest.txt + pipeline-run.log (commit a7be845, all three gates green)
+[manual five checks]   see manual-verify.log

@@ -1,0 +1,198 @@
+{
+  "commit": "03dc01d",
+  "timestamp": "2026-10-01 10:27:53",
+  "passed": 38,
+  "total": 38,
+  "results": [
+    {
+      "label": "migration_applied",
+      "ok": true,
+      "detail": "last_seq=1 table=1 schema=2026100101"
+    },
+    {
+      "label": "unique_indexes_present",
+      "ok": true,
+      "detail": "PRIMARY,idx_group_created,uk_group_client_msg,uk_group_seq"
+    },
+    {
+      "label": "setup_group_a",
+      "ok": true,
+      "detail": "gid=27"
+    },
+    {
+      "label": "p1_send_ok",
+      "ok": true,
+      "detail": "{'code': 0, 'key': b'idem-k1', 'seq': 6, 'msg_id': 3402, 'created': 1790821658074}"
+    },
+    {
+      "label": "p1_first_broadcast_once",
+      "ok": true,
+      "detail": "events=1"
+    },
+    {
+      "label": "p1_serial_replay_same_seq",
+      "ok": true,
+      "detail": "seq=6 msg_id=3402"
+    },
+    {
+      "label": "p1_replay_returns_existing",
+      "ok": true,
+      "detail": "code=0 rows=1 content=idem-1"
+    },
+    {
+      "label": "p1_pipelined_replay_one_row",
+      "ok": true,
+      "detail": "codes=[0, 0] seqs=[6, 6] rows=1"
+    },
+    {
+      "label": "p1_replay_no_rebroadcast",
+      "ok": true,
+      "detail": "events=0"
+    },
+    {
+      "label": "p1_cross_sender_rejected",
+      "ok": true,
+      "detail": "code=4294965192"
+    },
+    {
+      "label": "p2_seq_contiguous_unique",
+      "ok": true,
+      "detail": "burst=16 uniq=16 rows=22 contig=True errs=[]"
+    },
+    {
+      "label": "p3_oversize_rejected_no_broadcast",
+      "ok": true,
+      "detail": "code=4294965294 rows=22/22 events=0"
+    },
+    {
+      "label": "p3_empty_content_rejected",
+      "ok": true,
+      "detail": "code=4294965193"
+    },
+    {
+      "label": "p3_send_while_member_offline_persisted",
+      "ok": true,
+      "detail": "code=0"
+    },
+    {
+      "label": "p3_offline_catchup_pull",
+      "ok": true,
+      "detail": "unread=23 base=22 pulled=[b'offline-catchup-1']"
+    },
+    {
+      "label": "p5_outsider_denied_all",
+      "ok": true,
+      "detail": "send=4294965195 pull=4294965195 confirm=4294965195"
+    },
+    {
+      "label": "p5_left_member_denied_all",
+      "ok": true,
+      "detail": "leave=0 send=4294965195 pull=4294965195 confirm=4294965195"
+    },
+    {
+      "label": "p5_removed_member_denied_all",
+      "ok": true,
+      "detail": "send=4294965195 pull=4294965195 confirm=4294965195"
+    },
+    {
+      "label": "p5_system_messages_recorded",
+      "ok": true,
+      "detail": "system_rows=7"
+    },
+    {
+      "label": "p5_unauth_gate_reject",
+      "ok": true,
+      "detail": "code=4294966295"
+    },
+    {
+      "label": "p4_offline_unread_equals_m",
+      "ok": true,
+      "detail": "unread=5"
+    },
+    {
+      "label": "p4_offline_pull_from_cursor",
+      "ok": true,
+      "detail": "pulled=[b'offline-msg-0', b'offline-msg-1', b'offline-msg-2', b'offline-msg-3', b'offline-msg-4']"
+    },
+    {
+      "label": "p4_confirm_read_zeroes_unread",
+      "ok": true,
+      "detail": "eff=6 unread=0"
+    },
+    {
+      "label": "p6_forward_pages",
+      "ok": true,
+      "detail": "m=110 next=13"
+    },
+    {
+      "label": "p6_pull_unread_field",
+      "ok": true,
+      "detail": "unread=12 last=13"
+    },
+    {
+      "label": "p6_backward_pages_ascending",
+      "ok": true,
+      "detail": "pages=[[9, 10, 11, 12, 13], [4, 5, 6, 7, 8], [1, 2, 3]] has_more=[1, 1, 0] next=[9, 4, 1]"
+    },
+    {
+      "label": "p6_limit_bounds",
+      "ok": true,
+      "detail": "lim0=4294965294 lim101=4294965294 lim100=0"
+    },
+    {
+      "label": "p6_confirm_monotonic_clamped",
+      "ok": true,
+      "detail": "7->7 3->7 999->13"
+    },
+    {
+      "label": "p3_dissolved_send_rejected_no_broadcast",
+      "ok": true,
+      "detail": "code=4294965194 rows=1 events=0"
+    },
+    {
+      "label": "p7_burst_persisted",
+      "ok": true,
+      "detail": "sent=800 rows=802"
+    },
+    {
+      "label": "p7_slow_conn_dropped",
+      "ok": true,
+      "detail": "drops_log=462 recv=338/800"
+    },
+    {
+      "label": "p7_fast_conns_unaffected",
+      "ok": true,
+      "detail": "m1=800/800 log_m1=0"
+    },
+    {
+      "label": "p7_pull_catchup_complete",
+      "ok": true,
+      "detail": "pulled=800/800"
+    },
+    {
+      "label": "p7_unread_reflects_all",
+      "ok": true,
+      "detail": "unread=800"
+    },
+    {
+      "label": "p8a_one_to_one_online",
+      "ok": true,
+      "detail": "fwd=1 issuccess=1"
+    },
+    {
+      "label": "p8b_one_to_one_offline_row",
+      "ok": true,
+      "detail": "issuccess=0"
+    },
+    {
+      "label": "p8c_publish_link_flow",
+      "ok": true,
+      "detail": "res_ok=True landed=['g2p8.bin']"
+    },
+    {
+      "label": "p8d_group001_lifecycle_regression",
+      "ok": true,
+      "detail": "rc=0 tail=RESULT 15/15 PASS"
+    }
+  ]
+}

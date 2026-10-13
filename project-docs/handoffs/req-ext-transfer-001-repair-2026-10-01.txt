@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-001 (repair node, new candidate 119e6d3)
+branch: feat/req-ext-transfer-001-parallel-transfer
+head: 119e6d3
+tier: LARGE
+node: repair
+audit: resolved
+next: independent audit (NEW session, read-only, detached worktree @ 119e6d3). All 6 arbitrated repair items done: AUD-1 fixed by marking the 97 fastcheck ctx as a non-slot placeholder (UploadCtx.fastcheckPlaceholder; activeUploadCount() excludes it; released once a 29 adopts it; flipped back when real 31 data arrives so the legacy FILE-002 client 97->31 direct path keeps working) -- NOT by deleting the slot, which the six-suite regression rejected (fastupload 24/46). AUD-2 fixed in Client/transfertask.cpp onUploadInitRespond: ret=false now requeues (event-driven retry on slot release) instead of Failed. F-1: design 6.2 T-06 amended to 3 streams (D6 unchanged). T-19 added to parallel_e2e.py (wire-faithful 97->98->29->30->31/32; 43->46 cases). EV-1: test report 8 evidence list corrected. Gates: build GREEN / test GREEN-WARN(0 registered) / audit RED = expected frozen-path hit. Seven suites on 119e6d3: 43/13/41/48/46/45/46 all green. Reverse probe: disabling the placeholder exclusion reproduces AUD-1 exactly (T-19b [True,True,False]).
+blockers: none for the re-audit. OUT OF SCOPE and still open: AUD-3 (stale 98 mis-attributed), AUD-4 (107 vs in-flight write), test-report F-2..F-5, and the design 6.3 NEEDS-HUMAN GUI list (5 items) -- none may be read as pass. Both were left untouched deliberately; the master should decide whether to open a follow-up repair before integration.
+evidence: project-docs/evidence/REQ-EXT-TRANSFER-001/repair/report.md + seven suite logs + build-119e6d3.log/test-119e6d3.log/pipeline-audit.log. Supersedes: prior candidate 520c714 and its audit FAIL report (build/evidence/claude-req-ext-transfer-001-audit/520c714.../audit-report.md).
+owner: claude-code
+date: 2026-10-01

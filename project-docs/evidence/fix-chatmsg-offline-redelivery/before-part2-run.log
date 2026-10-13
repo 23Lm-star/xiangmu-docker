@@ -1,0 +1,41 @@
+==== REQ-EXT-GROUP-002 independent test — part 2 ====
+[PASS] PG_seeded_800 :: last_seq=800
+[PASS] PG_mode0_800_no_missing_no_dup :: n=800 pages=22 why=ok
+[PASS] PG_mode0_pages_expected :: pages=22 (ceil(800/37)=22)
+[PASS] PG_mode0_limit1_full :: n=800 pages=800 why=ok
+[PASS] PG_mode1_800_no_missing_no_dup :: n=800 pages=22 why=ok
+[PASS] PG_mode1_boundary_is_inclusive :: overlap=[791] next_cursor=791
+[PASS] PG_mode0_at_watermark_empty :: {'code': 0, 'records': [], 'mode': 0, 'has_more': 0, 'next_cursor': 800, 'last_seq': 800, 'unread': 800, 'trailing_ok': True}
+[PASS] PG_mode0_limit1_first :: [{'seq': 1, 'msg_id': 9935, 'sender': b'it2own', 'type': 0, 'created': 1790826035209, 'content': b'm-0'}]
+[PASS] PG_mode1_at_first :: [{'seq': 1, 'msg_id': 9935, 'sender': b'it2own', 'type': 0, 'created': 1790826035209, 'content': b'm-0'}]
+[PASS] PG_mode1_cursor0_empty :: {'code': 0, 'records': [], 'mode': 1, 'has_more': 0, 'next_cursor': 0, 'last_seq': 800, 'unread': 800, 'trailing_ok': True}
+[PASS] PG_limit0_rejected
+[PASS] PG_limit101_rejected
+[PASS] PG_limit100_ok
+[PASS] PG_mode2_rejected
+[PASS] PG_trailing_bytes_rejected :: code=-2002
+[PASS] PG_unread_800 :: unread=800
+[PASS] VAL_empty_content_rejected :: -2103
+[PASS] VAL_empty_key_rejected
+[PASS] VAL_content_2001_rejected :: {'code': -2002}
+[PASS] VAL_content_2000_ok :: 0
+[PASS] VAL_key_65_rejected
+[PASS] VAL_2000b_key_replay_idempotent :: {'code': 0, 'key': b'v-4', 'seq': 801, 'msg_id': 10735, 'created': 1790826041182}
+---- pagination/validation done: 22/22
+[PASS] BC_fast_member_unaffected :: fast received 800/800
+[FAIL] BC_slow_conn_drop_logged :: match=b''
+[FAIL] BC_slow_is_the_dropped_conn :: slow_drops=None
+[PASS] BC_slow_realtime_partial :: slow realtime=413/800
+[PASS] BC_slow_pull_backfill_full :: pulled=802 uniq=802 last_seq=802 (expect 800 user + 2 system)
+---- broadcast done: 25/27
+[PASS] REG_chat_online_forwarded :: packets=[15]
+[PASS] REG_chat_online_content :: b'reg-online-1\x00'
+[PASS] REG_chat_online_persisted :: (1,)
+[PASS] REG_chat_offline_stored_undelivered :: (0,)
+[PASS] REG_chat_offline_catchup :: [b'reg-offline-1']
+[PASS] FINDING-PRE1_offline_msg_redelivered_and_flag_stuck :: second getchatmsg re-delivered=False db_issuccess=(1,) (expected flag=1, no redelivery)
+[PASS] REG_publink_created :: cloud-disk://share/D10uvvtNoN1RvWQPv-T7cw
+[PASS] REG_publink_dedup_hash_form :: l1_len=22 l2_len=64
+[PASS] REG_publink_resolves :: token_ok=True hash_ok=True
+[PASS] REG_publink_lands_for_receiver :: ['it2-pub(1).bin', 'it2-pub(2).bin', 'it2-pub(3).bin', 'it2-pub(4).bin', 'it2-pub(5).bin', 'it2-pub(6).bin', 'it2-pub.bin']
+TOTAL: 35/37

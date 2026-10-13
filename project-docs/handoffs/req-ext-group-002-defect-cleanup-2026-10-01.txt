@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-002 遗留清理（三条 SMALL 分支；FINDING-PRE1 复核未复现，加固经主人裁决合并）
+branch: master
+head: 65c38bc
+tier: SMALL
+node: merged
+audit: none
+next: state.ps1; 下一需求 goal（GROUP-002 生产/管线/文档遗留已全部收口；待办仅 GUI 冒烟 NEEDS-HUMAN）
+blockers: none
+evidence: project-docs/evidence/fix-chatmsg-offline-redelivery/ | project-docs/evidence/fix-pipeline-audit-frozen-scope/ | project-docs/evidence/REQ-EXT-GROUP-002/（含 integration/ 与更正说明）
+owner: user
+date: 2026-10-01

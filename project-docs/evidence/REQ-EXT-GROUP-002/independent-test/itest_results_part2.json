@@ -1,0 +1,187 @@
+[
+ {
+  "label": "PG_seeded_800",
+  "ok": true,
+  "detail": "last_seq=800"
+ },
+ {
+  "label": "PG_mode0_800_no_missing_no_dup",
+  "ok": true,
+  "detail": "n=800 pages=22 why=ok"
+ },
+ {
+  "label": "PG_mode0_pages_expected",
+  "ok": true,
+  "detail": "pages=22 (ceil(800/37)=22)"
+ },
+ {
+  "label": "PG_mode0_limit1_full",
+  "ok": true,
+  "detail": "n=800 pages=800 why=ok"
+ },
+ {
+  "label": "PG_mode1_800_no_missing_no_dup",
+  "ok": true,
+  "detail": "n=800 pages=22 why=ok"
+ },
+ {
+  "label": "PG_mode1_boundary_is_inclusive",
+  "ok": true,
+  "detail": "overlap=[791] next_cursor=791"
+ },
+ {
+  "label": "PG_mode0_at_watermark_empty",
+  "ok": true,
+  "detail": "{'code': 0, 'records': [], 'mode': 0, 'has_more': 0, 'next_cursor': 800, 'last_seq': 800, 'unread': 800, 'trailing_ok': True}"
+ },
+ {
+  "label": "PG_mode0_limit1_first",
+  "ok": true,
+  "detail": "[{'seq': 1, 'msg_id': 8327, 'sender': b'it2own', 'type': 0, 'created': 1790822989206, 'content': b'm-0'}]"
+ },
+ {
+  "label": "PG_mode1_at_first",
+  "ok": true,
+  "detail": "[{'seq': 1, 'msg_id': 8327, 'sender': b'it2own', 'type': 0, 'created': 1790822989206, 'content': b'm-0'}]"
+ },
+ {
+  "label": "PG_mode1_cursor0_empty",
+  "ok": true,
+  "detail": "{'code': 0, 'records': [], 'mode': 1, 'has_more': 0, 'next_cursor': 0, 'last_seq': 800, 'unread': 800, 'trailing_ok': True}"
+ },
+ {
+  "label": "PG_limit0_rejected",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "PG_limit101_rejected",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "PG_limit100_ok",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "PG_mode2_rejected",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "PG_trailing_bytes_rejected",
+  "ok": true,
+  "detail": "code=-2002"
+ },
+ {
+  "label": "PG_unread_800",
+  "ok": true,
+  "detail": "unread=800"
+ },
+ {
+  "label": "VAL_empty_content_rejected",
+  "ok": true,
+  "detail": "-2103"
+ },
+ {
+  "label": "VAL_empty_key_rejected",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "VAL_content_2001_rejected",
+  "ok": true,
+  "detail": "{'code': -2002}"
+ },
+ {
+  "label": "VAL_content_2000_ok",
+  "ok": true,
+  "detail": "0"
+ },
+ {
+  "label": "VAL_key_65_rejected",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "label": "VAL_2000b_key_replay_idempotent",
+  "ok": true,
+  "detail": "{'code': 0, 'key': b'v-4', 'seq': 801, 'msg_id': 9127, 'created': 1790822993996}"
+ },
+ {
+  "label": "BC_fast_member_unaffected",
+  "ok": true,
+  "detail": "fast received 800/800"
+ },
+ {
+  "label": "BC_slow_conn_drop_logged",
+  "ok": true,
+  "detail": "match=b'[GROUP] \\xb9\\xe3\\xb2\\xa5\\xb6\\xd3\\xc1\\xd0\\xc2\\xfa\\xa3\\xac\\xb6\\xaa\\xc6\\xfa\\xb8\\xc3\\xc1\\xac\\xbd\\xd3\\xca\\xb5\\xca\\xb1\\xcd\\xb6\\xb5\\xdd conn= 226  user= \"it2slow\"  drops= 1'"
+ },
+ {
+  "label": "BC_slow_is_the_dropped_conn",
+  "ok": true,
+  "detail": "slow_drops=b'1'"
+ },
+ {
+  "label": "BC_slow_realtime_partial",
+  "ok": true,
+  "detail": "slow realtime=419/800"
+ },
+ {
+  "label": "BC_slow_pull_backfill_full",
+  "ok": true,
+  "detail": "pulled=802 uniq=802 last_seq=802 (expect 800 user + 2 system)"
+ },
+ {
+  "label": "REG_chat_online_forwarded",
+  "ok": true,
+  "detail": "packets=[15]"
+ },
+ {
+  "label": "REG_chat_online_content",
+  "ok": true,
+  "detail": "b'reg-online-1\\x00'"
+ },
+ {
+  "label": "REG_chat_online_persisted",
+  "ok": true,
+  "detail": "(1,)"
+ },
+ {
+  "label": "REG_chat_offline_stored_undelivered",
+  "ok": true,
+  "detail": "(0,)"
+ },
+ {
+  "label": "REG_chat_offline_catchup",
+  "ok": true,
+  "detail": "[b'reg-offline-1']"
+ },
+ {
+  "label": "FINDING-PRE1_offline_msg_redelivered_and_flag_stuck",
+  "ok": false,
+  "detail": "second getchatmsg re-delivered=True db_issuccess=(0,) (expected flag=1, no redelivery)"
+ },
+ {
+  "label": "REG_publink_created",
+  "ok": true,
+  "detail": "cloud-disk://share/iR6xyLlZAOk0wSldwaOcKA"
+ },
+ {
+  "label": "REG_publink_dedup_hash_form",
+  "ok": true,
+  "detail": "l1_len=22 l2_len=64"
+ },
+ {
+  "label": "REG_publink_resolves",
+  "ok": true,
+  "detail": "token_ok=True hash_ok=True"
+ },
+ {
+  "label": "REG_publink_lands_for_receiver",
+  "ok": true,
+  "detail": "['it2-pub(1).bin', 'it2-pub(2).bin', 'it2-pub(3).bin', 'it2-pub(4).bin', 'it2-pub.bin']"
+ }
+]

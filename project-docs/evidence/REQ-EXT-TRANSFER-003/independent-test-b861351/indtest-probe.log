@@ -1,0 +1,26 @@
+=== 环境（tag=61310）===
+[PASS] X0 登录成功 :: ret=1
+[PASS] X1-init 5 MiB INIT ok :: off=0
+[PASS] X1a 1 MiB 块 256×4 KiB 慢发：4 块全接受（缓冲上限必须 ≥ 整包） :: next=4194304 t=1.7s
+[PASS] X1b 暂存物理大小 == 4 MiB（5 MiB 文件只发了 4 MiB，会话仍未完成） :: 4194304
+[PASS] X1c 107 收尾（108 ret=true） :: 
+[PASS] X2-init INIT ok :: off=0
+[PASS] X2a 越界 31 包无 32 回执（不进 D5 显式拒绝路径） :: ack=no
+[PASS] X2b 该连接被丢弃（非法 PDU 计数经多次残段读取达阈值 5） :: 
+[PASS] X2c 服务端进程存活（监听 PID 不变，非崩溃） :: [25996]
+[PASS] X2d 可重建新连接并登录 :: ret=1
+[PASS] X2e 会话账目未变（同一行、confirmed_offset 未动） :: '3940\tuploading\t0' -> '3940\tuploading\t0'
+[PASS] X3-init INIT ok :: off=0
+[PASS] X3a 恰好到顶的 31 包被显式拒绝（32 ok=false，非断连） :: totallen=1052672 ack_ok=0
+[PASS] X4a 拒绝之后合法块仍被接受（next == 1 MiB） :: next=1048576
+[PASS] X4b 暂存物理大小 == 1 MiB（无残留脏写） :: 1048576
+[PASS] X4c 补末块后完成（32 complete） :: 
+[PASS] X4d 会话 done 且下载逐字节一致 :: status=done len=2097152
+=== X-5 ===
+[PASS] X5a0 跨连接并发第 0 路逐字节正确 :: len=3145728 ok=True
+[PASS] X5b0 跨连接并发第 0 路单行会话 :: rows=1
+[PASS] X5a1 跨连接并发第 1 路逐字节正确 :: len=3145728 ok=True
+[PASS] X5b1 跨连接并发第 1 路单行会话 :: rows=1
+
+=== 汇总 21/21 ===
+PROBE_EXIT=0

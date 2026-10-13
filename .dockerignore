@@ -1,0 +1,11 @@
+# 构建上下文只需要 Server 源码，其余全部排除
+*
+!Server/
+!Server/**
+!docker/
+!docker/Dockerfile
+docker/init/*
+docker/apply_port_edits.py
+docker/fix_mapfailed_structure.py
+docker/connect.config.docker
+docker/README-Docker.md

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SEC-001 (integration merge complete — master @7fc47c1)
+branch: master
+head: 7fc47c127a932acd56288ca6bf7f8ea130e965c8
+tier: LARGE
+node: integration
+merge: no-ff 合入 @7fc47c1；三事实行成立（复审ACCEPT/ frozen 零命中 / pipeline 绿）；合并结果 48/48 e2e
+next: 下游 GROUP/FILE 分支从 master 消费 actor 门；残余 I-4/配额/revUserCnt 另立小分支；push 待主人指令
+blockers: 无
+evidence: project-docs/evidence/REQ-EXT-SEC-001/INDEX.md
+owner: claude-code
+date: 2026-09-29

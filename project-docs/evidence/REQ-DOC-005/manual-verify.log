@@ -1,0 +1,27 @@
+REQ-DOC-005 manual verification (2026-09-29)
+
+1) 敏感信息扫描 README.md/LICENSE
+   grep -inE "password|pwd|secret|token|key|IP" → 除 127.0.0.1 外零命中（扫描时工作区已被
+   并行会话切至 chore/history-purge 导致文件不在检出树，扫描基准=已提交树 1cdaaa1 的内容，
+   该内容由本会话撰写，全文仅含 127.0.0.1/localhost 示例与本机 Qt 安装路径）。
+   connect.config 未被跟踪；.gitignore L74-79 覆盖真实凭据文件。
+
+2) 功能与代码一致性（README 功能概览逐条对照）
+   Server/protocol.h ENUM_MSG_TYPE：注册/登录/验证码、注销(48/49)、查找好友(5-8)、
+   添加/删除/刷新(9-14)、私聊+历史(15-18)、目录/文件管理(19-28,58-59)、上传下载(29-32,40-43)、
+   好友分享(33-37)、移动(38-39)、外链分享(52-57)。断点续传=Server/resumable*。
+   修正：需求模板"自研内存池"代码中不存在 → README 改为 ObjectPool/memalloc（禁令#7）。
+
+3) LICENSE：MIT 全文，无截断；署名 wcy；主人批准卡选定（法律选择归主人，红线#4 满足）。
+
+4) 分支未动：git branch -a = backup-runnable-2026-07-30, fix/path-traversal-and-ownership,
+   master, worktree-agent-ac6d9e68, docs/repo-chrome(本需求), 远端 origin/{HEAD->master,
+   add_数据库连接池功能, backup-runnable-2026-07-30, main, master}；与开场一致，零删除零推送。
+
+5) .gitattributes 未加（主人批准；core.autocrlf=true，提交时已出现整树行尾替换警告，证实风险）。
+
+6) 收尾复验（REQ-REPO-006 清洗结束后，2026-09-29）
+   - 检出树 docs/repo-chrome@ea8dae1：git diff --stat 1cdaaa1→ea8dae1 为空 = 纯哈希重映射，内容未变。
+   - 在真实检出树复扫 README/LICENSE：password|pwd|secret|token|IP 正则，除 127.0.0.1/localhost 零命中。
+   - 本需求零删除分支、零 push；分支状态变化（远端删 3 支、本地多 main/chore/history-purge）均系 REQ-REPO-006。
+   - task.md 分支处置表已按清洗后实测更新（§决策日志 3）。

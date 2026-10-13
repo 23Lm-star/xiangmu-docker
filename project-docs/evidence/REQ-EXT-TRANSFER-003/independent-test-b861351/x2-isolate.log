@@ -1,0 +1,14 @@
+=== X-2 隔离复现 ===
+server pid=22056 listeners=[22056]
+login ret=1
+INIT ack bytes=76 ok=1
+send over-cap 31: total=1052673 cap=1052672
+sendall ok
+listeners after over-cap = [22056]  (same as before: True)
+PING after over-cap: socket error ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None) -> connection was reset/closed
+new connection: established
+fresh conn PING: got 76 bytes
+consecutive invalid #1: sent (1052673 B)
+consecutive invalid #2: send err=ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None)
+after 5 consecutive invalid: disconnected (ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None))
+listeners at end = [22056]  (same pid set: True)

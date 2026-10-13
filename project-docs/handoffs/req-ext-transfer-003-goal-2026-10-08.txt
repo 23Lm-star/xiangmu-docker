@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-003 goal（含 design + 契约批准）— 上传分片上限 16 KB→1 MiB（仅 31），待 development
+branch: feat/req-ext-transfer-003-upload-session-throughput
+head: 432dcff
+tier: LARGE
+node: goal
+audit: none
+next: 开 development 节点（新会话，dev worktree build/wt-claude）：T1 按 design.md §9 逐字改 Server/protocol.h + 入站校验按类型取上限（唯一冻结面改动）→ T2-T6（共享句柄/节流落库/行复用/客户端分片/新套件/回归）
+blockers: 无。design_status=CONFIRMED；冻结面改动超出 §9 批准稿一律不允许。G7/G8 仍为范围外另立建议。dev worktree 为全新工作树：需自带 pipeline/（未入库）、dist 运行库与 dist/filesys priming
+evidence: project-docs/tasks/REQ-EXT-TRANSFER-003/design.md（§9 逐字批准稿 + §10 批准记录）+ project-docs/evidence/REQ-EXT-TRANSFER-003/goal/复核发现.md（G1-G8/D1-D3 + 5 支探针）
+owner: claude-code
+date: 2026-10-08

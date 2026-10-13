@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-003 independent test（独立测试节点）— 机器面 PASS；人工面 ①②③④ 过、⑤ 复现缺陷且根因已定案，待 repair
+branch: feat/req-ext-transfer-003-upload-session-throughput
+head: b861351
+tier: LARGE
+node: test
+audit: none
+next: ①independent audit（新会话、只读 detached worktree @4965738，输入＝test-report + finding-IND-7 + 修复 diff b861351..4965738 + pipeline 报告）②审计被主人接受后走集成三事实线（审计报告在册且被接受、冻结面 diff 仅 §9 批准块、合并结果 pipeline 绿）→ no-ff 合入主干 ③主人补一句"重试续传完成"的确认
+blockers: 无阻塞。人工面 5/5（⑤ 主人 2026-10-09 确认修复生效；"重试→续传完成"待补记，见 human-reverify-2026-10-09.md）；state.ps1 会报 dist STALE 属预期（主树 HEAD=d45ae11/002 分支，dist 部署的是修复版 candidate）
+evidence: build/evidence/claude-req-ext-transfer-003-independent-b861351/（test-report.md、human-round-addendum.md、finding-g7-task-vanishes.md、pre-existing-object-drift.md、13 套 suite-*.log、indtest-probe.log、negctl-* 负对照）+ build/evidence/claude-req-ext-transfer-003-repair/（修复面 build/suite/负对照日志、deploy-note.md、human-reverify-2026-10-09.md）
+owner: claude-code
+date: 2026-10-09

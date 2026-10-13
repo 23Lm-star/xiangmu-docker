@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-FILE-001 repair2 complete (audit2 REJECT F-4/F-5 closed with discriminating fixtures)
+branch: codex/req-ext-file-001-file-assets
+head: 9fbdb70
+tier: LARGE
+node: repair
+audit: pending
+next: 第二轮独立测试新会话：在 9fbdb70 复跑 entry_ops 43/43、dedup 13/13、sec001 48/48、cross_tree 37/37 与三门（环境事实见 task.md，含 connect.config/dll 拷贝与 SEC001_BASE 传法）；只报不改；PASS 后再独立审计新会话（重点 releaseSubtree 深度≥2 与撞键收敛策略）
+blockers: 无
+evidence: build/evidence/codex-req-ext-file-001-file-assets/9fbdb70/（四套件日志+gates.txt）；前两轮 test/audit 报告同父目录 915eeff…/cf4f74f…
+owner: claude-code
+date: 2026-09-30

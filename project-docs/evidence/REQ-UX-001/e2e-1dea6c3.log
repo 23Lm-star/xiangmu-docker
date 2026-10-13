@@ -1,0 +1,37 @@
+== REQ-UX-001 e2e 复跑 @1dea6c3 2026-10-01T12:55:24Z ==
+
+===== REQ-EXT-FILE-001/sec001_regression.py =====
+[PASS] K2c 登记一次性消费：重放同意被拒 :: ret=False
+[PASS] K2d B-1：自我登记他人源→自我同意链被拒且无复制 :: ret=False stolen=False
+
+==== 汇总: 48/48 PASS ====
+
+===== REQ-EXT-FILE-001/entry_ops_e2e.py =====
+[PASS] F5 他人目录改名→拒绝 :: 
+
+=== 汇总 ===
+43/43 passed
+
+===== REQ-EXT-FILE-001/dedup_e2e.py =====
+[PASS] A3-no-physical-del 对象未被删除且 storage_path 不变(D3) :: before=objects/bf/663 after=objects/bf/663
+
+=== 汇总 ===
+13/13 passed
+
+===== REQ-EXT-FILE-002/fastupload_e2e.py =====
+[PASS] A5-cleanup-entry-alive 清理后已完成条目仍可下载（对象物理留存） :: 
+
+=== 汇总 ===
+46/46 passed
+
+===== REQ-EXT-GROUP-003/groupfile_e2e.py =====
+[PASS] A6-newmember-list 新加入成员可列 B 群文件 :: code=0
+
+=== 汇总 ===
+45/45 passed
+
+===== REQ-UX-001/ux001_probe.py =====
+[PASS] A2d flushfile 返回 FLUSHFILE_RESPOND :: types=[24]
+[PASS] A2e flushfile 列出用户根内条目（不再整根越权回空） :: names=['hello.txt']
+
+==== 汇总: 5/5 PASS ====

@@ -1,0 +1,5 @@
+FROZEN-PATH HIT: Client/protocol.h -> escalate to LARGE + user approval
+FROZEN-PATH HIT: Server/protocol.h -> escalate to LARGE + user approval
+NO test evidence for d0d2dd8 (run pipeline/test.ps1)
+impact-check: NOT_APPLICABLE (0 registered automated tests; regression is carried by e2e socket harnesses under project-docs/evidence/, not statically reachable from the C++ sources)
+audit RED: frozen:Client/protocol.h, frozen:Server/protocol.h, evidence

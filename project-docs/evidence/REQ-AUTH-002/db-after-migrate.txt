@@ -1,0 +1,14 @@
+Field	Type	Null	Key	Default	Extra
+id	int(11)	NO	PRI	NULL	auto_increment
+name	varchar(32)	NO	UNI	NULL	
+pwd	varchar(32)	NO		NULL	
+online	int(11)	YES		0	
+salt	varchar(32)	NO			
+name	pwd	salt	online
+tester	123456		0
+friend1	123456		0
+friend2	123456		0
+wcy	e10adc3949ba59abbe56e057f20f883e		0
+lilei	e10adc3949ba59abbe56e057f20f883e		0
+123	e10adc3949ba59abbe56e057f20f883e		0
+litaibai	e10adc3949ba59abbe56e057f20f883e		1

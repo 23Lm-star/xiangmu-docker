@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-001 (audited candidate 119e6d3, detached worktree build/wt-audit-119e6d3, read-only, worktree removed)
+branch: feat/req-ext-transfer-001-parallel-transfer
+head: 119e6d3
+tier: LARGE
+node: audit
+audit: pending
+next: master decides integration vs follow-up repair. Integration is eligible (this audit PASS, no blocking item), BUT before any merge: DOC-1 is NON-BLOCKING (design.md:136-139 repair note still describes the REJECTED LegacySlotGuard/return-before-delete fix, not the shipped fastcheckPlaceholder approach -- would re-introduce AUD-1 if implemented from the text; suggest rewriting 3.1), and AUD-3 / AUD-4 / test-report F-2..F-5 / design 6.3 five GUI items (NEEDS-HUMAN) remain OPEN and must not be read as pass. Cross-CLI independence did NOT hold (Codex CLI unavailable).
+blockers: none blocking. AUD-1 fixed+verified: activeUploadCount() excludes fastcheckPlaceholder; id=0 slot kept for legacy 97->31; independently reproduced at runtime -- unmodified 119e6d3 parallel_e2e = 46/46 (T-19a/b/c PASS), and disabling the exclusion reproduced T-19b [True,True,False] / T-19c lens=[915,1315,0] / 44/46 exactly. Probe reverted, git status clean, HEAD unchanged, zero commits.
+evidence: build/evidence/claude-req-ext-transfer-001-audit/119e6d311812d282208e20cce449be9ce687036a/audit-report.md (PASS: 1 non-blocking DOC-1; AUD-2-N1 observation). F-1 confirmed: design 6.2 T-06 -> 3 streams, D6 and MAX_PARALLEL_DOWNLOADS=3 untouched, protocol.h zero-diff.
+owner: claude-code
+date: 2026-10-01

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-002 development — 实现+套件+全量回归完成
+branch: feat/req-ext-transfer-002-download-pause-resume
+head: d45ae11
+tier: LARGE
+node: development
+audit: none
+next: 新会话开 independent test 节点——干净 detached worktree @d45ae11 自跑全套（build + 13 套套件）只报告、不改产品源码与验收标准；另需主人一轮 design §6.3 的 8 项 GUI 人工项（NEEDS-HUMAN：暂停停进度/继续断点推进/成品可开/取消删分片/失败重试续传/重启恢复/分片被删重下/暂停期上传照常）
+blockers: 无（group-002/unique-login 两红既有已归因；audit.ps1 仍骨架——冻结边界以 diff d85e39f..d45ae11==§9 四行零删除人工核对 + 套件静态面 S-01..03 复证；顺带发现 artifacts.ps1 -Deploy 会用 build/*/release 陈旧 exe+DLL 覆盖 dist——本会话 dist 崩溃根因 5.9.5 旧 DLL 同源于此，已修 dist，建议另立 SMALL 修脚本）
+evidence: project-docs/evidence/REQ-EXT-TRANSFER-002/development/pipeline-2026-10-08.md
+owner: claude-code
+date: 2026-10-08

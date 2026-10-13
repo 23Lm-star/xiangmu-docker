@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-FILE-001 independent-audit round-2 ACCEPT — gates complete, integration-ready pending merge-build
+branch: codex/req-ext-file-001-file-assets
+head: 5a07316a3c212122e4bc220ef4bce4783531bf49
+tier: LARGE
+node: audit
+audit: accepted by round-2 independent audit session, 2026-09-30
+next: integration — owner no-ff merge into trunk, run pipeline three gates on merged result (三事实行第三条), then merged; push remains owner-only instruction
+blockers: 无（F-6 错峰、FILE-002 台账为非阻塞）
+evidence: build/evidence/codex-req-ext-file-001-file-assets/5a07316…/audit-report.md + …/9fbdb70…/test-report.md
+owner: claude-code
+date: 2026-09-30

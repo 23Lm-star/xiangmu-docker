@@ -1,0 +1,10 @@
+branch: feat/req-ext-reclaim-001-scheduler
+head: 2b4c039
+tier: MEDIUM
+node: merged
+next: 无待续节点。可选后续：pipeline 门自 bootstrap 起不可判定（frozen 占位数组为空 / 代码目录正则不匹配 Server/ / manifest test_gate.status=waived），属工具链元问题，应另开会话处理
+blockers: none
+evidence: project-docs/evidence/REQ-EXT-RECLAIM-001/ (Index + run-log 18/18: dry_run 只读 4 断言 + 对象线 A-E 10 + 暂存线 F-I 4)；受影响路径定向回归 dedup 13/13、fastupload 46/46、entry_ops 43/43、cross_tree 41/41、groupfile 45/45；build GREEN (cd17ece)
+owner: claude-code
+date: 2026-10-07
+note: 定向回归是人工替代——pipeline 门 RED 已在 master 上复现同样结果（非本次引入），未冒充门 PASS。冻结面零命中（protocol.h 未动）。新增迁移 migrate_ext_reclaim_001.sql（版本 2026100701，含回滚），上线前需先执行；建议先 dry_run=1 观察一天候选再置 0

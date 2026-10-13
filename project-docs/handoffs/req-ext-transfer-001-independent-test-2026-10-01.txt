@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-001 (tested candidate 520c714, detached worktree build/wt-test-transfer001, read-only)
+branch: feat/req-ext-transfer-001-parallel-transfer
+head: 520c714
+tier: LARGE
+node: test
+audit: none
+next: independent audit (new session, different agent, read-only detached worktree at 520c714); input = test-report.md + 7 suite logs + pipeline logs + frozen diff; do claim-check on the 3 dev rulings and 5 findings; F-1 (design 6.2 T-06 asks 4 streams vs approved D6 cap 3) needs a design-owner disposition first -- the audit must not relax D6
+blockers: none. Non-blocking findings F-1..F-5 in report sec.6: T-06 4-vs-3 stream contradiction with approved D6; T-14 is a proxy assertion, not a direct residue observation; client-side upload queue (design T-02) has no automated coverage; T-08 threshold is dev-calibrated (measured max RTT 0.001-0.007s vs 2.0s bound); 4 client-only acceptance items are absent from the design 6.3 human checklist
+evidence: build/evidence/claude-req-ext-transfer-001-independent-520c714/test-report.md | PASS (0 candidate-attributable defects); 7 suites 43/13/41/48/46/45/43 all green; parallel_e2e rerun 43/43 (deterministic, 2 runs); build GREEN, test GREEN-WARN(0 registered), audit RED = expected frozen hit (22 insertions / 0 deletions, byte-identical to approved draft); NEEDS-HUMAN: design 6.3 GUI checklist NOT executed, not counted as pass
+owner: claude-code
+date: 2026-10-01

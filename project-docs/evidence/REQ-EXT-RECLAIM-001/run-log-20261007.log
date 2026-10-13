@@ -1,0 +1,24 @@
+=== phase 1  dry_run=1（只报候选，不做任何写）===
+  PASS  P1a 夹具 5 行完好 = 5
+  PASS  P1b 999904 仍 reclaiming（崩溃残留未被写） = reclaiming
+  PASS  P1c 999901 实体文件仍在 = yes
+  PASS  P1d 过期暂存 re2eold.part 仍在 = yes
+=== phase 2  dry_run=0（真实回收）===
+-- 对象线
+  PASS  A1 999901 行已删（到期+无引用） = 0
+  PASS  A2 999901 实体文件已删 = no
+  PASS  B1 999902 行保留（有 active 引用） = pending_reclaim
+  PASS  B2 999902 实体文件保留 = yes
+  PASS  B3 999902 的 user_file 引用未被摘 = 999902
+  PASS  C1 999903 行保留（未到宽限期） = pending_reclaim
+  PASS  C2 999903 实体文件保留 = yes
+  PASS  D1 999904 行已删（崩溃残留·文件已无→补删记录） = 0
+  PASS  E1 999905 退回 pending_reclaim（崩溃残留·文件仍在） = pending_reclaim
+  PASS  E2 999905 实体文件保留 = yes
+-- 暂存线
+  PASS  F 过期且无会话引用 → 删除 = no
+  PASS  G 未过期 → 保留 = yes
+  PASS  H 过期但 uploading 会话在用 → 保留 = yes
+  PASS  I 夹具之外的既有 .part 同一次运行前后不变 = 21
+-------------------------------------------
+PASS=18 FAIL=0

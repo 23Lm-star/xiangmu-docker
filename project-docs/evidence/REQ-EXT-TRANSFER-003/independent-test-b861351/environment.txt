@@ -1,0 +1,7 @@
+Python 3.13.15
+5.7.3-m13-log
+5.14.2.0
+merge-base=d85e39f188db5ca5c790001d5b910a7cbfeea037
+HEAD=b8613514a561143be0d0af5b1ae2ad0a53726ac7
+c4df72bea9a05b336b3ef203df3495b8a7b0798bd9c516ff79161198ced9eff3 *dist/Server.exe
+aa724f121daf6a641d87e1f3af625b7f3c423b770a9c129ffa0f1eead234bcb1 *dist/Client.exe

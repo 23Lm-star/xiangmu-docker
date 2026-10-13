@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-002
+branch: codex/req-ext-group-002-group-messaging
+head: b180abb
+tier: LARGE
+node: design
+audit: none
+next: D2 已批准（88–96）。开 development 节点：读 design.md 按 T1–T7 改生产源码，先 pipeline/state.ps1
+blockers: none
+evidence: project-docs/tasks/REQ-EXT-GROUP-002/design.md
+owner: claude-code
+date: 2026-10-01

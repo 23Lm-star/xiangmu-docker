@@ -1,0 +1,37 @@
+{
+    "status":  "GREEN",
+    "candidate_commit":  "6af69196603c0878542a3428a6c1ee3d3456acf1",
+    "run_id":  "run-20261011-08",
+    "candidate_run_status":  "CANDIDATE_VALID",
+    "candidate_identity":  {
+                               "schema":  "worktree-identity-v1",
+                               "created_utc":  "2026-10-11T13:59:34+00:00",
+                               "repo_root":  "E:\\qt\\xiangmu",
+                               "candidate_commit":  "6af69196603c0878542a3428a6c1ee3d3456acf1",
+                               "branch":  "master",
+                               "worktree_state":  "CLEAN",
+                               "tracked_diff_hash":  "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                               "untracked_hash":  "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                               "status_hash":  "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                               "manifest_hashes":  {
+                                                       "project-docs/project-manifest.yaml":  "sha256:84dc32dd61bd4970dc0131ee682177171652e11a25f88c19ebbf1efcf738c0ad"
+                                                   },
+                               "changed_paths":  [
+
+                                                 ],
+                               "classifications":  {
+                                                       "task":  [
+
+                                                                ],
+                                                       "generated":  [
+
+                                                                     ],
+                                                       "unknown":  [
+
+                                                                   ]
+                                                   },
+                               "worktree_diff_hash":  "sha256:bb7eecce5231d8f569fecadbf4501af6bc16591f897a609a2c2854506c4ae80f"
+                           },
+    "config":  "Debug",
+    "artifact_root":  "E:\\qt\\xiangmu\\build\\bin-Debug-6af69196603c0878542a3428a6c1ee3d3456acf1"
+}

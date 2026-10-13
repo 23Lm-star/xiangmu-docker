@@ -1,0 +1,4 @@
+Server.exe   D5-qCWarning                       hit=1  sha256=c4df72bea9a05b33  size=509440
+Client.exe   G7-QStringLiteral                  hit=2  sha256=aa724f121daf6a64  size=3924480
+Client.exe   REPAIR-Da-qCWarning                hit=0  sha256=aa724f121daf6a64  size=3924480
+Client.exe   REPAIR-Da-fallback-qCWarning       hit=0  sha256=aa724f121daf6a64  size=3924480

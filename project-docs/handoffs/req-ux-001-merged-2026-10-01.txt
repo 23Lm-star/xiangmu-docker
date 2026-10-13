@@ -1,0 +1,11 @@
+# handoff: REQ-UX-001 客户端可用性与视觉统一（在线用户反馈/用户目录/群聊排版/统一主题/尺寸字号）
+branch: master
+head: 8cf7e3b
+tier: MEDIUM
+node: merged
+audit: none
+next: 先解"看不到效果"的坑：主工作区 E:/qt/xiangmu 检出的**不是 master** 而是 feat/req-ext-transfer-001-parallel-transfer@333bef2（用户已在其中构建，21:03 用旧 exe 覆盖了 dist）；修复只在 master（检出在 build/wt-fix-ux001），判据=Client.exe 是否含 QStringLiteral "本群消息共"/"单击选中"（UTF-16LE）。要生效二选一：(a) cp build/wt-fix-ux001/dist/{Client,Server}.exe dist/（不含并行传输），或 (b) git -C E:/qt/xiangmu checkout master 后重构建。之后人工目视 5 项。回滚：git revert -m 1 8cf7e3b
+blockers: none。MEDIUM 无强制独立审计；三门 GREEN + 五套 e2e 195/195 + A2 定向探针 5/5。GUI 目视 5 项未做（本会话无法目视）；cross_tree 套件（41 用例）未跑（需先建 build/xtree-file001 NTFS junction 指向 dist/filesys）；本分支基线为 master，不含未合并的 REQ-EXT-TRANSFER-001；残留 worktree build/wt-fix-ux001（现检出 master，含已构建 exe，勿删以免丢失 dist 源）
+evidence: project-docs/evidence/REQ-UX-001/（e2e-1dea6c3.log 五套件 195/195 + ux001_probe.py A2 5/5）；build/evidence/current/ build GREEN 8cf7e3b + test GREEN-WARN(0 注册项) + audit PASS（worktree build/wt-fix-ux001）
+owner: claude-code
+date: 2026-10-01

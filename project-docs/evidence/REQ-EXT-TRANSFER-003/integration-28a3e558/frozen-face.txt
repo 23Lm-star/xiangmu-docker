@@ -1,0 +1,9 @@
+design source             : E:/qt/xiangmu\project-docs\tasks\REQ-EXT-TRANSFER-003\design.md
+design §9 (a) block lines : 5
+diff added / removed      : 5 / 2
+added == §9 block bytewise: True
+removed == original 2 lines: True
+Client/protocol.h in diff : False
+sha256(§9 block)          : 844cb4c0da0eb914965e89069a05b58b126392199dcbc1fe57b4f7c452888889
+sha256(diff added lines)  : 844cb4c0da0eb914965e89069a05b58b126392199dcbc1fe57b4f7c452888889
+FROZEN FACE VERDICT       : APPROVED-ONLY

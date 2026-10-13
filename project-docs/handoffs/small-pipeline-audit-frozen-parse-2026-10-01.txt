@@ -1,0 +1,10 @@
+branch: small/pipeline-audit-frozen-parse
+head: 360baeb
+tier: SMALL
+node: merged
+next: T2 small/unify-e2e-runform (FINDING-DEV-2) from master; merged no-ff as 488f964
+blockers: none
+evidence: project-docs/evidence/small-pipeline-audit-frozen-parse/ (parse-before=1 vs parse-after=2; scratch frozen branch = 2 FROZEN-PATH HIT; audit PASS; build GREEN; test GREEN-WARN 0)
+owner: claude-code
+date: 2026-10-01
+note: F1 FIXED (audit.ps1 raw UTF-8 manifest read); F2 NOT_APPLICABLE (0 statically-reachable tests; manifest-declared, no fake PASS)

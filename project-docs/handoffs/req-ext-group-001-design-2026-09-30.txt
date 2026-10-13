@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-001 goal+design complete
+branch: codex/req-ext-group-001-membership
+head: 27e6ff4f7190f7e02b053374f8077b856b7ce6ed
+tier: LARGE
+node: goal
+audit: none
+next: development after owner starts a new node
+blockers: none; historical pending audit reports remain outside this branch
+evidence: project-docs/tasks/REQ-EXT-GROUP-001/design.md
+owner: codex
+date: 2026-09-30

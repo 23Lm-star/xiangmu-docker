@@ -1,0 +1,43 @@
+# E:\qt\xiangmu 项目适配层：把通用 Development OS v1.7 映射到本项目。
+# 本文件只描述项目事实和执行入口，不改变通用 skill 的任务分级规则。
+adapter_version: "1"                 # 适配层版本
+workflow_version: "v1.7"              # 项目采用的工作流版本
+trunk: "master"                       # 项目主干分支
+
+toolchain:                             # 工具链（构建环境）
+  qt_root: "C:/Qt/5.14.2/mingw73_64"
+  mingw_root: "C:/Qt/Tools/mingw730_64"
+  qmake_source: "pipeline/build.ps1"
+
+sensitive_paths:                       # 敏感路径（触发审查 overlay，不自动升级 LARGE）
+  - "Client/protocol.h"
+  - "Server/protocol.h"
+
+runtime:                               # 运行时共享资源
+  port: 5000
+  database: "mydb"
+  filesys: "Server/filesys"
+  parallel_tests: false
+
+pipeline:                              # 机器管线入口
+  state: "pipeline/state.ps1"
+  build: "pipeline/build.ps1"
+  test: "pipeline/test.ps1"
+  audit: "pipeline/audit.ps1"
+  artifacts: "pipeline/artifacts.ps1"
+
+human_checks:                          # AI 无法替代的检查
+  - "GUI 视觉与交互验证"
+  - "真实 MySQL 或凭据验证"
+  - "外部服务和本地 connect.config 验证"
+
+approval_required:                     # 必须由人工批准的动作
+  - "merge"
+  - "push"
+  - "deployment"
+  - "database migration"
+
+test_gate_policy:                      # 测试门策略
+  status_source: "project-manifest.yaml:test_gate.status"
+  untested_is_not_green: true
+  suites_are_serial: true

@@ -1,0 +1,11 @@
+# handoff: FINDING-GATE-2 收口 + test_gate 转 enforced 已并入 master（主干三闸全绿，残余风险已记录）
+branch: master
+head: 0485059
+tier: LARGE
+node: merged
+audit: accepted by 主人, 2026-10-11
+next: ①已闭合：build.ps1 产物新鲜度（自愈重链 + 断言，实测三组）；artifacts.ps1 DLL 拷贝改为仅缺失时补；E7b 语义已文档化（按设计保留，主干冻结面归 audit.ps1 sensitive_paths + transfer003 S-03）；dist 运行时已全量 cmp 并记 sha256 ②仍未修（记入桌面《开发缺陷日志》D-001..D-011）：artifacts.ps1:70-74 递归扫 build/build-* exe；test-gate.py 取「最后一个 x/y」当断言行数；server_ctl 在 Popen 抛错路径不关日志句柄；transfer003 固定基准硬编码 f820e61；build.ps1 的 -Config 从未传给 qmake ③回报 devos 上游：bundle v1.14 pipeline/*.ps1 缺 UTF-8 BOM；audit.ps1 敏感路径不容忍行尾注释 ④P4：pipeline/ 仍 gitignored/per-worktree，本轮 4 处修复不入库也不传播（D-009）——决定是否转为入库 ⑤人工复验：GUI 8 项 + transfer003 5 项 + 旧服务端 I2 一步，清单见 `Desktop/开发缺陷日志.md` 同批对话
+blockers: 无
+evidence: project-docs/evidence/FINDING-GATE-2-lifecycle/merge-6af6919/（merge-summary.md + 审计包 AUD-20261011-FINDING-GATE-2 payload sha256 7c3d7bff… + SID-backed APPROVED 审批 + 主干三闸结果）。链路：受审候选 d691891（run-20261011-07）→ 合并 6af6919（parents 0195384+d691891，树与候选逐字节相同）→ 主干复测 6af6919（run-20261011-08，三闸 GREEN）→ 证据入库 717adde → dist DLL 哈希补录 87c43d1 → E7b 语义文档化 0485059（本 head，三闸复测 run-20261011-12 全 GREEN：build+test 14 套 514 断言+audit PASS）
+owner: claude-code
+date: 2026-10-11

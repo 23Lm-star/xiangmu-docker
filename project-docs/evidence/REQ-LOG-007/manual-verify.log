@@ -1,0 +1,12 @@
+##### REQ-LOG-007 §7 人工验证（机制取证 harness: logging_probe.exe，Qt 5.14.2 mingw73_64，与生产同机制：同规则串/同分类名/同 setFilterRules）#####
+说明: Server.exe/Client.exe 为 -subsystem,windows GUI 子系统，Qt 默认 handler 仅在有控制台或调试器时输出；
+本沙箱内 AttachConsole/DebugActiveProcess 均被环境拦截，无法直接抓真实进程控制台。
+故 A2/A3 用最小机制 harness 取证（harness 与生产代码逐行同构：环境变量读取、规则串、分类显示名一致），
+其余项对真实二进制做静态/计数验证。此为已声明限制，非跳过。
+[PASS] 默认安静      :: probe-quiet.txt → 仅 DB-WARNING/NET-CRITICAL，xmu.* debug 全静（代码规则生效）
+[PASS] 环境变量打开   :: probe-verbose.txt → QT_LOGGING_RULES=xmu.*.debug=true 时 4 条全出
+[PASS] 单类打开      :: probe-singlecat.txt → QT_LOGGING_RULES=xmu.db.debug=true 仅 DB-DETAIL 放行，NET-DETAIL 静默
+[PASS] 优先级裁决    :: probe-precedence.txt → env=true+code=false 同设时 debug 放行 ⇒ Qt5.14 环境变量优先，文档 §3.2 断言成立；据此弃用守卫，改无条件 setFilterRules（D2 修订，@b039569）
+[PASS] 错误仍可见     :: qCCritical/qCWarning 不受 debug=false 影响（probe-quiet.txt 实证）；真实代码 9 crit/47 warn 级别保持
+[PASS] 日志语句数     :: 213→213（qCDebug 157 / qCWarning 47 / qCCritical 9），旧形式残留 0（grep 复核）
+[PASS] 无路径打印     :: Client/file.cpp 8 处绝对路径输出改为文件名或 <path suppressed>，grep 复核无路径参数残留

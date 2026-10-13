@@ -1,0 +1,15 @@
+diff --git a/Server/msghandler.cpp b/Server/msghandler.cpp
+index e7ff841..155d80f 100644
+--- a/Server/msghandler.cpp
++++ b/Server/msghandler.cpp
+@@ -1743,7 +1743,9 @@ FileObjectStore::CommitResult MsgHandler::finalizeUploadOnComplete()
+     // REQ-EXT-TRANSFER-003 S5①③：复算/rename/删除都发生在提交内部 → 提交前一并释放共享句柄
+     // （含同一 .part 的别名上下文句柄：97 预检查槽可能仍开着同一文件）
+     cp->session.releaseStagingFile();
+-    releaseOtherStagingHandles(tid, staging);
++    // NEGATIVE CONTROL (independent test node, not a candidate change):
++    // releaseOtherStagingHandles(tid, staging);   // ← removed on purpose, to test whether the
++    // design-external alias-handle release in the finalize path is load-bearing.
+     r = FileObjectStore::instance().commitUpload(owner, parent, display, expected, staging,
+                                                 /*copyOnly=*/false, expectedSha);
+     // REQ-EXT-GROUP-003：群作用域上传在个人条目落定后，同规则建群目录引用（+1 引用计数）。

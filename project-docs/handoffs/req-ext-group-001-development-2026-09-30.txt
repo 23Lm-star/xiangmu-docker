@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-001
+branch: codex/req-ext-group-001-membership
+head: 4dcc5a6
+tier: LARGE
+node: development
+audit: pending
+next: powershell -ExecutionPolicy Bypass -File pipeline/state.ps1
+blockers: pipeline audit RED on approved protocol frozen paths; independent audit required
+evidence: build/evidence/current
+owner: codex
+date: 2026-09-30

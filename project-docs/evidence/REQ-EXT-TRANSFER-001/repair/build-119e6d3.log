@@ -1,0 +1,11 @@
+C:/Qt/Tools/mingw730_64/bin/mingw32-make -f Makefile.Release
+mingw32-make[1]: Entering directory 'E:/qt/xiangmu/build/build-Client'
+mingw32-make[1]: Nothing to be done for 'first'.
+mingw32-make[1]: Leaving directory 'E:/qt/xiangmu/build/build-Client'
+build OK: Client -> E:\qt\xiangmu\build\build-Client
+C:/Qt/Tools/mingw730_64/bin/mingw32-make -f Makefile.Release
+mingw32-make[1]: Entering directory 'E:/qt/xiangmu/build/build-Server'
+mingw32-make[1]: Nothing to be done for 'first'.
+mingw32-make[1]: Leaving directory 'E:/qt/xiangmu/build/build-Server'
+build OK: Server -> E:\qt\xiangmu\build\build-Server
+build GREEN (119e6d3, 20261001-175039)

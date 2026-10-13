@@ -1,0 +1,11 @@
+# handoff: master 全量回归 + 缺陷审计（只审不改；detached worktree build/wt-audit-master-53b048b @ 53b048b）
+branch: feat/req-ext-transfer-001-parallel-transfer
+head: d147d2d
+tier: MEDIUM
+node: audit
+audit: pending
+next: 用户处置 build/evidence/master/53b048bcff.../audit-report.md（Critical 5/High 22/Medium 40/Low 22）；确认清单后删审计 worktree
+blockers: none。机器层 GREEN（build GREEN + 六套件 236/236 全绿，worktree 内独立构建运行）；AI 层 5 Critical 全部 fact 亲验：ALLOC-01 分配器分桶重叠(Common.h:203-224)、CHAT-01 服务端 chat 栈溢出(msghandler.cpp:477-478)、SHARE-01 revUserCnt 未校验致 exit(1) 全服 DoS+堆越读(811-816+protocol.cpp)、C-CHAT-01 客户端 msgLen 无钳制、C-REENTER-01 recvmsg 模态框嵌套事件循环悬垂读。回归全绿≠无缺陷：均为条件性/潜伏面，现有 e2e 不触发。88/89 new，DB-F16=BUG-DB-002 残留；XFER-F04/F05+STOR-F01/F03 与 transfer-001 在途 AUD-3/AUD-4 同源，合入后可降级。残留限制：无 ASan/UBSan 运行、GUI 未目检、约 50 小文件仅调用点扫、共享 mydb 写入测试数据未清。
+evidence: build/evidence/master/53b048bcff6af1c7a82fa88db680c713b6a59f14/（audit-report.md + 6 套件日志 + ai-audit/*.md 7 份 + pipeline/ build GREEN 日志 + manifest 以 53b048b 盖章）
+owner: claude-code
+date: 2026-10-01

@@ -1,0 +1,1846 @@
+diff --git a/Client/Client.pro b/Client/Client.pro
+index ad11930..3263ea7 100644
+--- a/Client/Client.pro
++++ b/Client/Client.pro
+@@ -29,6 +29,7 @@ SOURCES += \
+     file.cpp \
+     friend.cpp \
+     group.cpp \
++    groupchat.cpp \
+     index.cpp \
+     logging.cpp \
+     main.cpp \
+@@ -51,6 +52,7 @@ HEADERS += \
+     file.h \
+     friend.h \
+     group.h \
++    groupchat.h \
+     index.h \
+     msghandler.h \
+     onlineuser.h \
+diff --git a/Client/client.cpp b/Client/client.cpp
+index 9e58c04..5c7873e 100644
+--- a/Client/client.cpp
++++ b/Client/client.cpp
+@@ -308,8 +308,18 @@ void Client::handlMsg(PDU *&pdu)
+     case ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_RESPOND:
+     case ENUM_MSG_TYPE_GROUP_MEMBER_EVENT:
+     case ENUM_MSG_TYPE_GROUP_INVITATION_EVENT:
++    case ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_RESPOND:
+         Index::getinstance().getGroup()->handleResponse(pdu);
+         break;
++    // REQ-EXT-GROUP-002：消息类响应按信封 group_id 路由到对应群窗口
++    case ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_RESPOND:
++    case ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_RESPOND:
++    case ENUM_MSG_TYPE_GROUP_READ_CONFIRM_RESPOND:
++        Index::getinstance().getGroup()->handleMessageResponse(pdu);
++        break;
++    case ENUM_MSG_TYPE_GROUP_MESSAGE_EVENT:
++        Index::getinstance().getGroup()->handleMessageEvent(pdu);
++        break;
+     default:
+         break;
+     }
+diff --git a/Client/group.cpp b/Client/group.cpp
+index 6ff64c8..3543d68 100644
+--- a/Client/group.cpp
++++ b/Client/group.cpp
+@@ -60,6 +60,8 @@ Group::Group(QWidget *parent)
+     connect(m_createButton, &QPushButton::clicked, this, &Group::createGroup);
+     connect(m_refreshButton, &QPushButton::clicked, this, &Group::refreshGroups);
+     connect(m_invitationButton, &QPushButton::clicked, this, &Group::refreshInvitations);
++    // REQ-EXT-GROUP-002：双击群条目打开群聊窗口
++    connect(m_groupList, &QListWidget::itemDoubleClicked, this, &Group::openSelectedChat);
+     m_statusLabel->setText(QStringLiteral("群聊按需加载"));
+     m_invitationList->setMaximumHeight(100);
+ }
+@@ -120,6 +122,13 @@ void Group::createGroup()
+ void Group::refreshGroups()
+ {
+     sendRequest(ENUM_MSG_TYPE_LIST_GROUPS_REQUEST);
++    requestUnreadSummary();
++}
++
++// REQ-EXT-GROUP-002：95 无业务字段，按 actor 汇总全部 active 群；96 回带未读徽标
++void Group::requestUnreadSummary()
++{
++    sendRequest(ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST);
+ }
+ 
+ void Group::refreshInvitations()
+@@ -232,6 +241,9 @@ void Group::handleResponse(PDU *pdu)
+                                              .arg(QString::fromUtf8(name)).arg(QString::fromUtf8(role))
+                                              .arg(QString::fromUtf8(status)).arg(id), m_groupList);
+             item->setData(Qt::UserRole, QVariant::fromValue<qulonglong>(id));
++            item->setData(Qt::UserRole + 1, QString::fromUtf8(name));   // 群名 → 聊天窗口标题
++            item->setData(Qt::UserRole + 2, item->text());              // 基础文案（徽标在其上追加）
++            refreshUnreadBadge(id, m_unreadByGroup.value(id, 0));
+         }
+         m_statusLabel->setText(QStringLiteral("我的群聊：%1 个").arg(count));
+     } else if (pdu->uiType == ENUM_MSG_TYPE_QUERY_GROUP_INVITATIONS_RESPOND) {
+@@ -267,5 +279,96 @@ void Group::handleResponse(PDU *pdu)
+     } else if (pdu->uiType == ENUM_MSG_TYPE_CREATE_GROUP_RESPOND) {
+         m_statusLabel->setText(QStringLiteral("建群成功"));
+         refreshGroups();
++    } else if (pdu->uiType == ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_RESPOND) {
++        // REQ-EXT-GROUP-002：96 = count + N×{group_id,last_seq,last_read_seq,unread}
++        quint32 count = 0;
++        if (!groupReadU32(payload, offset, count)) return;
++        quint64 totalUnread = 0;
++        for (quint32 i = 0; i < count; ++i) {
++            quint64 summaryGroupId = 0, lastSeq = 0, lastReadSeq = 0, unread = 0;
++            if (!groupReadU64(payload, offset, summaryGroupId) || !groupReadU64(payload, offset, lastSeq)
++                    || !groupReadU64(payload, offset, lastReadSeq) || !groupReadU64(payload, offset, unread)) return;
++            totalUnread += unread;
++            m_unreadByGroup.insert(summaryGroupId, unread);
++            refreshUnreadBadge(summaryGroupId, unread);
++            // 已打开窗口：同步游标与未读数
++            if (m_chatWindows.contains(summaryGroupId)) {
++                m_chatWindows.value(summaryGroupId)->applyUnreadSummary(lastSeq, lastReadSeq, unread);
++            }
++        }
++        m_statusLabel->setText(QStringLiteral("我的群聊：%1 个 · 未读合计 %2")
++                               .arg(m_groupList->count()).arg(totalUnread));
++    }
++}
++
++// REQ-EXT-GROUP-002：群条目文案追加未读徽标（0 不显示）
++void Group::refreshUnreadBadge(quint64 groupId, quint64 unread)
++{
++    for (int i = 0; i < m_groupList->count(); ++i) {
++        QListWidgetItem *item = m_groupList->item(i);
++        if (item->data(Qt::UserRole).toULongLong() != groupId) continue;
++        QString text = item->data(Qt::UserRole + 2).toString();
++        if (text.isEmpty()) text = item->text();
++        if (unread > 0) text += QStringLiteral(" · 未读 %1").arg(unread);
++        item->setText(text);
++        return;
++    }
++}
++
++void Group::openSelectedChat()
++{
++    const QListWidgetItem *item = m_groupList->currentItem();
++    if (item == nullptr) return;
++    const quint64 groupId = item->data(Qt::UserRole).toULongLong();
++    if (groupId == 0) return;
++    const QString groupName = item->data(Qt::UserRole + 1).toString();
++    GroupChat *chat = m_chatWindows.value(groupId, nullptr);
++    if (chat == nullptr) {
++        chat = new GroupChat(groupId, groupName, nullptr);
++        m_chatWindows.insert(groupId, chat);
++    }
++    chat->show();
++    chat->raise();
++    chat->activateWindow();
++}
++
++// 信封首 20B：版本(2)+长度(2)+request_id(8)+group_id(8)
++quint64 Group::envelopeGroupId(PDU *pdu)
++{
++    if (pdu == nullptr || pdu->uiMsgLen < GROUP_ENVELOPE_LENGTH) return 0;
++    const QByteArray payload(pdu->caMsg, GROUP_ENVELOPE_LENGTH);
++    int offset = 0;
++    quint16 version = 0, length = 0;
++    quint64 requestId = 0, groupId = 0;
++    if (!groupReadU16(payload, offset, version) || !groupReadU16(payload, offset, length)
++            || !groupReadU64(payload, offset, requestId) || !groupReadU64(payload, offset, groupId)) return 0;
++    Q_UNUSED(version);
++    Q_UNUSED(length);
++    Q_UNUSED(requestId);
++    return groupId;
++}
++
++void Group::handleMessageResponse(PDU *pdu)
++{
++    const quint64 groupId = envelopeGroupId(pdu);
++    if (groupId == 0) return;
++    if (m_chatWindows.contains(groupId)) {
++        m_chatWindows.value(groupId)->handleResponse(pdu);
++        return;
++    }
++    m_statusLabel->setText(QStringLiteral("群 %1 的消息响应到达（窗口未打开）").arg(groupId));
++}
++
++void Group::handleMessageEvent(PDU *pdu)
++{
++    const quint64 groupId = envelopeGroupId(pdu);
++    if (groupId == 0) return;
++    GroupChat *chat = m_chatWindows.value(groupId, nullptr);
++    if (chat != nullptr) {
++        chat->handleMessageEvent(pdu);
++        return;
+     }
++    // 未打开窗口：不渲染，只刷新未读徽标并提示（离线补偿拉取兜底）
++    requestUnreadSummary();
++    m_statusLabel->setText(QStringLiteral("群 %1 有新消息").arg(groupId));
+ }
+diff --git a/Client/group.h b/Client/group.h
+index 0061da0..4551558 100644
+--- a/Client/group.h
++++ b/Client/group.h
+@@ -2,21 +2,28 @@
+ #define GROUP_H
+ 
+ #include "protocol.h"
+-#include <QListWidget>
++#include "groupchat.h"
+ #include <QComboBox>
++#include <QHash>
+ #include <QLineEdit>
++#include <QListWidget>
+ #include <QPushButton>
+ #include <QWidget>
+ 
+ class QLabel;
+ 
+-// 群聊模块：进入页面后按需查询群列表和邀请，不承载 GROUP-002 消息正文。
++// 群聊模块：进入页面后按需查询群列表和邀请；REQ-EXT-GROUP-002 起承载群消息
++// 窗口打开入口与未读徽标（消息正文在 GroupChat 窗口内处理）。
+ class Group : public QWidget
+ {
+     Q_OBJECT
+ public:
+     explicit Group(QWidget *parent = nullptr);
+     void handleResponse(PDU *pdu);
++    // REQ-EXT-GROUP-002：89/92/94 响应路由到对应群窗口
++    void handleMessageResponse(PDU *pdu);
++    // REQ-EXT-GROUP-002：90 在线消息事件按 group_id 路由
++    void handleMessageEvent(PDU *pdu);
+ 
+ protected:
+     void showEvent(QShowEvent *event) override;
+@@ -34,12 +41,17 @@ private slots:
+     void setRole();
+     void transferOwner();
+     void dissolveGroup();
++    void openSelectedChat();
+ 
+ private:
+     void sendRequest(uint type, quint64 groupId = 0, const QByteArray &body = QByteArray());
+     QByteArray envelope(quint64 groupId, const QByteArray &body);
+     quint64 selectedGroupId() const;
+     quint64 selectedInvitationId() const;
++    void requestUnreadSummary();
++    void refreshUnreadBadge(quint64 groupId, quint64 unread);
++    // 信封首 20B 提取 group_id（不满足最小长度返回 0）
++    static quint64 envelopeGroupId(PDU *pdu);
+     QPushButton *m_createButton;
+     QPushButton *m_refreshButton;
+     QPushButton *m_invitationButton;
+@@ -50,6 +62,8 @@ private:
+     QLabel *m_statusLabel;
+     quint64 m_requestId;
+     bool m_loaded;
++    QHash<quint64, GroupChat*> m_chatWindows;   // group_id → 窗口（应用生命周期内保留）
++    QHash<quint64, quint64> m_unreadByGroup;    // group_id → 未读数（96 回带）
+ };
+ 
+ #endif // GROUP_H
+diff --git a/Client/groupchat.cpp b/Client/groupchat.cpp
+new file mode 100644
+index 0000000..3d90506
+--- /dev/null
++++ b/Client/groupchat.cpp
+@@ -0,0 +1,365 @@
++#include "groupchat.h"
++
++#include "client.h"
++
++#include <QDateTime>
++#include <QHBoxLayout>
++#include <QUuid>
++#include <QVBoxLayout>
++#include <cstring>
++
++GroupChat::GroupChat(quint64 groupId, const QString &groupName, QWidget *parent)
++    : QWidget(parent, Qt::Window),
++      m_groupId(groupId),
++      m_groupName(groupName),
++      m_messageList(new QListWidget(this)),
++      m_input(new QLineEdit(this)),
++      m_sendButton(new QPushButton(QStringLiteral("发送"), this)),
++      m_historyButton(new QPushButton(QStringLiteral("加载更早"), this)),
++      m_statusLabel(new QLabel(this))
++{
++    setWindowTitle(QStringLiteral("群聊 - %1").arg(groupName));
++    resize(560, 480);
++    auto *layout = new QVBoxLayout(this);
++    layout->addWidget(m_messageList);
++    auto *row = new QHBoxLayout;
++    m_input->setPlaceholderText(QStringLiteral("输入消息（<=2000 字节），回车发送"));
++    row->addWidget(m_input);
++    row->addWidget(m_sendButton);
++    row->addWidget(m_historyButton);
++    layout->addLayout(row);
++    layout->addWidget(m_statusLabel);
++    connect(m_sendButton, &QPushButton::clicked, this, &GroupChat::sendCurrent);
++    connect(m_input, &QLineEdit::returnPressed, this, &GroupChat::sendCurrent);
++    connect(m_historyButton, &QPushButton::clicked, this, &GroupChat::loadOlder);
++    connect(m_messageList, &QListWidget::itemDoubleClicked, this, &GroupChat::onItemDoubleClicked);
++    updateStatus();
++}
++
++void GroupChat::showEvent(QShowEvent *event)
++{
++    QWidget::showEvent(event);
++    if (!m_summaryRequested) {
++        m_summaryRequested = true;
++        // 95 无业务字段；96 返回后由 Group 转发本群游标 → 定位补齐起点
++        sendRequest(ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST);
++    } else {
++        confirmRead();
++    }
++}
++
++QByteArray GroupChat::envelope(const QByteArray &body)
++{
++    QByteArray payload;
++    groupAppendU16(payload, GROUP_PROTOCOL_VERSION);
++    groupAppendU16(payload, GROUP_ENVELOPE_LENGTH);
++    groupAppendU64(payload, ++m_requestId);
++    groupAppendU64(payload, m_groupId);
++    payload.append(body);
++    return payload;
++}
++
++void GroupChat::sendRequest(uint type, const QByteArray &body)
++{
++    const QByteArray payload = envelope(body);
++    PDU *pdu = mkPDU(uint(payload.size()));
++    pdu->uiType = type;
++    memcpy(pdu->caMsg, payload.constData(), size_t(payload.size()));
++    Client::getinstance().seedMsg(pdu);
++}
++
++void GroupChat::requestPull(quint8 mode, quint64 cursor, quint16 limit)
++{
++    QByteArray body;
++    body.append(char(mode));
++    groupAppendU64(body, cursor);
++    groupAppendU16(body, limit);
++    sendRequest(ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST, body);
++}
++
++void GroupChat::confirmRead()
++{
++    if (m_lastSeq == 0 || m_lastSeq <= m_confirmedSeq || !isVisible()) return;
++    QByteArray body;
++    groupAppendU64(body, m_lastSeq);
++    sendRequest(ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST, body);
++}
++
++void GroupChat::markRendered(quint64 seq)
++{
++    if (seq == 0) return;
++    m_renderedSeqs.insert(seq, true);
++    if (m_firstSeq == 0 || seq < m_firstSeq) m_firstSeq = seq;
++    if (seq > m_lastSeq) m_lastSeq = seq;
++}
++
++QListWidgetItem *GroupChat::insertMessage(quint64 seq, const QString &sender, quint8 msgType,
++                                          quint64 createdAtMs, const QString &content)
++{
++    if (seq != 0 && m_renderedSeqs.contains(seq)) return nullptr;
++    const QString time = QDateTime::fromMSecsSinceEpoch(qint64(createdAtMs)).toString(QStringLiteral("HH:mm:ss"));
++    QListWidgetItem *item = new QListWidgetItem;
++    if (msgType == 1) {
++        item->setText(QStringLiteral("—— %1 ——").arg(content));
++        item->setForeground(QColor(120, 120, 120));
++        item->setTextAlignment(Qt::AlignCenter);
++        item->setData(ROLE_STATE, 3);
++    } else {
++        const QString who = sender == Client::getinstance().m_LoginName
++                ? QStringLiteral("我") : sender;
++        item->setText(QStringLiteral("[%1] %2: %3").arg(time).arg(who).arg(content));
++        item->setData(ROLE_STATE, 1);
++    }
++    item->setData(ROLE_SEQ, QVariant::fromValue<qulonglong>(seq));
++    m_messageList->addItem(item);
++    markRendered(seq);
++    return item;
++}
++
++void GroupChat::sendCurrent()
++{
++    const QString content = m_input->text();
++    if (content.isEmpty()) return;
++    if (content.toUtf8().size() > 2000) {
++        m_statusLabel->setText(QStringLiteral("内容超过 2000 字节，未发送"));
++        return;
++    }
++    const QString key = QUuid::createUuid().toString(QUuid::WithoutBraces);
++    QListWidgetItem *item = new QListWidgetItem(
++                QStringLiteral("我: %1（发送中…）").arg(content));
++    item->setData(ROLE_STATE, 0);
++    item->setData(ROLE_CLIENT_KEY, key);
++    m_messageList->addItem(item);
++    m_messageList->scrollToBottom();
++    m_pending.append(PendingSend{key, content, item});
++    QByteArray body;
++    groupAppendString(body, key.toUtf8());
++    groupAppendString(body, content.toUtf8());
++    sendRequest(ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST, body);
++    m_input->clear();
++}
++
++void GroupChat::onItemDoubleClicked(QListWidgetItem *item)
++{
++    if (item == nullptr || item->data(ROLE_STATE).toInt() != 2) return;
++    const QString key = item->data(ROLE_CLIENT_KEY).toString();
++    for (const PendingSend &pending : m_pending) {
++        if (pending.clientMsgId != key) continue;
++        item->setText(QStringLiteral("我: %1（发送中…重试）").arg(pending.content));
++        item->setData(ROLE_STATE, 0);
++        QByteArray body;
++        groupAppendString(body, key.toUtf8());
++        groupAppendString(body, pending.content.toUtf8());
++        sendRequest(ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST, body);
++        return;
++    }
++}
++
++void GroupChat::loadOlder()
++{
++    // 91 mode=1 语义为 seq<=cursor（含边界）：必须以「已渲染最小 seq-1」请求，
++    // 否则最早一条会被重复回传（92 渲染侧亦有 seq 去重兜底）。
++    quint64 cursor = m_groupLastSeq;
++    if (m_firstSeq > 0) cursor = m_firstSeq - 1;
++    if (cursor == 0) return;
++    requestPull(1, cursor, 50);
++}
++
++void GroupChat::updateStatus()
++{
++    m_statusLabel->setText(QStringLiteral("群水位 %1 · 服务端已读 %2 · 本地未读 %3")
++                           .arg(m_groupLastSeq).arg(m_confirmedSeq).arg(m_unread));
++}
++
++void GroupChat::applyUnreadSummary(quint64 lastSeq, quint64 lastReadSeq, quint64 unread)
++{
++    m_groupLastSeq = lastSeq;
++    m_unread = unread;
++    if (!m_initialized) {
++        // 打开窗口：从前向补齐未读开始（游标=服务端 last_read_seq），补到水位即可上翻
++        m_initialized = true;
++        requestPull(0, lastReadSeq, 100);
++    }
++    updateStatus();
++}
++
++void GroupChat::handleMessageEvent(PDU *pdu)
++{
++    if (pdu == nullptr || pdu->uiMsgLen < GROUP_ENVELOPE_LENGTH + 4) return;
++    const QByteArray payload(pdu->caMsg, int(pdu->uiMsgLen));
++    int offset = 0;
++    quint16 version = 0, length = 0;
++    quint64 requestId = 0, groupId = 0;
++    quint32 code = 0;
++    if (!groupReadU16(payload, offset, version) || !groupReadU16(payload, offset, length)
++            || !groupReadU64(payload, offset, requestId) || !groupReadU64(payload, offset, groupId)
++            || !groupReadU32(payload, offset, code) || version != GROUP_PROTOCOL_VERSION
++            || length != GROUP_ENVELOPE_LENGTH) return;
++    Q_UNUSED(requestId);
++    if (code != 0 || groupId != m_groupId) return;
++    quint64 evtGroupId = 0, seq = 0, msgId = 0, createdAtMs = 0;
++    QByteArray sender, content;
++    if (!groupReadU64(payload, offset, evtGroupId) || !groupReadU64(payload, offset, seq)
++            || !groupReadU64(payload, offset, msgId) || !groupReadString(payload, offset, sender)
++            || offset + 1 > payload.size()) return;
++    const quint8 msgType = quint8(payload.at(offset++));
++    if (!groupReadU64(payload, offset, createdAtMs)
++            || !groupReadString(payload, offset, content)) return;
++    Q_UNUSED(evtGroupId);
++    Q_UNUSED(msgId);
++    const QString senderName = QString::fromUtf8(sender);
++    const QString text = QString::fromUtf8(content);
++    if (senderName == Client::getinstance().m_LoginName) {
++        // 自己的消息：与本地乐观条目按内容+发送中状态合并，否则按 seq 去重后正常渲染
++        for (int i = 0; i < m_pending.size(); ++i) {
++            PendingSend &pending = m_pending[i];
++            if (pending.content != text) continue;
++            if (pending.item != nullptr && pending.item->data(ROLE_STATE).toInt() == 0) {
++                markRendered(seq);
++                pending.item->setData(ROLE_SEQ, QVariant::fromValue<qulonglong>(seq));
++                pending.item->setText(QStringLiteral("我: %1（已送达）").arg(text));
++                pending.item->setData(ROLE_STATE, 1);
++                updateStatus();
++                return;
++            }
++        }
++    }
++    QListWidgetItem *item = insertMessage(seq, senderName, msgType, createdAtMs, text);
++    if (item != nullptr) {
++        m_messageList->scrollToBottom();
++        updateStatus();
++    }
++    confirmRead();
++}
++
++void GroupChat::handleResponse(PDU *pdu)
++{
++    if (pdu == nullptr || pdu->uiMsgLen < GROUP_ENVELOPE_LENGTH + 4) return;
++    const QByteArray payload(pdu->caMsg, int(pdu->uiMsgLen));
++    int offset = 0;
++    quint16 version = 0, length = 0;
++    quint64 requestId = 0, groupId = 0;
++    quint32 code = 0;
++    if (!groupReadU16(payload, offset, version) || !groupReadU16(payload, offset, length)
++            || !groupReadU64(payload, offset, requestId) || !groupReadU64(payload, offset, groupId)
++            || !groupReadU32(payload, offset, code) || version != GROUP_PROTOCOL_VERSION
++            || length != GROUP_ENVELOPE_LENGTH || groupId != m_groupId) return;
++    Q_UNUSED(requestId);
++
++    if (pdu->uiType == ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_RESPOND) {
++        QByteArray key;
++        quint64 seq = 0, msgId = 0, createdAtMs = 0;
++        const bool hasKey = groupReadString(payload, offset, key);
++        if (code != 0) {
++            // 失败状态：服务端在可解析到幂等键时回带，供同键重试
++            if (hasKey) {
++                for (const PendingSend &pending : m_pending) {
++                    if (pending.clientMsgId == QString::fromUtf8(key) && pending.item != nullptr) {
++                        pending.item->setText(QStringLiteral("我: %1（发送失败，双击重试）")
++                                              .arg(pending.content));
++                        pending.item->setData(ROLE_STATE, 2);
++                        break;
++                    }
++                }
++            }
++            m_statusLabel->setText(QStringLiteral("发送失败：%1").arg(qint32(code)));
++            return;
++        }
++        if (!hasKey || !groupReadU64(payload, offset, seq) || !groupReadU64(payload, offset, msgId)
++                || !groupReadU64(payload, offset, createdAtMs)) return;
++        Q_UNUSED(msgId);
++        const QString keyText = QString::fromUtf8(key);
++        for (const PendingSend &pending : m_pending) {
++            if (pending.clientMsgId != keyText || pending.item == nullptr) continue;
++            const int state = pending.item->data(ROLE_STATE).toInt();
++            if (state == 0) {
++                // 89 先于 90 到达：渲染并入已渲染集合；90 到达时按 seq 去重不再重复
++                pending.item->setData(ROLE_SEQ, QVariant::fromValue<qulonglong>(seq));
++                pending.item->setText(QStringLiteral("我: %1（已发送）").arg(pending.content));
++                pending.item->setData(ROLE_STATE, 1);
++                markRendered(seq);
++            } else if (state == 1) {
++                pending.item->setText(QStringLiteral("我: %1（已发送）").arg(pending.content));
++            }
++            break;
++        }
++        updateStatus();
++        return;
++    }
++
++    if (pdu->uiType == ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_RESPOND) {
++        if (code != 0) {
++            m_statusLabel->setText(QStringLiteral("拉取失败：%1").arg(qint32(code)));
++            return;
++        }
++        if (offset + 3 > payload.size()) return;
++        const quint8 mode = quint8(payload.at(offset++));
++        const bool hasMore = quint8(payload.at(offset++)) != 0;
++        quint64 nextCursor = 0, groupLastSeq = 0, unread = 0;
++        quint32 count = 0;
++        if (!groupReadU64(payload, offset, nextCursor) || !groupReadU64(payload, offset, groupLastSeq)
++                || !groupReadU64(payload, offset, unread) || !groupReadU32(payload, offset, count)) return;
++        struct Record { quint64 seq, msgId, createdAtMs; QByteArray sender, content; quint8 msgType; };
++        QList<Record> records;
++        for (quint32 i = 0; i < count; ++i) {
++            Record record;
++            if (!groupReadU64(payload, offset, record.seq) || !groupReadU64(payload, offset, record.msgId)
++                    || !groupReadString(payload, offset, record.sender)
++                    || offset + 1 > payload.size()) return;
++            record.msgType = quint8(payload.at(offset++));
++            if (!groupReadU64(payload, offset, record.createdAtMs)
++                    || !groupReadString(payload, offset, record.content)) return;
++            records.append(record);
++        }
++        m_groupLastSeq = groupLastSeq;
++        m_unread = unread;
++        if (mode == 1) {
++            // 后向翻页：响应按 seq 升序；逐条前插到列表头部（已渲染 seq 跳过兜底）
++            for (int i = records.size() - 1; i >= 0; --i) {
++                const Record &record = records.at(i);
++                if (m_renderedSeqs.contains(record.seq)) continue;
++                const QString time = QDateTime::fromMSecsSinceEpoch(qint64(record.createdAtMs))
++                        .toString(QStringLiteral("HH:mm:ss"));
++                QListWidgetItem *item = new QListWidgetItem;
++                if (record.msgType == 1) {
++                    item->setText(QStringLiteral("—— %1 ——").arg(QString::fromUtf8(record.content)));
++                    item->setForeground(QColor(120, 120, 120));
++                    item->setTextAlignment(Qt::AlignCenter);
++                } else {
++                    const QString who = QString::fromUtf8(record.sender)
++                            == Client::getinstance().m_LoginName ? QStringLiteral("我")
++                                                                 : QString::fromUtf8(record.sender);
++                    item->setText(QStringLiteral("[%1] %2: %3").arg(time).arg(who)
++                                  .arg(QString::fromUtf8(record.content)));
++                }
++                item->setData(ROLE_SEQ, QVariant::fromValue<qulonglong>(record.seq));
++                item->setData(ROLE_STATE, 1);
++                markRendered(record.seq);
++                m_messageList->insertItem(0, item);
++            }
++        } else {
++            for (const Record &record : records) {
++                insertMessage(record.seq, QString::fromUtf8(record.sender), record.msgType,
++                              record.createdAtMs, QString::fromUtf8(record.content));
++            }
++            m_messageList->scrollToBottom();
++            if (hasMore && m_catchupBatches < MAX_CATCHUP_BATCHES) {
++                ++m_catchupBatches;
++                requestPull(0, nextCursor, 100);
++            } else {
++                confirmRead();
++            }
++        }
++        updateStatus();
++        return;
++    }
++
++    if (pdu->uiType == ENUM_MSG_TYPE_GROUP_READ_CONFIRM_RESPOND) {
++        quint64 effective = 0;
++        if (code == 0 && groupReadU64(payload, offset, effective) && effective > m_confirmedSeq) {
++            m_confirmedSeq = effective;
++        }
++        updateStatus();
++        return;
++    }
++}
+diff --git a/Client/groupchat.h b/Client/groupchat.h
+new file mode 100644
+index 0000000..de4f9e9
+--- /dev/null
++++ b/Client/groupchat.h
+@@ -0,0 +1,74 @@
++#ifndef GROUPCHAT_H
++#define GROUPCHAT_H
++
++#include "protocol.h"
++#include <QHash>
++#include <QLabel>
++#include <QLineEdit>
++#include <QListWidget>
++#include <QPushButton>
++#include <QWidget>
++
++// REQ-EXT-GROUP-002：单群聊天窗口（可靠文本消息）。
++// 发送 88 → 89 已持久化确认；接收 90 在线事件（与拉取按 seq 去重）；
++// 打开窗口经 95/96 定位未读游标后按 91/92 前向补齐，上翻历史走后向翻页；
++// 已读经 93/94 单调推进。Group-001 的群事件（84/85）处理不变。
++class GroupChat : public QWidget
++{
++    Q_OBJECT
++public:
++    GroupChat(quint64 groupId, const QString &groupName, QWidget *parent = nullptr);
++    quint64 groupId() const { return m_groupId; }
++    // 89/92/94 响应路由（按信封 group_id 匹配）
++    void handleResponse(PDU *pdu);
++    // 90 在线消息事件
++    void handleMessageEvent(PDU *pdu);
++    // 96 未读摘要里本群的游标（打开窗口定位补齐起点/刷新徽标）
++    void applyUnreadSummary(quint64 lastSeq, quint64 lastReadSeq, quint64 unread);
++
++protected:
++    void showEvent(QShowEvent *event) override;
++
++private slots:
++    void sendCurrent();
++    void loadOlder();
++    void onItemDoubleClicked(QListWidgetItem *item);
++
++private:
++    void sendRequest(uint type, const QByteArray &body = QByteArray());
++    QByteArray envelope(const QByteArray &body);
++    void requestPull(quint8 mode, quint64 cursor, quint16 limit);
++    void confirmRead();
++    void updateStatus();
++    QListWidgetItem *insertMessage(quint64 seq, const QString &sender, quint8 msgType,
++                                   quint64 createdAtMs, const QString &content);
++    void markRendered(quint64 seq);
++
++    quint64 m_groupId;
++    QString m_groupName;
++    QListWidget *m_messageList;
++    QLineEdit *m_input;
++    QPushButton *m_sendButton;
++    QPushButton *m_historyButton;
++    QLabel *m_statusLabel;
++    quint64 m_requestId = 0;
++    bool m_initialized = false;
++    bool m_summaryRequested = false;
++    // 渲染游标：seq 全局唯一，90 与 92 同源去重
++    QHash<quint64, bool> m_renderedSeqs;
++    quint64 m_firstSeq = 0;        // 已渲染最小 seq（上翻游标）
++    quint64 m_lastSeq = 0;         // 已渲染最大 seq
++    quint64 m_groupLastSeq = 0;    // 群当前水位（92 回带）
++    quint64 m_unread = 0;          // 服务端计算的未读数（92/96 回带）
++    quint64 m_confirmedSeq = 0;    // 服务端确认的已读游标（94 回带）
++    int m_catchupBatches = 0;      // 打开窗口前向补齐批次计数（上限防长历史全量拉）
++    static const int MAX_CATCHUP_BATCHES = 20;
++    struct PendingSend { QString clientMsgId; QString content; QListWidgetItem *item; };
++    QList<PendingSend> m_pending;
++    // 列表项数据角色
++    static const int ROLE_SEQ = Qt::UserRole;          // quint64 seq
++    static const int ROLE_STATE = Qt::UserRole + 1;    // 0 发送中 / 1 已发送 / 2 发送失败 / 3 系统
++    static const int ROLE_CLIENT_KEY = Qt::UserRole + 2;
++};
++
++#endif // GROUPCHAT_H
+diff --git a/Client/protocol.h b/Client/protocol.h
+index c2551d8..7307508 100644
+--- a/Client/protocol.h
++++ b/Client/protocol.h
+@@ -112,6 +112,18 @@ enum ENUM_MSG_TYPE {
+     ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_REQUEST = 86,
+     ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_RESPOND = 87,
+ 
++    // ===== REQ-EXT-GROUP-002：可靠群文本消息（仅追加，旧编号 1-87 不变） =====
++    ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST = 88,
++    ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_RESPOND = 89,
++    ENUM_MSG_TYPE_GROUP_MESSAGE_EVENT = 90,
++    ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST = 91,
++    ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_RESPOND = 92,
++    ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST = 93,
++    ENUM_MSG_TYPE_GROUP_READ_CONFIRM_RESPOND = 94,
++    ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST = 95,
++    ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_RESPOND = 96,
++    // 97-99 继续预留
++
+     ENUM_MSG_TYPE_MAX = 99999,
+ };
+ 
+diff --git a/Server/migrate_ext_group_002.sql b/Server/migrate_ext_group_002.sql
+new file mode 100644
+index 0000000..5742c07
+--- /dev/null
++++ b/Server/migrate_ext_group_002.sql
+@@ -0,0 +1,29 @@
++-- REQ-EXT-GROUP-002：可靠群文本消息迁移（目标版本 2026100101）。
++-- 幂等、可重复执行；服务端不会运行时静默建表，执行失败必须人工处理。
++-- 只新增本需求的列/表，不动 GROUP-001 既有数据。
++
++-- group_info.last_seq：群内序号水位（事务内原子递增）。列已存在时跳过（幂等）。
++SET @col_exists := (SELECT COUNT(*) FROM information_schema.COLUMNS
++  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'group_info' AND COLUMN_NAME = 'last_seq');
++SET @ddl := IF(@col_exists = 0,
++  'ALTER TABLE group_info ADD COLUMN last_seq BIGINT UNSIGNED NOT NULL DEFAULT 0',
++  'SELECT 1');
++PREPARE stmt FROM @ddl;
++EXECUTE stmt;
++DEALLOCATE PREPARE stmt;
++
++CREATE TABLE IF NOT EXISTS group_message (
++  msg_id        BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,  -- 服务端全局唯一消息标识
++  group_id      BIGINT UNSIGNED NOT NULL,
++  seq           BIGINT UNSIGNED NOT NULL,                    -- 群内序号，(group_id,seq) 唯一
++  client_msg_id VARCHAR(64) NULL,                            -- 幂等键；系统消息为 NULL
++  sender_name   VARCHAR(32) NOT NULL,                        -- 服务端 actor 推导，非客户端自报
++  msg_type      ENUM('text','system') NOT NULL DEFAULT 'text',
++  content       TEXT NOT NULL,
++  created_at    DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
++  UNIQUE KEY uk_group_seq (group_id, seq),
++  UNIQUE KEY uk_group_client_msg (group_id, client_msg_id),
++  KEY idx_group_created (group_id, created_at)
++) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
++
++INSERT IGNORE INTO schema_version (version) VALUES (2026100101);
+diff --git a/Server/migrate_ext_group_002_rollback.sql b/Server/migrate_ext_group_002_rollback.sql
+new file mode 100644
+index 0000000..f8e0ee0
+--- /dev/null
++++ b/Server/migrate_ext_group_002_rollback.sql
+@@ -0,0 +1,13 @@
++-- REQ-EXT-GROUP-002 回滚：只删除本需求新增表/列与版本行，不动 GROUP-001 数据。
++DROP TABLE IF EXISTS group_message;
++
++SET @col_exists := (SELECT COUNT(*) FROM information_schema.COLUMNS
++  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'group_info' AND COLUMN_NAME = 'last_seq');
++SET @ddl := IF(@col_exists = 1,
++  'ALTER TABLE group_info DROP COLUMN last_seq',
++  'SELECT 1');
++PREPARE stmt FROM @ddl;
++EXECUTE stmt;
++DEALLOCATE PREPARE stmt;
++
++DELETE FROM schema_version WHERE version = 2026100101;
+diff --git a/Server/msghandler.cpp b/Server/msghandler.cpp
+index 30c178d..8052ba5 100644
+--- a/Server/msghandler.cpp
++++ b/Server/msghandler.cpp
+@@ -1528,6 +1528,11 @@ uint groupRespondType(uint requestType)
+     case ENUM_MSG_TYPE_LIST_GROUP_MEMBERS_REQUEST: return ENUM_MSG_TYPE_LIST_GROUP_MEMBERS_RESPOND;
+     case ENUM_MSG_TYPE_QUERY_GROUP_INVITATIONS_REQUEST: return ENUM_MSG_TYPE_QUERY_GROUP_INVITATIONS_RESPOND;
+     case ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_REQUEST: return ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_RESPOND;
++    // REQ-EXT-GROUP-002：群消息
++    case ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST: return ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_RESPOND;
++    case ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST: return ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_RESPOND;
++    case ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST: return ENUM_MSG_TYPE_GROUP_READ_CONFIRM_RESPOND;
++    case ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST: return ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_RESPOND;
+     default: return ENUM_MSG_TYPE_MAX;
+     }
+ }
+@@ -1548,6 +1553,11 @@ OperateDB::GroupOperation groupOperation(uint requestType)
+     case ENUM_MSG_TYPE_LIST_GROUP_MEMBERS_REQUEST: return OperateDB::GroupListMembers;
+     case ENUM_MSG_TYPE_QUERY_GROUP_INVITATIONS_REQUEST: return OperateDB::GroupQueryInvitations;
+     case ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_REQUEST: return OperateDB::GroupSummary;
++    // REQ-EXT-GROUP-002：群消息
++    case ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST: return OperateDB::GroupSendMessage;
++    case ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST: return OperateDB::GroupPullMessages;
++    case ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST: return OperateDB::GroupReadConfirm;
++    case ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST: return OperateDB::GroupUnreadSummary;
+     default: return OperateDB::GroupList;
+     }
+ }
+@@ -1608,15 +1618,60 @@ PDU* MsgHandler::groupRequest(uint requestType)
+         parsed = readText(request.targetName); break;
+     case OperateDB::GroupSetRole:
+         parsed = readText(request.targetName) && readText(request.role); break;
++    // REQ-EXT-GROUP-002：群消息（发送方身份一律取 actor，载荷无 sender 字段）
++    case OperateDB::GroupSendMessage:
++        parsed = readText(request.clientMsgId) && readText(request.content);
++        if (parsed && request.clientMsgId.toUtf8().size() > 64) parsed = false;
++        if (parsed && request.content.toUtf8().size() > 2000) parsed = false;
++        break;
++    case OperateDB::GroupPullMessages: {
++        if (offset + 1 > payload.size()) { parsed = false; break; }
++        request.pullMode = quint8(payload.at(offset++));
++        parsed = (request.pullMode <= 1)
++                && groupReadU64(payload, offset, request.cursorSeq)
++                && groupReadU16(payload, offset, request.limit);
++        if (parsed && (request.limit < 1 || request.limit > 100)) parsed = false; // 越界载荷拒绝（客户端同值钳制）
++        break;
++    }
++    case OperateDB::GroupReadConfirm:
++        parsed = groupReadU64(payload, offset, request.readSeq); break;
++    case OperateDB::GroupUnreadSummary:
++        break;
+     default:
+         break;
+     }
+     if (!parsed || offset != payload.size()) {
+         qCWarning(lcNet) << "[GROUP] 拒绝越界载荷 type=" << requestType << "conn=" << m_connId;
+-        return response(-2002, QByteArray(), requestId, groupId);
++        // REQ-EXT-GROUP-002：发送请求解析失败也回带幂等键（可解析到时），客户端据此同键重试
++        QByteArray rejectBody;
++        if (request.operation == OperateDB::GroupSendMessage && !request.clientMsgId.isEmpty()) {
++            groupAppendString(rejectBody, request.clientMsgId.toUtf8());
++        }
++        return response(-2002, rejectBody, requestId, groupId);
+     }
+ 
+     const OperateDB::GroupResult result = OperateDB::instance().handleGroupOperation(request, m_actorName);
++    // REQ-EXT-GROUP-002 T3/T5：先提交后广播——仅在 DB 提交成功（code==0 且 broadcastMessage）
++    // 后触发；89=已持久化，90=在线送达，语义分离。幂等重放不重复广播。
++    if (result.code == 0 && result.broadcastMessage && !result.notifyUsers.isEmpty()) {
++        QByteArray msgBody;
++        groupAppendU16(msgBody, GROUP_PROTOCOL_VERSION);
++        groupAppendU16(msgBody, GROUP_ENVELOPE_LENGTH);
++        groupAppendU64(msgBody, 0);
++        groupAppendU64(msgBody, result.groupId);
++        groupAppendU32(msgBody, 0);
++        groupAppendU64(msgBody, result.groupId);
++        groupAppendU64(msgBody, result.message.seq);
++        groupAppendU64(msgBody, result.message.msgId);
++        groupAppendString(msgBody, result.message.sender.toUtf8());
++        msgBody.append(char(result.message.msgType));
++        groupAppendU64(msgBody, result.message.createdAtMs);
++        groupAppendString(msgBody, result.message.content.toUtf8());
++        PDU *msgEvent = mkPDU(uint(msgBody.size()));
++        msgEvent->uiType = ENUM_MSG_TYPE_GROUP_MESSAGE_EVENT;
++        memcpy(msgEvent->caMsg, msgBody.constData(), size_t(msgBody.size()));
++        MyTcpServer::getinstance().broadcastGroupMessage(result.notifyUsers, msgEvent);
++    }
+     if (!result.notifyUsers.isEmpty() && result.eventType != 0) {
+         QByteArray eventBody;
+         groupAppendU16(eventBody, GROUP_PROTOCOL_VERSION);
+@@ -1632,5 +1687,12 @@ PDU* MsgHandler::groupRequest(uint requestType)
+         memcpy(event->caMsg, eventBody.constData(), size_t(eventBody.size()));
+         MyTcpServer::getinstance().sendGroupEvent(result.notifyUsers, event);
+     }
++    if (request.operation == OperateDB::GroupSendMessage && result.code != 0
++            && result.responseBody.isEmpty() && !request.clientMsgId.isEmpty()) {
++        // 失败体回带幂等键：客户端据此把对应 pending 项标为「发送失败，双击重试」
++        QByteArray retryBody;
++        groupAppendString(retryBody, request.clientMsgId.toUtf8());
++        return response(result.code, retryBody, requestId, request.groupId == 0 ? groupId : request.groupId);
++    }
+     return response(result.code, result.responseBody, requestId, result.groupId == 0 ? groupId : result.groupId);
+ }
+diff --git a/Server/mytcpserver.cpp b/Server/mytcpserver.cpp
+index 838c831..33f5875 100644
+--- a/Server/mytcpserver.cpp
++++ b/Server/mytcpserver.cpp
+@@ -149,6 +149,37 @@ void MyTcpServer::sendGroupEvent(const QStringList& users, PDU *pdu)
+     memfree(pdu);
+ }
+ 
++// REQ-EXT-GROUP-002 T3：群消息在线广播——持 m_tcpsocketlistMutex 仅收集目标连接
++// 指针快照，随即释放锁；锁外逐连接写入其每连接有界发送队列（绝不持全局锁写 socket）。
++void MyTcpServer::broadcastGroupMessage(const QStringList& users, PDU *pdu)
++{
++    if (pdu == nullptr) return;
++    if (users.isEmpty()) { memfree(pdu); return; }
++    QSet<QString> targets;
++    for (const QString& user : users) {
++        if (!user.isEmpty()) targets.insert(user);
++    }
++    QList<MyTcpSocket*> snapshot;
++    {
++        QMutexLocker locker(&m_tcpsocketlistMutex);
++        snapshot = tcpsocketlist;
++    }
++    const QByteArray payload(reinterpret_cast<const char*>(pdu), int(pdu->uiTotalLen));
++    memfree(pdu);
++    int dropped = 0;
++    for (MyTcpSocket* socket : snapshot) {
++        if (socket == nullptr || !socket->m_actorAuthenticated
++                || !targets.contains(socket->m_strLoginName)) {
++            continue;
++        }
++        if (!socket->enqueueOutbound(payload)) ++dropped;
++    }
++    if (dropped > 0) {
++        qCWarning(lcNet) << "[GROUP] 群消息广播队列满：丢弃实时投递连接数=" << dropped
++                         << "目标成员数=" << users.size();
++    }
++}
++
+ // REQ-EXT-SEC-001 M-1：分享握手登记（仅主线程访问）
+ void MyTcpServer::addPendingShare(const QString& receiver, const QString& canonicalSource)
+ {
+diff --git a/Server/mytcpserver.h b/Server/mytcpserver.h
+index cc1a37d..32fd6a3 100644
+--- a/Server/mytcpserver.h
++++ b/Server/mytcpserver.h
+@@ -29,6 +29,9 @@ public:
+     void reseed(char*tarname,PDU*pdu);
+     // REQ-EXT-GROUP-001：向当前在线群成员广播已提交的成员/邀请事件。
+     void sendGroupEvent(const QStringList& users, PDU* pdu);
++    // REQ-EXT-GROUP-002 T3：群消息在线广播——锁内仅收集目标连接快照，锁外逐连接入
++    // 每连接有界发送队列；队列满只丢该连接实时投递（拉取兜底），不阻塞事务与其他成员。
++    void broadcastGroupMessage(const QStringList& users, PDU* pdu);
+     // REQ-EXT-SEC-001 M-1: 分享握手登记表——分享人发出邀请时登记 (接收者, 服务端 canonical 源路径)，
+     // 接收者同意移动时仅放行有登记的条目并在成功后消费。仅事件循环主线程（socket 处理器）访问，无需加锁。
+     void addPendingShare(const QString& receiver, const QString& canonicalSource);
+diff --git a/Server/mytcpsocket.cpp b/Server/mytcpsocket.cpp
+index 6403fc4..462d93e 100644
+--- a/Server/mytcpsocket.cpp
++++ b/Server/mytcpsocket.cpp
+@@ -244,10 +244,16 @@ PDU *MyTcpSocket::handlMsg(PDU *pdu)
+     case ENUM_MSG_TYPE_LIST_GROUP_MEMBERS_REQUEST:
+     case ENUM_MSG_TYPE_QUERY_GROUP_INVITATIONS_REQUEST:
+     case ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_REQUEST:
++    // REQ-EXT-GROUP-002：群消息请求（88/91/93/95，均经 actor 门）
++    case ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST:
++    case ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST:
++    case ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST:
++    case ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST:
+         respdu=m_MsgHandler->groupRequest(pdu->uiType);
+         break;
+     case ENUM_MSG_TYPE_GROUP_MEMBER_EVENT:
+     case ENUM_MSG_TYPE_GROUP_INVITATION_EVENT:
++    case ENUM_MSG_TYPE_GROUP_MESSAGE_EVENT:
+         // 事件只能由服务端生成，客户端发入的同名类型一律丢弃并记审计日志。
+         qCWarning(lcNet) << "[GROUP] 拒绝客户端伪造事件 type=" << pdu->uiType
+                          << "conn=" << m_connectionId;
+@@ -354,6 +360,46 @@ void MyTcpSocket::onBytesWritten(qint64)
+     if(m_downloadActive && bytesToWrite()<DOWNLOAD_WRITE_HIGH_WATER){
+         scheduleNextDownloadChunk();
+     }
++    // REQ-EXT-GROUP-002 T3：出站队列随 socket 缓冲回落继续冲刷
++    if(!m_outboundQueue.isEmpty() && bytesToWrite()<OUTBOUND_FLUSH_HIGH_WATER){
++        pumpOutboundQueue();
++    }
++}
++
++// REQ-EXT-GROUP-002 T3：入队一条待发送 PDU（广播路径调用，锁外、非阻塞）。
++// 队列满（条数或字节先到者）返回 false：该连接实时投递被丢弃并计数，
++// 由下次进入群聊/重连的游标拉取兜底；不影响其他成员。
++bool MyTcpSocket::enqueueOutbound(const QByteArray &pdu)
++{
++    if(pdu.isEmpty()){
++        return true;
++    }
++    if(m_outboundQueue.size()>=OUTBOUND_QUEUE_MAX_MSGS
++            || m_outboundQueueBytes+pdu.size()>OUTBOUND_QUEUE_MAX_BYTES){
++        ++m_outboundDropCount;
++        qCWarning(lcNet)<<"[GROUP] 广播队列满，丢弃该连接实时投递 conn="<<m_connectionId
++                        <<" user="<<m_strLoginName<<" drops="<<m_outboundDropCount;
++        return false;
++    }
++    m_outboundQueue.append(pdu);
++    m_outboundQueueBytes+=pdu.size();
++    if(!m_outboundPumpScheduled && bytesToWrite()<OUTBOUND_FLUSH_HIGH_WATER){
++        m_outboundPumpScheduled=true;
++        QTimer::singleShot(0,this,&MyTcpSocket::pumpOutboundQueue);
++    }
++    return true;
++}
++
++// REQ-EXT-GROUP-002 T3：事件循环内冲刷队列——仅在 socket 缓冲低于高水位时写入，
++// 使单连接总排队量有界；连接断开时由 clientOffLine 清空。
++void MyTcpSocket::pumpOutboundQueue()
++{
++    m_outboundPumpScheduled=false;
++    while(!m_outboundQueue.isEmpty() && bytesToWrite()<OUTBOUND_FLUSH_HIGH_WATER){
++        const QByteArray next=m_outboundQueue.takeFirst();
++        m_outboundQueueBytes-=next.size();
++        write(next.constData(),next.size());
++    }
+ }
+ 
+ //发送下一个数据块
+@@ -493,6 +539,10 @@ void MyTcpSocket::clientOffLine(){
+         m_downloadFile=nullptr;
+     }
+     m_downloadActive=false;
++    // REQ-EXT-GROUP-002 T3：断线清空出站队列（实时投递丢弃由拉取兜底）
++    m_outboundQueue.clear();
++    m_outboundQueueBytes=0;
++    m_outboundPumpScheduled=false;
+     // REQ-EXT-SESSION-001 D6：权威判定——版本不匹配=被踢旧连接，不得清在线状态、不得动登记表，
+     // 否则旧连接死亡会误清新会话的在线态（验收 §6.5 竞态断言）
+     bool authoritative=true;
+@@ -627,6 +677,15 @@ PDU* MyTcpSocket::authRejectPdu(uint uiType)
+         return groupReject(ENUM_MSG_TYPE_QUERY_GROUP_INVITATIONS_RESPOND);
+     case ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_REQUEST:
+         return groupReject(ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_RESPOND);
++    // REQ-EXT-GROUP-002：群消息请求的未认证拒绝
++    case ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST:
++        return groupReject(ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_RESPOND);
++    case ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST:
++        return groupReject(ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_RESPOND);
++    case ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST:
++        return groupReject(ENUM_MSG_TYPE_GROUP_READ_CONFIRM_RESPOND);
++    case ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST:
++        return groupReject(ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_RESPOND);
+     case ENUM_MSG_TYPE_CHAT_REQUEST:
+     case ENUM_MSG_TYPE_ADDFRIEND_RESPOND:
+         return nullptr; // 无响应语义的投递型请求，拒绝仅落审计日志
+diff --git a/Server/mytcpsocket.h b/Server/mytcpsocket.h
+index dbf7c6a..2f8cf48 100644
+--- a/Server/mytcpsocket.h
++++ b/Server/mytcpsocket.h
+@@ -54,13 +54,25 @@ public:
+     // - 返回非空 PDU → 由 recvmsg() 调用 seedMsg() 写入并释放
+     // - 返回 nullptr   → PDU 已由 handlMsg() 内部发送并释放（如下载流），或无需响应
+     // 禁止同一 PDU 既返回又通过 sendAndRelease/seedMsg 发送
++    // REQ-EXT-GROUP-002 T3：每连接有界发送队列（群消息广播用）。返回 false=队列满、
++    // 该连接实时投递被丢弃（由拉取兜底），不影响其他成员。
++    bool enqueueOutbound(const QByteArray &pdu);
++    static const int OUTBOUND_QUEUE_MAX_MSGS = 256;
++    static constexpr qint64 OUTBOUND_QUEUE_MAX_BYTES = 256 * 1024;
++    static constexpr qint64 OUTBOUND_FLUSH_HIGH_WATER = 256 * 1024;
+ private:
+     /// 发送 PDU 并释放其内存（所有权转移到此方法）
+     /// pdu 为 nullptr 时安全空操作
+     void sendAndRelease(PDU* pdu);
++    // REQ-EXT-GROUP-002 T3：队列冲刷（事件循环内一次性调度）
++    QList<QByteArray> m_outboundQueue;
++    qint64 m_outboundQueueBytes = 0;
++    bool m_outboundPumpScheduled = false;
++    quint64 m_outboundDropCount = 0;
+ private slots:
+     void sendNextChunk();
+     void onBytesWritten(qint64 bytes);
++    void pumpOutboundQueue();
+ public slots:
+     void handleUploadWriteFinished(qint64 offset, qint64 length, bool success);
+     void recvmsg();//接收信息引起的槽函数
+diff --git a/Server/operatedb.cpp b/Server/operatedb.cpp
+index bd511f5..d9b0597 100644
+--- a/Server/operatedb.cpp
++++ b/Server/operatedb.cpp
+@@ -85,17 +85,20 @@ bool OperateDB::checkSchemaVersion()
+     if (!q.exec("SELECT MAX(version) FROM schema_version")) {
+         qCCritical(lcDb) << "[checkSchemaVersion] 读取 schema_version 失败（表不存在？）:"
+                          << q.lastError().text()
+-                         << "— 请先执行 Server/migrate_ext_file_001.sql 与 migrate_ext_group_001.sql";
++                         << "— 请先执行 Server/migrate_ext_file_001.sql、migrate_ext_group_001.sql "
++                            "与 migrate_ext_group_002.sql";
+         return false;
+     }
+     int version = 0;
+     if (q.next() && !q.value(0).isNull()) {
+         version = q.value(0).toInt();
+     }
+-    const int required = qMax(kFileAssetSchemaVersion, kGroupSchemaVersion);
++    const int required = qMax(kFileAssetSchemaVersion,
++                              qMax(kGroupSchemaVersion, kGroupMessageSchemaVersion));
+     if (version < required) {
+         qCCritical(lcDb) << "[checkSchemaVersion] schema 版本" << version << "低于要求的" << required
+-                         << "— 请先执行 Server/migrate_ext_file_001.sql 与 migrate_ext_group_001.sql";
++                         << "— 请先执行 Server/migrate_ext_file_001.sql、migrate_ext_group_001.sql "
++                            "与 migrate_ext_group_002.sql";
+         return false;
+     }
+     qCDebug(lcDb) << "[checkSchemaVersion] OK, version" << version;
+@@ -1128,6 +1131,40 @@ void groupAppendRecord(QByteArray &body, quint64 groupId, const QString &groupNa
+     groupAppendString(body, role.toUtf8());
+     groupAppendU64(body, version);
+ }
++
++// REQ-EXT-GROUP-002 T6：成员事件系统消息——调用方已在同一事务内，本函数沿用同一
++// 序号通道（group_info.last_seq 原子递增）追加一条 msg_type='system' 行。
++// 返回 false 时调用方必须回滚；code 为业务失败码（-2105 序号分配/入库失败）。
++bool groupAppendSystemMessage(QSqlDatabase &db, quint64 groupId, const QString &sender,
++                              const QString &content, OperateDB::GroupMessageRecord &out, int &code)
++{
++    QSqlQuery q(db);
++    q.prepare("UPDATE group_info SET last_seq=LAST_INSERT_ID(last_seq+1) WHERE group_id=?");
++    q.addBindValue(QVariant::fromValue<qulonglong>(groupId));
++    if (!q.exec() || q.numRowsAffected() != 1) { code = -2105; return false; }
++    q.prepare("SELECT LAST_INSERT_ID()");
++    if (!q.exec() || !q.next()) { code = -2105; return false; }
++    const quint64 seq = q.value(0).toULongLong();
++    if (seq == 0) { code = -2105; return false; }
++    q.prepare("INSERT INTO group_message(group_id,seq,client_msg_id,sender_name,msg_type,content) "
++              "VALUES (?,?,NULL,?,'system',?)");
++    q.addBindValue(QVariant::fromValue<qulonglong>(groupId));
++    q.addBindValue(QVariant::fromValue<qulonglong>(seq));
++    q.addBindValue(sender);
++    q.addBindValue(content);
++    if (!q.exec()) { code = -2105; return false; }
++    const quint64 msgId = q.lastInsertId().toULongLong();
++    q.prepare("SELECT ROUND(UNIX_TIMESTAMP(created_at)*1000) FROM group_message WHERE msg_id=?");
++    q.addBindValue(QVariant::fromValue<qulonglong>(msgId));
++    if (!q.exec() || !q.next()) { code = -2105; return false; }
++    out.seq = seq;
++    out.msgId = msgId;
++    out.sender = sender;
++    out.msgType = 1;
++    out.createdAtMs = q.value(0).toULongLong();
++    out.content = content;
++    return true;
++}
+ }
+ 
+ OperateDB::GroupResult OperateDB::handleGroupOperation(const GroupRequest &request,
+@@ -1208,6 +1245,12 @@ OperateDB::GroupResult OperateDB::handleGroupOperation(const GroupRequest &reque
+         return result;
+     }
+ 
++    // REQ-EXT-GROUP-002：群消息操作走独立子路径（发送/拉取/已读/未读摘要）
++    if (request.operation == GroupSendMessage || request.operation == GroupPullMessages
++            || request.operation == GroupReadConfirm || request.operation == GroupUnreadSummary) {
++        return handleGroupMessageOperation(request, actor);
++    }
++
+     if (request.groupId == 0 && request.operation != GroupAcceptInvitation
+             && request.operation != GroupRejectInvitation) return groupFailure(-1009);
+ 
+@@ -1298,12 +1341,20 @@ OperateDB::GroupResult OperateDB::handleGroupOperation(const GroupRequest &reque
+             q.prepare("UPDATE group_invitation SET status='accepted',handled_at=NOW() WHERE invitation_id=?");
+             q.addBindValue(QVariant::fromValue<qulonglong>(request.invitationId));
+             if (!q.exec()) { db.rollback(); return groupFailure(-1023); }
++            // REQ-EXT-GROUP-002 T6：加入事件在同一事务、同一序号通道追加系统消息
++            GroupMessageRecord joinMsg;
++            int sysCode = 0;
++            if (!groupAppendSystemMessage(db, groupId, actor,
++                                          actor + QStringLiteral(" 加入了群聊"), joinMsg, sysCode)) {
++                db.rollback(); return groupFailure(sysCode);
++            }
+             ++version;
+             q.prepare("UPDATE group_info SET version=? WHERE group_id=?");
+             q.addBindValue(QVariant::fromValue<qulonglong>(version)); q.addBindValue(QVariant::fromValue<qulonglong>(groupId));
+             if (!q.exec() || !db.commit()) { db.rollback(); return groupFailure(-1024); }
+             result = groupFailure(0); result.groupId = groupId; result.version = version;
+             result.notifyUsers = groupActiveUsers(db, groupId); result.eventType = 1;
++            result.message = joinMsg; result.broadcastMessage = true;
+             groupAppendU64(result.responseBody, groupId);
+             return result;
+         }
+@@ -1348,11 +1399,20 @@ OperateDB::GroupResult OperateDB::handleGroupOperation(const GroupRequest &reque
+         groupAppendU64(result.responseBody, q.lastInsertId().toULongLong()); return result;
+     }
+ 
++    GroupMessageRecord sysMsg;
++    bool sysMsgPending = false;
++    int sysCode = 0;
+     if (request.operation == GroupLeave) {
+         if (actorRole == "owner") { db.rollback(); return groupFailure(-1036); }
+         q.prepare("UPDATE group_member SET status='left',updated_at=CURRENT_TIMESTAMP WHERE group_id=? AND user_name=? AND status='active'");
+         q.addBindValue(QVariant::fromValue<qulonglong>(groupId)); q.addBindValue(actor);
+         if (!q.exec() || q.numRowsAffected() != 1) { db.rollback(); return groupFailure(-1037); }
++        // REQ-EXT-GROUP-002 T6：退出事件系统消息（同一事务/序号通道）
++        if (!groupAppendSystemMessage(db, groupId, actor,
++                                      actor + QStringLiteral(" 退出了群聊"), sysMsg, sysCode)) {
++            db.rollback(); return groupFailure(sysCode);
++        }
++        sysMsgPending = true;
+     } else if (request.operation == GroupRemoveMember) {
+         if (actorRole != "owner" && actorRole != "admin") { db.rollback(); return groupFailure(-1038); }
+         q.prepare("SELECT role,status FROM group_member WHERE group_id=? AND user_name=? FOR UPDATE");
+@@ -1361,6 +1421,12 @@ OperateDB::GroupResult OperateDB::handleGroupOperation(const GroupRequest &reque
+         q.prepare("UPDATE group_member SET status='removed',updated_at=CURRENT_TIMESTAMP WHERE group_id=? AND user_name=?");
+         q.addBindValue(QVariant::fromValue<qulonglong>(groupId)); q.addBindValue(request.targetName);
+         if (!q.exec()) { db.rollback(); return groupFailure(-1040); }
++        // REQ-EXT-GROUP-002 T6：移除事件系统消息（同一事务/序号通道）
++        if (!groupAppendSystemMessage(db, groupId, actor,
++                                      request.targetName + QStringLiteral(" 被移出群聊"), sysMsg, sysCode)) {
++            db.rollback(); return groupFailure(sysCode);
++        }
++        sysMsgPending = true;
+     } else if (request.operation == GroupSetRole) {
+         if (actorRole != "owner" || (request.role != "admin" && request.role != "member")) { db.rollback(); return groupFailure(-1041); }
+         q.prepare("UPDATE group_member SET role=?,updated_at=CURRENT_TIMESTAMP WHERE group_id=? AND user_name=? AND status='active' AND role<>'owner'");
+@@ -1392,6 +1458,237 @@ OperateDB::GroupResult OperateDB::handleGroupOperation(const GroupRequest &reque
+     result.version = version;
+     result.notifyUsers = groupActiveUsers(db, groupId);
+     result.eventType = 1;
++    if (sysMsgPending) { result.message = sysMsg; result.broadcastMessage = true; }
+     groupAppendU64(result.responseBody, groupId);
+     return result;
+ }
++
++// ===== REQ-EXT-GROUP-002：群消息操作（发送/拉取/已读/未读摘要） =====
++// 权限事实源与 GROUP-001 同源：group_info.status='active' + group_member.status='active'。
++// 失败码段 -2xxx：-2101 非成员 / -2102 群不存在或已解散 / -2103 内容/幂等键非法 /
++// -2104 幂等冲突异常 / -2105 序号分配或入库失败。不泄露他群存在性。
++OperateDB::GroupResult OperateDB::handleGroupMessageOperation(const GroupRequest &request,
++                                                              const QString &actor)
++{
++    if (actor.isEmpty()) return groupFailure(-1001); // 未认证主体
++    PooledSqlConnection connection = DatabaseConnectionPool::instance().acquire();
++    if (!connection.isValid()) return groupFailure(-1002); // 数据库不可达
++    QSqlDatabase db = connection.database();
++    GroupResult result = groupFailure(-2000);
++    QSqlQuery q(db);
++
++    // ---- 未读摘要（95/96）：按 actor 汇总其全部 active 群，不需要 group_id ----
++    if (request.operation == GroupUnreadSummary) {
++        q.prepare("SELECT gm.group_id,gi.last_seq,gm.last_read_seq,"
++                  "(SELECT COUNT(*) FROM group_message m WHERE m.group_id=gm.group_id "
++                  " AND m.seq>gm.last_read_seq AND m.seq<=gi.last_seq) "
++                  "FROM group_member gm JOIN group_info gi ON gi.group_id=gm.group_id "
++                  "WHERE gm.user_name=? AND gm.status='active' AND gi.status='active' "
++                  "ORDER BY gm.group_id");
++        q.addBindValue(actor);
++        if (!q.exec()) return groupFailure(-2105);
++        QList<QByteArray> rows;
++        while (q.next()) {
++            QByteArray row;
++            groupAppendU64(row, q.value(0).toULongLong());
++            groupAppendU64(row, q.value(1).toULongLong());
++            groupAppendU64(row, q.value(2).toULongLong());
++            groupAppendU64(row, q.value(3).toULongLong());
++            rows.append(row);
++        }
++        QByteArray body;
++        groupAppendU32(body, quint32(rows.size()));
++        for (const QByteArray &row : rows) body.append(row);
++        result = groupFailure(0);
++        result.responseBody = body;
++        return result;
++    }
++
++    // 以下三类操作必须携带有效 group_id
++    if (request.groupId == 0) return groupFailure(-2102);
++
++    if (request.operation == GroupSendMessage) {
++        // 服务端权威校验：内容非空且 <=2000B UTF-8；幂等键非空且 <=64B。
++        // 载荷无 sender 字段——发送者一律取 actor。
++        const QByteArray contentUtf8 = request.content.toUtf8();
++        const QByteArray clientKeyUtf8 = request.clientMsgId.toUtf8();
++        if (contentUtf8.isEmpty() || contentUtf8.size() > 2000
++                || clientKeyUtf8.isEmpty() || clientKeyUtf8.size() > 64) {
++            return groupFailure(-2103);
++        }
++        if (!db.transaction()) return groupFailure(-2105);
++        // 群行锁：串行化同群发送，序号不重复、不倒退由行锁保证，uk_group_seq 兜底
++        q.prepare("SELECT status,last_seq FROM group_info WHERE group_id=? FOR UPDATE");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        if (!q.exec() || !q.next() || q.value(0).toString() != "active") {
++            db.rollback(); return groupFailure(-2102);
++        }
++        // 成员门：非成员/已退出/被移除即时失效
++        q.prepare("SELECT role FROM group_member WHERE group_id=? AND user_name=? AND status='active' FOR UPDATE");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(actor);
++        if (!q.exec() || !q.next()) { db.rollback(); return groupFailure(-2101); }
++        // 幂等短路：同 client_msg_id 已存在 → 返回既有消息；REPEATABLE READ 下 gap 锁
++        // 使并发同键重试串行，后到事务命中本分支。
++        q.prepare("SELECT seq,msg_id,sender_name,msg_type,ROUND(UNIX_TIMESTAMP(created_at)*1000),content "
++                  "FROM group_message WHERE group_id=? AND client_msg_id=? FOR UPDATE");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(request.clientMsgId);
++        if (!q.exec()) { db.rollback(); return groupFailure(-2105); }
++        if (q.next()) {
++            GroupMessageRecord existing;
++            existing.seq = q.value(0).toULongLong();
++            existing.msgId = q.value(1).toULongLong();
++            existing.sender = q.value(2).toString();
++            existing.msgType = quint8(q.value(3).toString() == "system" ? 1 : 0);
++            existing.createdAtMs = q.value(4).toULongLong();
++            existing.content = q.value(5).toString();
++            if (existing.sender != actor) { db.rollback(); return groupFailure(-2104); }
++            if (!db.commit()) { db.rollback(); return groupFailure(-2104); }
++            result = groupFailure(0);
++            result.groupId = request.groupId;
++            result.message = existing;
++            result.broadcastMessage = false; // 重放不重复广播
++            groupAppendString(result.responseBody, clientKeyUtf8);
++            groupAppendU64(result.responseBody, existing.seq);
++            groupAppendU64(result.responseBody, existing.msgId);
++            groupAppendU64(result.responseBody, existing.createdAtMs);
++            return result;
++        }
++        // 新消息：事务内原子分配序号（LAST_INSERT_ID 为连接级，同事务同连接）
++        q.prepare("UPDATE group_info SET last_seq=LAST_INSERT_ID(last_seq+1),version=version+1 WHERE group_id=?");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        if (!q.exec() || q.numRowsAffected() != 1) { db.rollback(); return groupFailure(-2105); }
++        q.prepare("SELECT LAST_INSERT_ID()");
++        if (!q.exec() || !q.next()) { db.rollback(); return groupFailure(-2105); }
++        const quint64 seq = q.value(0).toULongLong();
++        if (seq == 0) { db.rollback(); return groupFailure(-2105); }
++        q.prepare("INSERT INTO group_message(group_id,seq,client_msg_id,sender_name,msg_type,content) "
++                  "VALUES (?,?,?,?,'text',?)");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(QVariant::fromValue<qulonglong>(seq));
++        q.addBindValue(request.clientMsgId);
++        q.addBindValue(actor);
++        q.addBindValue(request.content);
++        if (!q.exec()) { db.rollback(); return groupFailure(-2105); }
++        const quint64 msgId = q.lastInsertId().toULongLong();
++        q.prepare("SELECT ROUND(UNIX_TIMESTAMP(created_at)*1000) FROM group_message WHERE msg_id=?");
++        q.addBindValue(QVariant::fromValue<qulonglong>(msgId));
++        if (!q.exec() || !q.next()) { db.rollback(); return groupFailure(-2105); }
++        const quint64 createdAtMs = q.value(0).toULongLong();
++        if (!db.commit()) { db.rollback(); return groupFailure(-2105); }
++        // 先提交后广播：广播动作由 MsgHandler 在本函数返回后触发（设计 §5.2 不变式）
++        result = groupFailure(0);
++        result.groupId = request.groupId;
++        result.message.seq = seq;
++        result.message.msgId = msgId;
++        result.message.sender = actor;
++        result.message.msgType = 0;
++        result.message.createdAtMs = createdAtMs;
++        result.message.content = request.content;
++        result.broadcastMessage = true;
++        result.notifyUsers = groupActiveUsers(db, request.groupId);
++        groupAppendString(result.responseBody, clientKeyUtf8);
++        groupAppendU64(result.responseBody, seq);
++        groupAppendU64(result.responseBody, msgId);
++        groupAppendU64(result.responseBody, createdAtMs);
++        return result;
++    }
++
++    if (request.operation == GroupPullMessages) {
++        const quint8 mode = request.pullMode;       // 0 前向补齐 / 1 后向翻页，越界由解析层拒绝
++        const int limit = qBound(1, int(request.limit), 100);
++        q.prepare("SELECT status,last_seq FROM group_info WHERE group_id=?");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        if (!q.exec() || !q.next() || q.value(0).toString() != "active") return groupFailure(-2102);
++        const quint64 groupLastSeq = q.value(1).toULongLong();
++        q.prepare("SELECT last_read_seq FROM group_member WHERE group_id=? AND user_name=? AND status='active'");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(actor);
++        if (!q.exec() || !q.next()) return groupFailure(-2101);
++        const quint64 lastReadSeq = q.value(0).toULongLong();
++
++        q.prepare(QStringLiteral("SELECT seq,msg_id,sender_name,msg_type,"
++                                 "ROUND(UNIX_TIMESTAMP(created_at)*1000),content FROM group_message "
++                                 "WHERE group_id=? AND seq %1 ? ORDER BY seq %2 LIMIT ?")
++                  .arg(mode == 0 ? QStringLiteral(">") : QStringLiteral("<="),
++                       mode == 0 ? QStringLiteral("ASC") : QStringLiteral("DESC")));
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.cursorSeq));
++        q.addBindValue(limit + 1); // 多取一条判定 has_more
++        if (!q.exec()) return groupFailure(-2105);
++        QList<QByteArray> records;
++        while (q.next()) {
++            const quint64 recSeq = q.value(0).toULongLong();
++            QByteArray row;
++            groupAppendU64(row, recSeq);
++            groupAppendU64(row, q.value(1).toULongLong());
++            groupAppendString(row, q.value(2).toString().toUtf8());
++            row.append(char(quint8(q.value(3).toString() == "system" ? 1 : 0)));
++            groupAppendU64(row, q.value(4).toULongLong());
++            groupAppendString(row, q.value(5).toString().toUtf8());
++            if (mode == 1) records.prepend(row); else records.append(row);
++        }
++        bool hasMore = records.size() > limit;
++        if (hasMore) { if (mode == 1) records.removeFirst(); else records.removeLast(); }
++        // next_cursor = 本批"实际返回"边界 seq（mode0=最大 / mode1=最小）：
++        // 必须在裁掉多取行之后取，否则前向会跳过边界消息、后向会原地踏步。
++        quint64 nextCursor = request.cursorSeq;
++        if (!records.isEmpty()) {
++            int cursorOffset = 0;
++            quint64 boundary = 0;
++            if (mode == 0) groupReadU64(records.last(), cursorOffset, boundary);
++            else groupReadU64(records.first(), cursorOffset, boundary);
++            nextCursor = boundary;
++        }
++        q.prepare("SELECT COUNT(*) FROM group_message WHERE group_id=? AND seq>? AND seq<=?");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(QVariant::fromValue<qulonglong>(lastReadSeq));
++        q.addBindValue(QVariant::fromValue<qulonglong>(groupLastSeq));
++        if (!q.exec() || !q.next()) return groupFailure(-2105);
++        const quint64 unread = q.value(0).toULongLong();
++
++        QByteArray body;
++        body.append(char(mode));
++        body.append(char(hasMore ? 1 : 0));
++        groupAppendU64(body, nextCursor);
++        groupAppendU64(body, groupLastSeq);
++        groupAppendU64(body, unread);
++        groupAppendU32(body, quint32(records.size()));
++        for (const QByteArray &row : records) body.append(row);
++        result = groupFailure(0);
++        result.groupId = request.groupId;
++        result.responseBody = body;
++        return result;
++    }
++
++    if (request.operation == GroupReadConfirm) {
++        // 单调推进：不可回退、不可越权代推（user_name 恒为 actor）、不可超过群水位
++        q.prepare("SELECT status FROM group_info WHERE group_id=?");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        if (!q.exec() || !q.next() || q.value(0).toString() != "active") return groupFailure(-2102);
++        q.prepare("SELECT 1 FROM group_member WHERE group_id=? AND user_name=? AND status='active'");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(actor);
++        if (!q.exec() || !q.next()) return groupFailure(-2101);
++        q.prepare("UPDATE group_member SET last_read_seq="
++                  "LEAST(GREATEST(last_read_seq,?),"
++                  "(SELECT last_seq FROM group_info WHERE group_id=?)) "
++                  "WHERE group_id=? AND user_name=? AND status='active'");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.readSeq));
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(actor);
++        if (!q.exec()) return groupFailure(-2105);
++        q.prepare("SELECT last_read_seq FROM group_member WHERE group_id=? AND user_name=?");
++        q.addBindValue(QVariant::fromValue<qulonglong>(request.groupId));
++        q.addBindValue(actor);
++        if (!q.exec() || !q.next()) return groupFailure(-2105);
++        result = groupFailure(0);
++        result.groupId = request.groupId;
++        groupAppendU64(result.responseBody, q.value(0).toULongLong());
++        return result;
++    }
++
++    return groupFailure(-2000);
++}
+diff --git a/Server/operatedb.h b/Server/operatedb.h
+index 03aafc4..8494af3 100644
+--- a/Server/operatedb.h
++++ b/Server/operatedb.h
+@@ -18,6 +18,8 @@ public:
+     static const int kFileAssetSchemaVersion = 2026092901;
+     // REQ-EXT-GROUP-001：群生命周期迁移版本；启动时要求数据库至少达到此版本。
+     static const int kGroupSchemaVersion = 2026093001;
++    // REQ-EXT-GROUP-002：群消息迁移版本（group_info.last_seq + group_message 表）。
++    static const int kGroupMessageSchemaVersion = 2026100101;
+     //启动检查：schema_version 达标返回 true；库不可达/表缺失/版本低返回 false 并打日志
+     bool checkSchemaVersion();
+ 
+@@ -26,7 +28,9 @@ public:
+         GroupCreate = 1, GroupInvite, GroupAcceptInvitation, GroupRejectInvitation,
+         GroupLeave, GroupRemoveMember, GroupSetRole, GroupTransferOwner,
+         GroupDissolve, GroupList, GroupListMembers, GroupQueryInvitations,
+-        GroupSummary
++        GroupSummary,
++        // REQ-EXT-GROUP-002：群消息（发送/拉取/已读/未读）
++        GroupSendMessage, GroupPullMessages, GroupReadConfirm, GroupUnreadSummary
+     };
+     struct GroupRequest {
+         GroupOperation operation;
+@@ -36,6 +40,22 @@ public:
+         QString targetName;          // 目标用户
+         QString requestKey;          // 幂等键
+         QString role;                // 角色 owner/admin/member
++        // REQ-EXT-GROUP-002 字段
++        QString clientMsgId;         // 发送幂等键（非空，<=64B）
++        QString content;             // 消息正文（<=2000B UTF-8，非空）
++        quint8 pullMode = 0;         // 0 前向补齐 / 1 后向翻页
++        quint64 cursorSeq = 0;       // 拉取游标 seq
++        quint16 limit = 50;          // 拉取条数（已钳制 1-100）
++        quint64 readSeq = 0;         // 已读确认目标 seq（服务端单调钳制）
++    };
++    // REQ-EXT-GROUP-002：需要在线广播（PDU 90）的群消息记录
++    struct GroupMessageRecord {
++        quint64 seq = 0;
++        quint64 msgId = 0;
++        QString sender;
++        quint8 msgType = 0;          // 0 文本 / 1 系统
++        quint64 createdAtMs = 0;
++        QString content;
+     };
+     struct GroupResult {
+         int code;                    // 0 成功，负数为业务错误
+@@ -44,9 +64,13 @@ public:
+         quint64 groupId;             // 事件所属群
+         quint64 version;             // 提交后的群版本
+         int eventType;               // 0 无事件，1 成员变化，2 邀请变化
++        GroupMessageRecord message;  // REQ-EXT-GROUP-002：广播用消息记录
++        bool broadcastMessage = false; // true=提交成功后广播（幂等重放=false）
+     };
+     // 在单个数据库事务中执行群状态变更或隔离查询；actor 来自连接认证上下文。
+     GroupResult handleGroupOperation(const GroupRequest &request, const QString &actor);
++    // REQ-EXT-GROUP-002：群消息操作（发送/拉取/已读确认/未读摘要）；actor 来自连接认证上下文。
++    GroupResult handleGroupMessageOperation(const GroupRequest &request, const QString &actor);
+     //REQ-EXT-FILE-001 T6：存量文件启动自动迁移（幂等：file_migration_map 已有记录即跳过；
+     //失败记 failed 继续其余，绝不删除旧文件——验收5）。main 在版本检查通过后调用一次。
+     void migrateLegacyFiles();
+diff --git a/Server/protocol.h b/Server/protocol.h
+index 118c6b6..4bd4070 100644
+--- a/Server/protocol.h
++++ b/Server/protocol.h
+@@ -111,7 +111,18 @@ enum ENUM_MSG_TYPE {
+     ENUM_MSG_TYPE_GROUP_INVITATION_EVENT = 85,        // 邀请事件
+     ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_REQUEST = 86,   // 群摘要请求
+     ENUM_MSG_TYPE_QUERY_GROUP_SUMMARY_RESPOND = 87,   // 群摘要响应
+-    // 88-95 预留给 REQ-EXT-GROUP-002 群消息，不在本需求实现
++
++    // ===== REQ-EXT-GROUP-002：可靠群文本消息（仅追加，旧编号 1-87 不变） =====
++    ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST = 88,     // 发送群消息请求
++    ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_RESPOND = 89,     // 发送群消息响应（已持久化确认）
++    ENUM_MSG_TYPE_GROUP_MESSAGE_EVENT = 90,            // 群消息在线投递事件（仅服务端生成）
++    ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST = 91,    // 按游标拉取群消息请求
++    ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_RESPOND = 92,    // 拉取群消息响应
++    ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST = 93,     // 已读游标确认请求
++    ENUM_MSG_TYPE_GROUP_READ_CONFIRM_RESPOND = 94,     // 已读游标确认响应
++    ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST = 95,   // 未读摘要请求
++    ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_RESPOND = 96,   // 未读摘要响应
++    // 97-99 继续预留
+ 
+     ENUM_MSG_TYPE_MAX = 99999,
+ };
+diff --git a/project-docs/handoffs/req-ext-group-002-design-2026-10-01.txt b/project-docs/handoffs/req-ext-group-002-design-2026-10-01.txt
+new file mode 100644
+index 0000000..26ee586
+--- /dev/null
++++ b/project-docs/handoffs/req-ext-group-002-design-2026-10-01.txt
+@@ -0,0 +1,11 @@
++# handoff: REQ-EXT-GROUP-002
++branch: codex/req-ext-group-002-group-messaging
++head: b180abb
++tier: LARGE
++node: design
++audit: none
++next: D2 已批准（88–96）。开 development 节点：读 design.md 按 T1–T7 改生产源码，先 pipeline/state.ps1
++blockers: none
++evidence: project-docs/tasks/REQ-EXT-GROUP-002/design.md
++owner: claude-code
++date: 2026-10-01
+diff --git a/project-docs/handoffs/req-ext-group-002-goal-2026-09-29.txt b/project-docs/handoffs/req-ext-group-002-goal-2026-09-29.txt
+new file mode 100644
+index 0000000..7b78f93
+--- /dev/null
++++ b/project-docs/handoffs/req-ext-group-002-goal-2026-09-29.txt
+@@ -0,0 +1,11 @@
++# handoff: REQ-EXT-GROUP-002 (goal — task summary written, branch cut+trunk-synced, awaiting owner approval)
++branch: codex/req-ext-group-002-group-messaging
++head: 324edb09b98bd2cc5c80e8b22e611da25e6111a5
++tier: LARGE
++node: goal
++audit: none
++next: GROUP-001 合并 master 后，主人批准 D1–D5（含 D2 PDU 编号分配表）再开 design/development 会话
++blockers: REQ-EXT-GROUP-001 未开始（成员事实源缺失）；SEC-001 已并入 7fc47c1 不再阻塞；未批准不动生产源码
++evidence: project-docs/tasks/REQ-EXT-GROUP-002/task.md（档位/依赖核查/盘点/T1–T7/D1–D5/停止条件）
++owner: claude-code
++date: 2026-09-29
+diff --git a/project-docs/tasks/REQ-EXT-GROUP-002/design.md b/project-docs/tasks/REQ-EXT-GROUP-002/design.md
+new file mode 100644
+index 0000000..38fabb8
+--- /dev/null
++++ b/project-docs/tasks/REQ-EXT-GROUP-002/design.md
+@@ -0,0 +1,227 @@
++# REQ-EXT-GROUP-002 可靠群文本消息 — 设计
++
++状态：design（设计节点）完成，待主人批准 **D2 协议编号表** 后进入 development（开发节点）。
++
++- 工作流：Development OS v1.7。
++- 分支：`codex/req-ext-group-002-group-messaging`，head `b6b3145`（含 trunk 同步：GROUP-001 已合并、SEC-001 在树内、build/dist 基础设施）。
++- tier：LARGE（沿 goal 节点定档，不变）。
++- owner_agent：claude-code（本会话按 takeover 协议接手，记录见 task.md）。
++- 依赖终态：`REQ-EXT-GROUP-001` ✅ 已合并 `master@ee75441`；`REQ-EXT-SEC-001` ✅ 已在树内。goal 节点记录的两个硬前置全部解除。
++- 本设计不执行推送、部署或不可逆数据库操作。
++
++## 1. 目标与边界
++
++在 `group_member`（成员关系）这一唯一事实源之上，提供**可靠**文本群消息：先持久化、后广播；重试幂等；群内序号事务内原子分配；在线有界广播；按游标分页补齐；成员级未读计数。
++
++不实现：富媒体、编辑/撤回/引用/转发、多设备投递状态、群文件、群公告（需求 §6）。不改一对一 `message_info` 语义（D5）。
++
++## 2. 依赖事实核对（development 前实测，2026-10-01）
++
++| 事实 | 位置 | 对本设计的影响 |
++|---|---|---|
++| 群协议信封 = 版本(2)+长度(2)+request_id(8)+group_id(8)=20B，小端手写编解码 `groupAppendU16/U32/U64/String` + `groupRead*` | `protocol.h:146-205`（两份） | 群消息 PDU 直接复用同一信封，零新增编解码原语 |
++| 群请求统一入口 `MsgHandler::groupRequest(uint)`，先验信封再分派，响应统一 `code+body` | `Server/msghandler.cpp:1556` | 消息类请求并挂同一入口或平级新入口，复用信封校验范式 |
++| 连接级 actor 门：白名单外业务请求必须 `m_actorAuthenticated`；处理器统一用 `m_MsgHandler->m_actorName` | `Server/mytcpsocket.cpp:44-78,522` | 群消息天然被门保护；**发送者一律取 actor，忽略载荷 self 字段** |
++| 群状态变更事务范式：`PooledSqlConnection` → `db.transaction()` → `SELECT ... FOR UPDATE` 锁 `group_info` → 写 → `db.commit()` | `Server/operatedb.cpp:1133-1396` | 序号分配并入同一事务，锁顺序沿用「先 `group_info` 行锁」 |
++| `group_info` **无** `last_seq` 列；`group_member.last_read_seq BIGINT UNSIGNED NOT NULL DEFAULT 0` **已存在** | `Server/migrate_ext_group_001.sql:4-27` | 未读游标载体已就绪；序号分配列须由本需求迁移补齐 |
++| schema 版本闸门 `checkSchemaVersion()` 取 `qMax(kFileAssetSchemaVersion, kGroupSchemaVersion)`，低版本 fail-fast、不静默建表 | `Server/operatedb.cpp:75-95` | 新增 `kGroupMessageSchemaVersion`，闸门取三者 max |
++| 广播现状 `reseed()`：持 `m_tcpsocketlistMutex` 遍历、首个匹配连接同步 `write()`；`sendGroupEvent()` 为 fan-out 变体但**同样持锁同步写** | `Server/mytcpserver.cpp:116-150` | T3 新广播路径必须不持该锁同步写，且逐连接有界 |
++| 客户端群模块 `Group`：`envelope()` + `sendRequest(type,groupId,body)`，事件在 `Client::handlMsg` 分发 | `Client/group.cpp`、`Client/client.cpp:296-310` | 群聊窗口复用同一 envelope/sendRequest 范式 |
++
++结论：goal 节点盘点与本设计一致，无需回 goal 重估。
++
++## 3. 协议设计
++
++### 3.1 编号分配（D2，**须主人一次性批准**）
++
++GROUP-001 已占用 60–87，并把 **88–95** 标注为「预留给 GROUP-002」。本设计把预留段扩到 **88–96**（连续、只追加、不重排旧编号），因未读摘要需要独立请求/响应对，95 单槽不足：
++
++| 编号 | 类型 | 方向 |
++|---:|---|---|
++| 88 | `ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_REQUEST` | C→S |
++| 89 | `ENUM_MSG_TYPE_GROUP_SEND_MESSAGE_RESPOND` | S→C（发送者） |
++| 90 | `ENUM_MSG_TYPE_GROUP_MESSAGE_EVENT` | S→C（在线成员推送） |
++| 91 | `ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_REQUEST` | C→S |
++| 92 | `ENUM_MSG_TYPE_GROUP_PULL_MESSAGES_RESPOND` | S→C |
++| 93 | `ENUM_MSG_TYPE_GROUP_READ_CONFIRM_REQUEST` | C→S |
++| 94 | `ENUM_MSG_TYPE_GROUP_READ_CONFIRM_RESPOND` | S→C |
++| 95 | `ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_REQUEST` | C→S |
++| 96 | `ENUM_MSG_TYPE_GROUP_UNREAD_SUMMARY_RESPOND` | S→C |
++
++97–99 继续预留。88/90/91/93/95 为请求或服务端事件，**必须进 actor 门**（不加白名单）；90 由服务端生成，客户端发入的同名类型一律丢弃并记审计日志（沿用 `mytcpsocket.cpp:249-254` 对 84/85 的既有处置）。
++
++### 3.2 载荷（沿用 20B 信封，`caMsg` 承载）
++
++信封字段：`version=1`、`envelope_length=20`、`request_id`、`group_id`；随后是 `code`（u32，仅响应）与业务字段。业务字段一律 `u32 length + UTF-8 bytes` 或定宽整数，服务端**先验长度与边界再读**（沿用 `groupRequest` 的 `offset != payload.size()` 拒绝范式）。
++
++| 类型 | 业务字段（信封之后） |
++|---|---|
++| 88 发送 | `client_msg_id`(string,≤64) + `content`(string,≤2000B UTF-8) |
++| 89 发送响应 | `code` + `client_msg_id` + `seq`(u64) + `server_msg_id`(u64) + `created_at_ms`(u64) |
++| 90 消息事件 | `code=0` + `group_id` + `seq` + `server_msg_id` + `sender`(string) + `msg_type`(u8: 0 文本/1 系统) + `created_at_ms` + `content` |
++| 91 拉取 | `mode`(u8: 0 前向补齐/1 后向翻页) + `cursor_seq`(u64) + `limit`(u16,1–100) |
++| 92 拉取响应 | `code` + `mode` + `has_more`(u8) + `next_cursor`(u64) + `group_last_seq`(u64) + `unread_count`(u64) + `count`(u32) + N×消息记录 |
++| 93 已读确认 | `read_seq`(u64) |
++| 94 已读响应 | `code` + `effective_seq`(u64)（服务端实际生效的单调游标） |
++| 95 未读摘要 | 无业务字段（按 actor 汇总其全部 active 群） |
++| 96 未读摘要响应 | `code` + `count`(u32) + N×{`group_id`(u64) + `last_seq`(u64) + `last_read_seq`(u64) + `unread`(u64)} |
++
++消息记录编码（92 内复用）：`seq`(u64)+`server_msg_id`(u64)+`sender`(string)+`msg_type`(u8)+`created_at_ms`(u64)+`content`(string)。
++
++校验：`content` 长度上限 2000B（客户端与服务端同值），空内容拒绝；`client_msg_id` 非空、≤64B；`limit` 越界钳到 [1,100]；未知 `mode` 拒绝。**发送 PDP 中无 sender 字段**——发送者由服务端 actor 决定。
++
++### 3.3 兼容
++
++旧枚举 1–87 一字不动。旧客户端不发 88–96，服务端新增 case 对旧流量零影响。未知类型落到既有 `default:`（丢弃），不映射到旧业务类型（沿用 GROUP-001 §5.2 语义）。
++
++## 4. 数据模型
++
++### 4.1 迁移 `Server/migrate_ext_group_002.sql`（目标版本 `2026100101`）
++
++幂等、可重复执行；回滚脚本 `migrate_ext_group_002_rollback.sql` 只删本需求新增表/列与版本行，不动 GROUP-001 数据。
++
++```sql
++ALTER TABLE group_info
++  ADD COLUMN last_seq BIGINT UNSIGNED NOT NULL DEFAULT 0;   -- 群内序号水位，事务内原子递增
++
++CREATE TABLE IF NOT EXISTS group_message (
++  msg_id        BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,  -- 服务端全局唯一消息标识
++  group_id      BIGINT UNSIGNED NOT NULL,
++  seq           BIGINT UNSIGNED NOT NULL,                    -- 群内序号，(group_id,seq) 唯一
++  client_msg_id VARCHAR(64) NULL,                            -- 幂等键；系统消息为 NULL
++  sender_name   VARCHAR(32) NOT NULL,                        -- 服务端 actor 推导，非客户端自报
++  msg_type      ENUM('text','system') NOT NULL DEFAULT 'text',
++  content       TEXT NOT NULL,
++  created_at    DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
++  UNIQUE KEY uk_group_seq (group_id, seq),
++  UNIQUE KEY uk_group_client_msg (group_id, client_msg_id),
++  KEY idx_group_created (group_id, created_at)
++) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
++
++INSERT IGNORE INTO schema_version (version) VALUES (2026100101);
++```
++
++设计要点：
++- `uk_group_seq` 是「序号不重复」的最后防线——即使事务逻辑退化，重复 seq 也会被数据库拒绝。
++- `uk_group_client_msg` 是幂等防线：MySQL 唯一索引视 NULL 互不相等，故系统消息可多行 NULL。`(group_id, client_msg_id)` 而非全局 `client_msg_id`，允许不同群复用同一键。
++- `content TEXT` + 服务端 2000B 校验；不用 `VARCHAR` 以免行溢出策略差异。
++- `DATETIME(3)` 保留毫秒，用于同秒消息稳定排序展示；**排序与游标一律以 `seq` 为准**，时间仅作展示。
++
++### 4.2 版本闸门
++
++`OperateDB` 新增 `kGroupMessageSchemaVersion = 2026100101`；`checkSchemaVersion()` 的 `required` 改为三者 `qMax`。低版本库继续 fail-fast，迁移只由 SQL 文件人工受控执行。
++
++## 5. 序号分配与幂等（并发正确性核心）
++
++### 5.1 事务内原子分配（D3）
++
++```
++BEGIN
++  SELECT status,last_seq FROM group_info WHERE group_id=? FOR UPDATE        -- 群行锁，串行化同群发送
++    → 不存在/status<>'active' → ROLLBACK
++  SELECT role FROM group_member WHERE group_id=? AND user_name=? AND status='active'   -- 成员门
++    → 空 → ROLLBACK（非成员/已退出/被移除即时失效）
++  -- 幂等短路：同 client_msg_id 已存在则直接返回原消息，不分配新序号
++  SELECT seq,msg_id,sender_name,msg_type,created_at FROM group_message
++    WHERE group_id=? AND client_msg_id=? FOR UPDATE
++    → 命中 → COMMIT 并返回既有 (seq, msg_id)（不广播、不重复入库）
++  UPDATE group_info SET last_seq = LAST_INSERT_ID(last_seq+1), version = version+1 WHERE group_id=?
++  SELECT LAST_INSERT_ID()                                                   -- 本连接本次分配到的 seq
++  INSERT INTO group_message(group_id,seq,client_msg_id,sender_name,msg_type,content)
++    VALUES (?,?,?,?,'text',?)
++COMMIT
++```
++
++- 选 `LAST_INSERT_ID(last_seq+1)`：单语句免显式行锁，语义等价于行锁内自增；`LAST_INSERT_ID()` 为**连接级**，`PooledSqlConnection` 保证同事务同连接。D3 替代方案 `SELECT ... FOR UPDATE` 后应用层加一在功能上等价，但多一次往返；本设计按 goal 记录推荐取前者。
++- 群行 `FOR UPDATE` 使同群并发发送天然串行——**序号不重复、不倒退**由行锁保证，`uk_group_seq` 兜底。
++- 幂等短路对「不存在的键」在 REPEATABLE READ 下会取唯一索引 gap 锁，使并发同键重试串行：后到事务在第一个提交后看到已存在行，走命中分支。
++- 数据库重试（连接池取到新连接重放）同样命中 `uk_group_client_msg`，不产生第二行。
++
++### 5.2 「先提交后广播」不变式
++
++广播动作**只在 `COMMIT` 成功之后**发生，且在 `handleGroupOperation` 返回后由 `MsgHandler` 触发。提交失败 → 无广播；广播失败 → 已提交消息仍在库中，靠拉取补齐。此为可测停止条件（需求 §6）。
++
++## 6. 在线广播（T3）
++
++现状 `reseed()`/`sendGroupEvent()` 持 `m_tcpsocketlistMutex` 同步 `write()`，慢连接会阻塞锁与 DB 事务。群消息广播改造为：
++
++1. `MyTcpServer::broadcastGroupMessage(groupId, pdu)`：持 `m_tcpsocketlistMutex` **仅**收集目标连接指针快照（该群 `status='active'` 成员 ∩ 当前在线且 `m_actorAuthenticated` 的连接），随即释放锁。
++2. 锁外逐连接写入其**每连接有界发送队列**；队列满（按字节或条数，取先到）则**丢弃该连接的实时投递**并计数告警——该成员改为下次进入群聊时经拉取补齐（离线补偿兜底），**不影响其他成员**（D4 取每连接粒度，非全局单队列）。
++3. 队列由连接自身线程在事件循环中冲刷；连接断开自动摘除并清空队列。广播路径**绝不**在持全局锁时写 socket。
++4. 发送者确认（89）与在线投递（90）语义分离：89 = 已持久化，90 = 在线送达；发送方可区分（验收 1）。
++
++成员名单来源为数据库 `group_member`（`status='active'`），与权限判定同源。
++
++## 7. 拉取、分页与未读（T4）
++
++- 前向补齐（`mode=0`，打开群聊/重连）：`WHERE group_id=? AND seq > cursor_seq ORDER BY seq ASC LIMIT ?`。
++- 后向翻页（`mode=1`，上翻历史）：`WHERE group_id=? AND seq <= cursor_seq ORDER BY seq DESC LIMIT ?`；响应按 seq 升序回传。
++- `has_more` = 是否还有更多；`next_cursor` = 本批边界 seq；`group_last_seq` = 群当前水位。
++- 未读计数 = `seq > member.last_read_seq AND seq <= group_info.last_seq` 的有效消息数（`SELECT COUNT(*)`），服务端按 actor 计算，客户端不可自报。
++- 拉取同受成员门（`status='active'`）保护：非成员/已退出/被移除者拉取一律拒绝，**历史权限即时失效**（验收 4）。
++
++### 7.1 已读确认单调推进
++
++`UPDATE group_member SET last_read_seq = LEAST(GREATEST(last_read_seq, ?), group_info.last_seq) WHERE group_id=? AND user_name=? AND status='active'`（以子查询取 `last_seq`）。单调、不可回退、不可越权代推（`user_name` 恒为 actor）；响应回 `effective_seq` 供客户端校正。单设备 MVP 只维护 `last_read_seq`；多设备维度明确排除（需求 §3）。
++
++## 8. 系统消息（T6）
++
++成员加入/退出/移除在**同一事务、同一序号通道**内追加一条 `msg_type='system'` 群消息（`client_msg_id=NULL`，`sender_name` = 触发者 actor，`content` 为结构化短文本，如「A 加入了群聊」）。顺序与普通消息共享 `last_seq`，故群内时间线连续。系统消息同样经 90 广播与拉取通道下发，客户端以居中灰字渲染。
++
++契约：GROUP-001 现有成员事件（84/85）语义与类型不变，本需求只在其事务内**追加**一条群消息行；成员事件的既有行为（通知在线成员）保持不变。
++
++## 9. 权限与失败语义
++
++- 复用 GROUP-001 权限事实源：`group_member.status='active'` + `group_info.status='active'`。解散群、非成员、已退出、被移除者：**发送/拉取/确认三断全拒**（验收 4）。
++- 统一业务返回码段（`code<0`），新增于 GROUP-001 的 -1xxx 段之后：-2xxx 段落为群消息专属（-2001 非法信封/-2002 越界载荷/-2101 非成员/-2102 群已解散/-2103 内容非法/-2104 幂等冲突异常/-2105 序号分配失败等），编码不泄露他群存在性。
++- 明确失败状态：DB 失败 → 89 返回失败码且**不广播**；广播队列满/连接断开 → 记审计日志，不阻塞事务，消息留待拉取（验收 5）。
++
++## 10. 客户端设计
++
++- 新增群聊窗口（`Client/groupchat.*`，或并入 `Client/group.*`），从群列表双击/按钮打开，与好友/文件同级，沿用 `envelope()`+`sendRequest()` 范式。
++- 发送：本地生成 `client_msg_id`（`QUuid`），发 88；收到 89 前消息为「发送中」态，成功转「已发送」，失败可对同 `client_msg_id` 重试（服务端幂等）。
++- 接收：`Client::handlMsg` 新增 90 分支，按 `group_id` 路由到对应窗口；未打开窗口只累加未读计数并提示。
++- 历史：打开窗口先按 `mode=0, cursor=last_read_seq` 补齐未读，到达当前水位后即可上翻（`mode=1`）。
++- 未读：群列表调用 95/96 显示徽标；进入窗口并确认已读后刷新。
++- Group-001 的群事件（84/85）处理不变。
++
++## 11. 实施边界
++
++允许修改：`Server/operatedb.{h,cpp}`、`Server/msghandler.{h,cpp}`、`Server/mytcpserver.{h,cpp}`、`Server/mytcpsocket.{h,cpp}`、新增 `Server/` 群消息源码、`Server/migrate_ext_group_002.sql` 及回滚、**两份 `protocol.h`（仅追加 88–96 的枚举与编码，frozen_paths——须主人批准）**、`Client/msghandler.{h,cpp}`、`Client/client.{h,cpp}`、新增客户端群聊窗口文件、`Client/Client.pro`、`project-docs/tasks|evidence/REQ-EXT-GROUP-002/`、handoff。
++
++禁止：改既有枚举编号/删字段；改 `message_info` 一对一语义（D5）；实现富媒体/撤回/编辑/转发/群文件/多设备投递状态（需求 §6）；新外部依赖；`Server/filesys/` 入库；把 `group_message` 纳入一对一 `getchatMsg` 旧批量模型。
++
++## 12. 验证方案（T7，development 后交独立测试）
++
++仿 `build/sec001/verify.py` 模式做端到端 harness（实时服务端 + 控制台日志，绑定候选哈希）：
++
++1. **幂等**：同 `client_msg_id` 串行/并发重放 → 库中一行、seq 不变、不重复广播。
++2. **并发序号**：N 发送者并发对打 → `seq` 连续唯一无缺无重，DB 终态与预期一致。
++3. **先提交后广播**：注入 DB 提交失败 → 无广播；注入广播失败 → 消息仍在库、可拉取。
++4. **离线补齐 + 未读**：成员离线期间产生 M 条 → 重连按游标补齐，未读数 == M。
++5. **权限三断**：非成员/已退出/被移除对发送、拉取、确认全部拒绝。
++6. **分页**：前后向游标边界、`has_more`、`limit` 钳制正确。
++7. **广播队列满**：慢连接灌满队列 → 只丢该连接实时投递，其他成员无影响，事后可拉取。
++8. **回归**：一对一聊天、离线消息、文件全流程、GROUP-001 群生命周期全部通过。
++
++证据要求：脚本绑定候选提交哈希，保存服务端日志、数据库终态与协议拒绝结果；独立测试用干净分离工作树重跑；独立审计只读检查差异、三门报告与 CodeGraph 影响闭包。
++
++## 13. 停止条件与设计退出条件
++
++停止条件（回 goal，不在开发节点临时扩面）：无法证明「先提交后广播」；序号分配拿不到数据库锁层证据；发现与 GROUP-001/SEC-001 已合并事实冲突。
++
++design 退出条件：本文件提交到需求分支；D2 编号表、数据模型、事务/幂等/广播/分页/权限与验收映射均可供 development 直接执行；handoff 记录下一节点为 development。满足且获 D2 批准后才允许改生产代码。
++
++## 14. 待主人批准（审批卡）
++
++**D2 协议编号分配**（本设计唯一新增的 contract 变更；两份 `protocol.h` 为 frozen_paths）
++
++```
++要改：群消息新增 9 个协议类型编号，占用 88–96（GROUP-001 原预留 88–95，扩至 96）。
++      只追加、不重排旧编号 1–87；旧客户端零影响。
++风险：协议枚举属 frozen_paths，改动不可由脚本回滚；但纯追加、无删除无重排，
++      兼容性可逆（撤分支即回退）。无推送、无部署、无不可逆数据操作。
++建议：批准。未读摘要需要独立请求/响应对，95 单槽不足，扩到 96 是连续段内最小满足。
++```
++
++D1（启动时机）已由依赖合并满足；D3/D4/D5 按本设计推荐取值，已在 §5.1/§6/§11 落实。
+diff --git a/project-docs/tasks/REQ-EXT-GROUP-002/task.md b/project-docs/tasks/REQ-EXT-GROUP-002/task.md
+new file mode 100644
+index 0000000..54bcaf0
+--- /dev/null
++++ b/project-docs/tasks/REQ-EXT-GROUP-002/task.md
+@@ -0,0 +1,62 @@
++# REQ-EXT-GROUP-002 可靠群文本消息 — 任务记录（goal 节点归纳，2026-09-29）
++
++## 档位
++- **LARGE**（goal 节点定档）：触碰消息协议（两 `protocol.h` 为 frozen_paths，追加 PDU 枚举即命中，须主人协议变更批准）、新建数据库表与事务级并发（群内序号原子分配、幂等提交）、在线广播架构（有界异步队列替代现有同步转发）；跨会话大特性（依赖 SEC-001、GROUP-001 先后落地）。需求文档自声明 LARGE。
++- 流程版本：Development OS v1.7。分支：`codex/req-ext-group-002-group-messaging`，切出基线 master@`628e491`（goal 节点，仅承载文档）；会话中 SEC-001 并入 master@`7fc47c1`，本分支按规则 `git merge` 同步（头 `6096e32`），actor 门与加盐登录已在树内。
++- 节点计划：goal（本会话：归纳+切分支，不动生产源码）→ 等待主人批准 + 依赖合并 → design（计划文档随分支，含 PDU 编号分配表）→ development → independent test（新会话只读）→ repair → independent audit（新会话、不同代理、只读）→ integration（三事实行）→ merge no-ff。
++
++## 依赖核查（2026-09-29 goal 节点实测）
++| 依赖 | 状态 | 影响 |
++|---|---|---|
++| REQ-EXT-SEC-001 身份与授权上下文 | ✅ **已合并 master@`7fc47c1`**（本 goal 会话期间完成；no-ff，审计链 `c7c4eed` PASS → M-1 `eb0ecc1` → B-1 `0efccb9` ACCEPT，pipeline GREEN/honest-0/PASS，48/48 e2e） | 群入口"校验会话"可直接复用其 actor 门（`isPublicRequestType`/`authRejectPdu`，mytcpsocket.cpp:53）与新表无关，前提已解除 |
++| REQ-EXT-GROUP-001 群生命周期与成员关系 | ❌ **未开始**（无分支、无 `group_info/group_member/group_invitation` 表） | 本需求以"已验证的群成员关系"为唯一事实源；成员校验、禁言、`last_read_seq` 载体都不存在，开发硬前置 |
++| AUTH-002 / FS-003 / LOG-007 等基线 | ✅ 已合并 master | 登录加盐、路径沙箱、日志分类可直接复用 |
++
++**结论：本分支今天只到 goal 节点为止。开发节点启动条件 = GROUP-001 合并 master 后（SEC-001 已就绪），本分支 `git merge master` 同步，且获得主人批准。**
++
++## 现状盘点（代码事实，并入 SEC-001 后的基线 master@7fc47c1）
++- **协议**：两 `protocol.h` 枚举已显式分配至 **59**（LISTDIR_RESPOND），`ENUM_MSG_TYPE_MAX=99999`；PDU = 76B 定头（uiTotalLen/uiMsgLen/uiType/caData[64]/caMsg 柔性数组）；`Msg{totalLen,msgLen,Time[30],msg[]}` 嵌于 caMsg；caData 两个 32B 槽=（自己,对方）。Server 侧已有入站上限 `MAX_INBOUND_PDU_SIZE=16KB`、`MAX_PENDING_INBOUND_BYTES=256KB`——**入站有界，出站转发无界队列**。
++- **一对一发送**（`Server/msghandler.cpp chat()` :413）：发送人已由服务端 actor 强制覆盖（SEC-001，随 `7fc47c1` 在树内）；`char msg[120]` 定长拷贝、无内容长度校验的存量面仍在——群入口必须自带长度校验，不回改一对一；`OperateDB::seedchatMsg`(:492) 查收件人 online → 插入 `message_info`（issuccess=在线已投/0=离线待补）→ 在线则 `MyTcpServer::reseed` 同步转发。
++- **在线投递**（`Server/mytcpserver.cpp reseed()` :115）：持 `m_tcpsocketlistMutex` 遍历连接列表，按登录名匹配**首个**连接直接 `write()`——单目标、同步、在全局锁下写 socket；慢连接阻塞面正是需求 §4.3 要消除的。群广播需要 fan-out 变体且有界队列。
++- **离线补偿现状**（`getchatMsg` :524 + `chatmsg()` :1017）：按 `issuccess=0` 一次取全量并**整批置 1**——无序号、无分页、无成员级游标，"拉取即全部已读"。群消息**不得**复用此模型，必须按需求新建 seq 游标 + 分页 + 未读计数。
++- **事务能力**：`OperateDB` 已有 `db.transaction()` 先例 3 处（`operatedb.cpp` :411/:469/:594 附近，好友添加/删除等），QMYSQL + DatabaseConnectionPool（RAII、线程隔离）上事务已被证明可用——T1 的"事务内原子分配序号"有现实基线。
++- **表**：无任何群相关表；`message_info(seed_name,rev_name,msg,issuccess,seed_time)` 仅一对一。建表先例 = SQL 迁移文件（`Server/migrate_publish_links.sql`）。
++- **客户端**：聊天为单窗口 `Chat`（Index→Friend→m_chat），按好友名开窗；无群列表/群窗口/群消息渲染，需新增；`Client/msghandler.cpp` 按 uiType 分发，群响应需新 handler。
++
++## 开发任务分解（待批准，依赖合并后执行）
++- **T1 数据层**：`group_message`（`msg_id` 服务端唯一键、`(group_id, seq)` 唯一、`client_msg_id` 幂等键、sender 服务端推导、文本、类型、创建时间）；成员游标用 GROUP-001 `group_member.last_read_seq`。序号在事务内原子分配（MySQL `UPDATE group_info SET last_seq=LAST_INSERT_ID(last_seq+1)` 或 `SELECT ... FOR UPDATE`，见 D3），禁止读后加一。OperateDB 新增窄接口：幂等插入/按游标分页取/未读计数/读确认单调推进。新迁移 SQL 文件随分支。
++- **T2 发送入口**：新群聊 PDU case 进 `handlMsg`，一律经 SEC-001 actor 门；服务端校验成员状态（含已退出/被移除即时失效）、禁言与频率、内容长度上限；忽略客户端 sender 字段。事务提交后先回"已持久化"确认（区分于在线送达），再入广播队列。
++- **T3 有界广播**：按在线成员 fan-out；每连接（或每群×每连接）有界异步队列，满则丢弃该连接实时投递并留补拉路径（离线补偿兜底），绝不阻塞 DB 事务与其他成员；连接断开自动摘除。慢连接不持 `m_tcpsocketlistMutex` 同步写。
++- **T4 离线补偿与分页**：登录/打开群聊按 `seq > last_seq` 分页拉取；读确认只推进当前成员游标（单调、不可回退、不可越权代推）；未读数 = 游标区间内有效消息数。
++- **T5 幂等与并发**：同 `client_msg_id` 重复提交返回原消息确认、不重复入库不重复广播；两发送者并发序号不重复不倒退；DB 重试不产生重复行——全部以 SQL/脚本证据承载。
++- **T6 成员事件**：加入/退出/移除作为系统消息走同一事务序号通道（与 GROUP-001 事件的衔接在 design 节点定契约）。
++- **T7 证据与回归**：仿 SEC-001 `build/sec001/verify.py` 模式做端到端 harness（实时服务端+控制台日志，绑定候选哈希）：并发对打（seq 连续唯一）、重试幂等、离线重连补齐+未读数、非成员/已退出三断（发送/拉取/确认）全拒、广播队列满与 DB 失败路径显式失败、一对一/离线消息/文件功能回归。
++
++## 允许路径
++`Server/msghandler.{h,cpp}`、`Server/mytcpsocket.{h,cpp}`、`Server/mytcpserver.{h,cpp}`、`Server/operatedb.{h,cpp}`、新增 `Server/` 群消息队列文件、群消息迁移 SQL、**两 `protocol.h`（仅追加 59 之后的枚举/结构，frozen_paths——须主人批准，见 D1）**、`Client/msghandler.{h,cpp}`、`Client/chat.*`、`Client/index.*`（群 UI 接入）、`project-docs/tasks/REQ-EXT-GROUP-002/`、`project-docs/evidence/REQ-EXT-GROUP-002/`、handoff。
++**禁止**：改既有枚举编号/删字段（协议兼容硬约束）；改 `message_info` 一对一语义；顺手实现富媒体/撤回/编辑/转发/群文件/多设备投递状态（需求 §6 排除）；新外部依赖；`Server/filesys/` 入库；在 SEC-001/GROUP-001 未合并前动生产源码。
++
++## 待主人批准的决策（approval card，业务语言）
++- **D1 开发启动时机**：SEC-001 已并入 master（本会话期间），剩余硬前置 = **GROUP-001 完成并入 master** + 主人批准。推荐按此顺序开 development。替代 = 提前并行开发——不推荐，成员表/禁言/游标载体都不存在，独立测试必 BLOCKED。
++- **D2 协议编号分配**：推荐 = design 节点出一张覆盖 GROUP-001+GROUP-002 的 PDU 编号分配表（60 起连续段，只追加），主人一次性批准，两分支按表施工，避免 frozen 文件二次改动。
++- **D3 序号原子分配实现**：推荐 = MySQL `LAST_INSERT_ID(seq+1)` 技巧（单语句免显式行锁，实现简单）；替代 = `SELECT ... FOR UPDATE` 事务内加一（可移植性好、多一次往返）。以并发对打测试证据裁决。
++- **D4 广播队列粒度**：推荐 = 每连接一个有界发送队列（慢成员只拖累自己）；替代 = 全局单队列（实现省，但一人卡顿全员延迟，违背 §4.3）。
++- **D5 一对一是否迁移**：本分支**不动**一对一 `message_info` 模型（保持回归面稳定）；群游标体系独立。替代 = 顺带统一消息表——范围外，不做。
++
++## 停止条件（需求 §6 对照）
++- 无法证明"先提交后广播"（提交失败不得出现广播；广播失败不得丢已提交消息）→ 独立测试报 **BLOCKED**。
++- 序号分配拿不到数据库层并发正确性证据（对打测试或 SQL 事务证明）→ 同上 BLOCKED。
++- SEC-001/GROUP-001 合并后出现与本盘点冲突的事实 → 回 goal 重估，不在开发节点即兴扩面。
++
++---
++
++## 决策日志（append-only）
++
++- **2026-10-01 分支接手（takeover）**：owner_agent 由 goal 会话的 claude-code 延续，本会话即 claude-code，无跨代理写权冲突。按 multi-agent takeover 协议执行：运行 pipeline → 刷新交接 → 更新 owner。
++- **2026-10-01 开节点前清账**：trunk 存在上一会话遗留的未提交基础设施改动（`pipeline/build.ps1` mingw 链接器插件路径修复 + `Client/Server.pro` Release 输出改 `dist/` + `.gitignore`）。按 branching 规则「先清账后开节点」处理：主人选择「切 SMALL 分支提交并合入 trunk」。结果：`small/build-env-and-dist-deploy` → `3933e3c`（pipeline GREEN）→ no-ff `1af57ac` 合入 master。此改动与 GROUP-002 范围无关，不占用本需求分支。
++- **2026-10-01 依赖终态**：`REQ-EXT-GROUP-001` ✅ 已合并 `master@ee75441`（审计 PASS 15/15、主人已接受）；`REQ-EXT-SEC-001` ✅ 在树内。goal 节点的两个硬前置全部解除，D1（开发启动时机）条件满足。
++- **2026-10-01 trunk 同步**：本分支 `git merge master` → head `b6b3145`（含 GROUP-001 全部生产代码、SEC-001、build/dist 基础设施）。同步后 pipeline **build GREEN**（`b6b3145`, 2026-10-01 10:04）。分支上仅文档差异的盘点结论不变，无需回 goal。
++- **2026-10-01 design 节点完成**：产出 `project-docs/tasks/REQ-EXT-GROUP-002/design.md`（协议编号 88–96 分配表、`group_message`+`group_info.last_seq` 数据模型、`LAST_INSERT_ID` 事务内序号分配与幂等短路、先提交后广播不变式、每连接有界广播队列、游标分页与单调已读、系统消息同序号通道、权限三断、客户端群聊窗口、T7 验证矩阵、停止条件）。**未改任何生产源码**（design 节点边界）。
++- **2026-10-01 待批准 D2**：协议编号表将 GROUP-001 预留的 88–95 扩至 **88–96**（未读摘要需独立请求/响应对，95 单槽不足），只追加不重排。两份 `protocol.h` 属 frozen_paths，须主人一次性批准后方可进入 development。审批卡见 design.md §14。
++- **2026-10-01 本会话只做设计**：主人指示「开发阶段先不用做，先做好设计阶段」，故 development 不在本会话开启，等 D2 批准后另开会话。
++- **2026-10-01 D2 已批准**：主人批准协议编号表 88–96（只追加、不重排 1–87）。两份 `protocol.h` 的 frozen_paths 变更已获授权，可进入 development。

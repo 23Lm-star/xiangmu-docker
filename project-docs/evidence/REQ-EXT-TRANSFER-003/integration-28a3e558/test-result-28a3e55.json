@@ -1,0 +1,20 @@
+{
+  "status": "UNTESTED",
+  "gate": "waived",
+  "reason": "Twelve socket harnesses (406 declared assertions) carry this project's regression, but they do not yet own the whole server lifecycle: unique_login_e2e.py needs a binary that the main worktree does not build (FINDING-GATE-2). Declared here so the set is checkable and auditable rather than living as ten unregistered scripts. Flip to `enforced` after FINDING-GATE-2 closes.",
+  "declared": [
+    "sec001",
+    "sec001-regression",
+    "entry-ops",
+    "dedup",
+    "cross-tree",
+    "fastupload",
+    "group-002",
+    "groupfile",
+    "group004",
+    "sec002",
+    "unique-login",
+    "parallel-transfer",
+    "transfer003"
+  ]
+}

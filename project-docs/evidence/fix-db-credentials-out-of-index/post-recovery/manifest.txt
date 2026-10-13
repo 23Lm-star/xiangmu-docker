@@ -1,0 +1,11 @@
+# evidence manifest -- written by record-evidence.py
+label: post-recovery verification: file restored, untracked, gitignored, build GREEN
+created_utc: 2026-09-29T10:28:55+08:00
+commit: 48f992d35c26f80ae813f5fe4719315e6e60a7d4
+branch: master
+dirty: yes
+host: Windows / 11 / AMD64
+python: 3.13.14
+
+# files
+sha256:1eec95a10658f56e44a0a55ceb39350b107954c71e2025afe8fbce4204e02aac  connect.config.template  (77 bytes)

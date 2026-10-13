@@ -1,0 +1,5 @@
+[BEFORE/seeded] LIKE '/filesys/%' user_file=1 upload_session=1 | pf.txt@'/sub/'=0 ps.txt@'/sub/'=0
+[BEFORE/boot1] started=True
+[BEFORE/boot1] LIKE '/filesys/%' user_file=1 upload_session=1 | pf.txt@'/sub/'=0 ps.txt@'/sub/'=0
+[BEFORE/boot2] started=True
+[BEFORE/boot2(replay)] LIKE '/filesys/%' user_file=1 upload_session=1 | pf.txt@'/sub/'=0 ps.txt@'/sub/'=0

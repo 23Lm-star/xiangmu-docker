@@ -1,0 +1,19 @@
+# evidence manifest -- written by record-evidence.py
+label: evidence
+created_utc: 2026-10-09T19:00:15+08:00
+commit: f3cf883481ef118063e02832040e1367e9cdc047
+branch: master
+dirty: no
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:995821312905c73f8db51d5c89dedeb6b44061f5f418ddeb0ee457b8c33b5c2d  build-f3cf883-20261009-175948.log  (52170 bytes)
+sha256:d7ea68bfeb1816f96e63f3a6952c8cc08caf09809c46dd1b6e5bb1e43e715244  suites-rerun.log  (17508 bytes)
+sha256:29644e60f7b3c0733b0fdde43f07451e25eca7b5c62e5e858783944d592567ba  suites-rerun2.log  (2272 bytes)
+sha256:53854c36ce02db2b5603c1bda4348b6ff2599eb3bf3095b6683e6fc0b691502a  suites-rerun3.log  (9702 bytes)
+sha256:f1820a3c17ff5d1a9e9488f24bd50e1718cde2cc66015405b89aefc06cbfba57  suites-rerun4.log  (2695 bytes)
+sha256:cf09633ef08b734905a58b595d691b2cb11615be95d8dd7c9c1a111332b2045e  suites-round1.log  (41735 bytes)
+sha256:cf09633ef08b734905a58b595d691b2cb11615be95d8dd7c9c1a111332b2045e  suites.log  (41735 bytes)
+sha256:21ee19674a8c6e981c0a95bde3be809d5d8963da87ce174da7db21c18798cc2f  test-f3cf883-20261009-180049.log  (790 bytes)
+sha256:abc1e7a25534b60e102ae27e635cd77e3022296259ce61e6b953e99be3e3bc19  final-verification-summary.md  (1914 bytes)

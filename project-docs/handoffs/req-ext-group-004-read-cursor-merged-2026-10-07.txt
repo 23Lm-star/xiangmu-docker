@@ -1,0 +1,10 @@
+branch: feat/req-ext-group-004-read-cursor
+head: 600edb5
+tier: MEDIUM
+node: merged
+next: 本需求收口。audit.ps1 的冻结清单为空 + "文档提交"正则不认 Client/Server、以及被 owner 置为 waived 的测试清单，都是既有脚本问题，要修请另开 SMALL 分支
+blockers: 流水线未全绿（非本改动所致）：测试清单 waived 故运行器不跑套件；边界检查因冻结清单为空未生效；证据核对把每次提交都判成文档提交
+evidence: build GREEN 600edb5；group004 23/23 PASS（build/group004/）；全量回归手动执行 11 套 → 8 绿 / 3 红，红均既有且已归因（sec001 R1d 切回 master 同环境复现、group-002 自身 ROOT 少一层、unique-login 15/16 已登记 FINDING-GATE-2）；日志 build/evidence/current/manual-suite-sweep-596c4ff.log
+owner: claude-code
+date: 2026-10-07
+note: 已读锚点=连续前缀末尾（水位与游标分列，超前到达入乱序缓冲）；状态归 Client 会话级、登录取锚点重登清空；窗口不可见不推进；上报 400ms 合并 + 批次结束/隐藏前立即落地；服务端零源码改动；协议头零改动（因边界检查未生效，由 git diff 人工核对）

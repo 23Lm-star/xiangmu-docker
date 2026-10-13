@@ -1,0 +1,25 @@
+=== REQ-EXT-GROUP-003 independent audit — raw verification log ===
+date: 2026-10-01  auditor: claude-code (fresh session; read-only)
+candidate: 0b83aabe6bff45dc224dce88eb9ef87690d81ac8  branch: codex/req-ext-group-003-group-files
+
+--- [1] frozen path: appended-only (must print nothing) ---
+(end; empty = append-only)
+
+--- [2] diffstat master...0b83aab ---
+ .../evidence/REQ-EXT-GROUP-003/groupfile_e2e.py    | 404 +++++++++++++++++++++
+ .../handoffs/req-ext-group-003-goal-2026-10-01.txt |  11 +
+ project-docs/tasks/REQ-EXT-GROUP-003/design.md     | 203 +++++++++++
+ project-docs/tasks/REQ-EXT-GROUP-003/task.md       |  56 +++
+ 23 files changed, 1940 insertions(+), 26 deletions(-)
+
+--- [3] code files changed after candidate (expect 0) ---
+0
+
+--- [4] frozen_paths + impact_status from manifest ---
+  - Client/protocol.h    # PDU 消息协议（ENUM_MSG_TYPE_*、结构布局）
+  - Server/protocol.h
+  impact_status: not_applicable   # F2: this repo has no statically-reachable automated tests
+
+--- [5] schema version constants ---
+26:    static const int kFastUploadSchemaVersion = 2026100102;
+28:    static const int kGroupFileSchemaVersion = 2026100103;

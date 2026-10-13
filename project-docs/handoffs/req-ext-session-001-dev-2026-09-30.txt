@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SESSION-001 (development complete — T1-T6, harness 16/16 x2, SEC-001 48/48 zero-edit, build GREEN/audit PASS on fc1b6c7)
+branch: claude/req-ext-session-001-unique-login
+head: e271450
+tier: LARGE
+node: development
+audit: none
+next: independent test（新会话、干净 worktree、report-only）on 候选哈希 fc1b6c7：复跑 unique_login_e2e.py 全 16 项 + SEC-001 verify.py 48 项 + build/test/audit；审计会话在测试后（不同代理）
+blockers: 无阻塞；C1 适配（schema 版本闸门注册）留待 FILE-001 合并 master 后 trunk-sync 一次性完成；pip 残留 pymysql 2.2.8 处置决定权在主人（harness 未使用）
+evidence: project-docs/evidence/REQ-EXT-SESSION-001/（harness-run.txt、unique_login_e2e.py、build/audit/test 日志、manifest.txt）；task.md 开发段偏差记录（CAS 修正、client_id NULL、D4 心跳语义）
+owner: claude-code
+date: 2026-09-30

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-001
+branch: detached-514d150
+head: 514d150b48bd0df61d15cea92944cdfabc3f7a72
+tier: LARGE
+node: test
+audit: pending
+next: independent audit
+blockers: none
+evidence: build/evidence/current
+owner: codex
+date: 2026-09-30

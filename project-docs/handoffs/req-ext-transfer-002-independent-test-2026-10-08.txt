@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-002 independent test (candidate d45ae11, detached worktree build/wt-test, read-only)
+branch: feat/req-ext-transfer-002-download-pause-resume
+head: d45ae11
+tier: LARGE
+node: test
+audit: none
+next: 主人一轮 design §6.3 的 8 项 GUI（NEEDS-HUMAN 操作卡见测试报告 §7/节点输出）→ independent audit（新会话、只读 detached worktree @d45ae11；输入=测试报告+§5 矩阵日志+git diff d85e39f..d45ae11；重点实现层 C1-C10/S1-S4、4.3 摘映射、I4 分片大小不变式；F-3 验收 5 覆盖缺口需 design owner 先给处置方向，audit 不得代其放宽）
+blockers: none. 非阻塞发现 F-1..F-5（测试报告 §6）：F-1 unique-login E7b「protocol.h 零命中」对任何经批准冻结面分支结构性红（既有门禁口径错位）；F-2 unique-login DIST 按 cwd 解析的错跑隐患（既有，本节点实测踩坑并按 PID 清孤儿 Server.exe）；F-3 验收 5「暂停期服务端换文件」无自动化亦无 GUI 条目（design 矩阵缺口）；F-4 manifest 13 条 isolation.filesys 元数据失真（全库既有）；F-5 audit.ps1 骨架失真在册，边界以人工核验替代（repo-contract 另立 SMALL）
+evidence: build/evidence/claude-req-ext-transfer-002-independent-d45ae11/test-report.md | PASS（0 候选可归因缺陷）：worktree 独立重建 build GREEN（exe 与部署位差 4 字节=时间戳）；13 套复跑 11 绿；2 红既有归因当场复现（group-002 FileNotFoundError 逐字同型；unique-login 15/16 单红=E7b 结构性）；transfer002 25/25 复跑确定性、parallel_e2e 54/54 零改动（I1 独立复证）；冻结面 8 insertions/0 deletions 双端逐字节==§9（frozen-content.log/static-independent.log）；NEEDS-HUMAN 8 项未执行不计入；独立性披露：同代理（dev=claude-code、test=claude-code），新会话+干净 worktree+自跑复现成立
+owner: claude-code
+date: 2026-10-08

@@ -1,0 +1,15 @@
+label: REQ-DOC-005: README + LICENSE (MIT), repo chrome (SMALL)
+repo: E:/qt/xiangmu
+branch: docs/repo-chrome
+commit: ea8dae1 (pre-purge 1cdaaa1aaf810acca02f6bdceda4e62a4cab99b1; rewritten by
+        REQ-REPO-006 history purge, remap per project-docs/evidence/REQ-REPO-006 commit-map)
+baseline: 72e061f (rewritten REQ-REPO-004 closeout merge)
+files:
+  README.md (new)
+  LICENSE (new, MIT, Copyright (c) 2026 wcy, owner-approved)
+  project-docs/tasks/REQ-DOC-005/task.md (new, updated post-purge)
+gates: build GREEN (1cdaaa1) / test honest-0-registered / audit PASS (1cdaaa1)
+       post-merge audit: see pipeline-run.log addendum
+decisions: LICENSE=MIT (owner); .gitattributes deferred (autocrlf=true); no branch deleted; no push
+status: merged into master --no-ff @ 08265d5aeb9b460a4a466316483e9fd31b915932; handoff
+        project-docs/handoffs/docs-repo-chrome-2026-09-29.txt; no push (owner approval pending)

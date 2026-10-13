@@ -1,0 +1,11 @@
+# handoff: 文件页用户根改在登录成功时重算（修「重连后登录停在存储根目录」）已并入 master（SMALL，GUI 人工复验通过）
+branch: master
+head: 0aaefbc
+tier: SMALL
+node: merged
+audit: accepted by 主人, 2026-10-13
+next: 本条已闭合（合并 0aaefbc，合并后树与候选 76e6ee4 逐字节一致）。后续见最新 handoff：publink-renew-regenerate-merged-2026-10-13.txt
+blockers: 无
+evidence: 候选侧 build/evidence/current/{build,test,audit}-76e6ee45…-run-20261012-13.*（同一 RunId 三闸全绿：build GREEN / test 14 套 514 断言 / audit PASS）+ static-76e6ee45…-run-20261012-13.txt（S1–S3 静态契约 3/3）+ 审计包 build/evidence/merge-76e6ee4/independent-ai-audit-package-76e6ee4.json（sha256 3905f475…）+ 批准记录 approval-c43fbd3b…json。GUI 人工面：主人 2026-10-13 复验通过（客户端先启→服务端后启→心跳超时→重连→登录，文件页路径为 <root>/<用户名>，存储根不再出现月份目录）。**更正**：本条审计包与旧 handoff 写的「run-20261012-13 加 -Retry 1 后全绿」措辞不实——`pipeline/test.ps1` 的 `-Retry` 是死参数（未透传给 test-gate.py），那次全绿是重跑自然通过；parallel-transfer T-06a 仍是偶发抖动
+owner: claude-code
+date: 2026-10-13

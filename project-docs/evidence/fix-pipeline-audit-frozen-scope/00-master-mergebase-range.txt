@@ -1,0 +1,8 @@
+$ git rev-parse HEAD
+0da0cc6c58a7cd7a1074c78af68216b79ec99cb7
+$ git rev-parse master
+0da0cc6c58a7cd7a1074c78af68216b79ec99cb7
+$ git merge-base master HEAD
+0da0cc6c58a7cd7a1074c78af68216b79ec99cb7
+$ git diff --name-only $(git merge-base master HEAD)..HEAD
+(empty above = no branch delta, frozen range silent)

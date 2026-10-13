@@ -1,0 +1,11 @@
+# handoff: 注销账号 → 同一服务端进程内重新注册同名 → 登录被误杀（已定因/已复现/已修复/已回归，待主人批准合并）
+branch: fix/relogin-after-logoff-registry
+head: d07a6b7
+tier: MEDIUM
+node: audit
+audit: pending
+next: 主人审 build/evidence/merge-d07a6b7/independent-ai-audit-package-d07a6b7.json（sha256 7a1bdd2e5c59ab9300aef8eb8fc46add753f192aaf82d427dbd7c7eae5b1218b）后回 APPROVED；批准后 pipeline/merge.ps1 -AuditPackage … -ApprovalRecord … + git merge --no-ff，再写 merged handoff
+blockers: none
+evidence: 候选侧 build/evidence/current/{build,test,audit}-d07a6b76ccd668c7ca3a36f233373437a27d9a60-run-20261013-12.*（同一 RunId 三闸全绿：build GREEN / test GREEN 16 套 552 断言 failures=0 / audit PASS）+ 审计包 build/evidence/merge-d07a6b7/（independent-ai-audit-package-d07a6b7.json sha256 7a1bdd2e…、audit-package-wrapper.json、probe-BEFORE.txt 修复前 6/7 B6=-99、probe-AFTER.txt 修复后 7/7）+ dist 溯源 artifact-trace verify matches HEAD（Server.exe 516608B sha=7981d3d15df7c1d4 ≠ master 414dc73d85e78847）
+owner: claude-code
+date: 2026-10-13

@@ -1,0 +1,44 @@
+=== S1 上传逃逸（沙箱外 dirPath） ===
+[PASS] S1a 上传逃逸-绝对路径被拒 :: ret=False
+[PASS] S1b 上传逃逸-相对穿越被拒 :: ret=False
+[PASS] S1c 上传逃逸-无新文件落地 :: OUT=['victim.txt']
+[PASS] S1d 上传逃逸-resume 追加篡改被拒 :: ret=False 内容完好=True
+=== S2 上传正常 ===
+[PASS] S2a 上传初始化(沙箱内)成功 :: ret=True
+[PASS] S2b 内容完整一致 :: acks=[(0, True), (64, True)] size=128
+=== S3 断电续传 ===
+[PASS] S3a 续传 offset=已收 8 :: ret=True offset=8
+[PASS] S3b 续传后内容正确 :: ack=True 内容一致=True
+=== S4 删除逃逸 ===
+[PASS] S4 删除沙箱外文件被拒且文件完好 :: ret=False
+=== S5 删除正常（沙箱内，同时充当清理） ===
+[PASS] S5 删除沙箱内文件成功 :: ret=True
+=== S6 重命名逃逸 / S7 正常 ===
+[PASS] S6 重命名沙箱外被拒且原名完好 :: ret=False
+[PASS] S7 重命名沙箱内正常 :: ret=True
+=== S6b F-1 名称段逃逸（dirPath 合法，名称含 ../ 或 \） ===
+[PASS] S6b 重命名旧名称段../被拒且目标完好 :: ret=False
+[PASS] S6c 重命名新名称段../被拒且源完好 :: ret=False
+[PASS] S6d 重命名新名称段反斜杠被拒且源完好 :: ret=False
+=== S8 MKDIR 逃逸/正常 ===
+[PASS] S8a MKDIR 沙箱外被拒且目录未建 :: ret2=False
+[PASS] S8b MKDIR 沙箱内正常 :: ret2=True
+[PASS] S8c MKDIR 名称含分隔符被拒 :: ret2=False
+=== S9 flushfile 逃逸/正常 ===
+[PASS] S9a flushfile 沙箱外不回显条目 :: msg_len=0
+[PASS] S9b flushfile 沙箱内正常有条目 :: msg_len=144
+=== S10 changedir 逃逸/正常 ===
+[PASS] S10a changedir 沙箱外按不存在回 :: isExist=False
+[PASS] S10b changedir 沙箱内正常 :: isExist=True
+=== S11 sharefilemove 读取逃逸 ===
+[PASS] S11 复制沙箱外源被拒且目标无新文件 :: ret=False recvdir=[]
+=== S12 ④去重不回归: download/move/listdir ===
+[PASS] S12a download 沙箱外拒绝 :: ret=False
+[PASS] S12b download 沙箱内正常 :: ret=True
+[PASS] S12c movefile 用户根内正常 :: ret=True
+[PASS] S12d listdir 正常返回子目录 :: msg_len=108
+[PASS] S12e listdir 穿越返回空 :: msg_len=0
+=== 清理：沙箱工作目录移入 build/trash（不手工 rm） ===
+victim 完好: True | OUT: ['victim.txt']
+
+SUMMARY: 28/28 PASS

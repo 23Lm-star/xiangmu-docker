@@ -1,0 +1,8 @@
+name	pwd	salt	online
+tester	e10adc3949ba59abbe56e057f20f883e		0
+friend1	e10adc3949ba59abbe56e057f20f883e		0
+friend2	e10adc3949ba59abbe56e057f20f883e		0
+wcy	e10adc3949ba59abbe56e057f20f883e		0
+lilei	e10adc3949ba59abbe56e057f20f883e		0
+123	e10adc3949ba59abbe56e057f20f883e		0
+litaibai	e10adc3949ba59abbe56e057f20f883e		1

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SHARE-001 外链分享生命周期（重新生成 / 续期）
+branch: feat/publink-renew-regenerate
+head: 126ccfb
+tier: MEDIUM
+node: audit
+audit: accepted by 主人, 2026-10-13
+next: 已批准合并：`git checkout feat/publink-renew-regenerate` → `pipeline/merge.ps1 -Handoff <本文件> -AuditPackage build/evidence/merge-126ccfb/audit-package-wrapper.json -ApprovalRecord build/evidence/merge-126ccfb/approval/approval-*.json` → 切回 master `git merge --no-ff feat/publink-renew-regenerate`。GUI 人工复验已通过（主人 2026-10-13：三键框/续期/重新生成/撤销置灰，按 build/audit-20261012/gui-check-share001.md 10 步）
+blockers: 无
+evidence: build/evidence/current/{build,test,audit}-126ccfb482a6d794b6ff9bcde0195c24ba1585a8-run-20261012-31.*（同一 RunId 三闸全绿：build GREEN / test 15 套 539 断言全绿 / audit PASS）；审计包 build/evidence/merge-126ccfb/independent-ai-audit-package-126ccfb.json（sha256 ef27d290b729451649b94eaaa4b671acc300548dce9600b006d9afdf1a1a15e2）。合并预检实测：tmp/premerge-both = master 依次并入本分支与 fix/client-filepath-after-reconnect 无冲突，合并态 transfer003 59/59 且 unique-login E7b 绿。人工面：GUI 十步（主人复验通过）
+owner: claude-code
+date: 2026-10-13

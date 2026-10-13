@@ -1,0 +1,3 @@
+FROZEN-PATH HIT: Client/protocol.h -> escalate to LARGE + user approval
+FROZEN-PATH HIT: Server/protocol.h -> escalate to LARGE + user approval
+audit RED: frozen:Client/protocol.h, frozen:Server/protocol.h

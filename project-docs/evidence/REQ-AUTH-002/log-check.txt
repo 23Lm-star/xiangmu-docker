@@ -1,0 +1,20 @@
+# A6 server-log check - run over the fixed-binary log (single instance, provenance below)
+# [provenance] startup banners in log (expect 1):
+1
+# [A6-1] DIAG residue lines (the 7 removed) (expect 0):
+0
+# [A6-2] pwd_hex / name_hex patterns (expect 0):
+0
+# [A6-3] plaintext password 123456 (expect 0):
+0
+# [A6-4] DB-side salted material for tester (expect 0):
+0
+# [A6-5] DB-side salted material for alice (expect 0):
+0
+# [A6-6] KNOWN RESIDUAL (owner decision 2026-09-29: deferred to REQ-LOG-007): client bare hash printed by Server/mytcpsocket.cpp:395 PDU dump. Occurrences:
+13
+#   source sites:
+395:                        <<"pdu->caData+32"<<pdu->caData+32<<" "
+439:            <<"respdu->caData+32"<<respdu->caData+32<<" "
+#   sample residual line (received-PDU dump, uiType 3 = LOGIN):
+请求信息已接收成功:   pdu->uiTotalLen 83   pdu->uiMsgLen 7   pdu->uiType 3    pdu->caData alice   pdu->caData+32 e10adc3949ba59abbe56e057f20f883evqD0o8   pdu->caMsg vqD0o8 

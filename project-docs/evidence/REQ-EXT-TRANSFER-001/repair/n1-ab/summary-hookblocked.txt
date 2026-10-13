@@ -1,0 +1,21 @@
+[22:17:12] START r1-base
+[22:19:00] DONE r1-base rc=0 dur=102s pass=53 fail=0 traceback=0
+[22:19:03] START r1-cand
+[22:19:13] DONE r1-cand rc=1 dur=4s pass=3 fail=0 traceback=0
+[22:19:16] START r2-base
+[22:19:26] DONE r2-base rc=1 dur=4s pass=3 fail=0 traceback=0
+[22:19:29] START r2-cand
+[22:19:39] DONE r2-cand rc=1 dur=4s pass=3 fail=0 traceback=0
+[22:19:42] START r3-base
+[22:19:52] DONE r3-base rc=1 dur=4s pass=3 fail=0 traceback=0
+[22:19:55] START r3-cand
+[22:20:04] DONE r3-cand rc=1 dur=3s pass=3 fail=0 traceback=0
+[22:20:07] START r4-base
+[22:20:18] DONE r4-base rc=1 dur=4s pass=3 fail=0 traceback=0
+[22:20:21] START r4-cand
+[22:20:31] DONE r4-cand rc=1 dur=4s pass=3 fail=0 traceback=0
+[22:20:34] START r5-base
+[22:20:46] DONE r5-base rc=1 dur=4s pass=3 fail=0 traceback=0
+[22:20:49] START r5-cand
+[22:20:59] DONE r5-cand rc=1 dur=4s pass=3 fail=0 traceback=0
+[22:21:02] ALL DONE

@@ -1,0 +1,10 @@
+mysql: [Warning] Using a password on the command line interface can be insecure.
+name	pwd	salt	online	is_bare_md5	salt32	matches_salted
+123	e10adc3949ba59abbe56e057f20f883e		0	1	0	0
+alice	6137218408019e8a6e27df701246af2e	eb739bd0d9ee4e8265c73008afffa09e	0	0	1	1
+friend1	62f61f602189cc9147711f8bae77aea6	31592d10bbdeb957460c3ed98a09f6c6	0	0	1	1
+friend2	60ea594a3706e8f2267e292822014409	a46798a58c7d80bd8ca2dd34f19db955	0	0	1	1
+lilei	e10adc3949ba59abbe56e057f20f883e		0	1	0	0
+litaibai	e10adc3949ba59abbe56e057f20f883e		1	1	0	0
+tester	d6859d93f515dbb589c0adcfdff7642e	78bd78b9a4496c8c2dbfe0fda057a909	0	0	1	1
+wcy	e10adc3949ba59abbe56e057f20f883e		0	1	0	0

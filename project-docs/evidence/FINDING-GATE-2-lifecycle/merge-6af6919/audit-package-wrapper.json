@@ -1,0 +1,12 @@
+{
+  "audit_id": "AUD-20261011-FINDING-GATE-2",
+  "candidate_commit": "d691891f82774f53165fa22dd469e9b41858a503",
+  "package_path": "independent-ai-audit-package-d691891.json",
+  "package_sha256": "7c3d7bff07fa18d559e41921048cd2030eb5da118e2a2f2bfee9c673c06591b5",
+  "verdict": "PASS",
+  "scope": [
+    "merge",
+    "candidate"
+  ],
+  "residual_risk": "Gate GREEN at d691891 (14/14 suites, 514 assertions, every observed count equal to declared) but dist was hand-repaired rather than rebuilt end-to-end; unfixed residuals: test-gate.py last x/y assertion-count heuristic, unique-login E7b master...HEAD vacuity after merge, server_ctl log handle leaked if Popen fails, and three deferred pipeline tooling defects (no relink on .pro-only change; artifacts globs stray build exes; artifacts overwrites dist DLLs); transfer003 frozen base hard-codes f820e61, which relies on merge-commit history."
+}

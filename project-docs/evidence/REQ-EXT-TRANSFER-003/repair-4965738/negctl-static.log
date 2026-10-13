@@ -1,0 +1,24 @@
+=== 静态：S-01..S-05 ===
+[PASS] S-01a Server/protocol.h REQ-EXT-TRANSFER-003 常量块逐字节 == §9 批准稿 :: len=531
+[PASS] S-01b 通用入站上限 MAX_INBOUND_PDU_SIZE 未被抬高（仍 16 KB） :: 
+[PASS] S-02a Client/uploader.h 三常量存在（1024 块 / 64 KiB 下限 / 1 MiB 上限） :: max=1048576
+[PASS] S-02b 跨端一致：UPLOAD_CHUNK_MAX ≤ 服务端 MAX_UPLOAD_DATA_CHUNK :: 1048576 <= 1048576
+[PASS] S-03a 冻结面 diff 删除行 == 原两行常量（无其它删改） :: rem=['static constexpr uint MAX_INBOUND_PDU_SIZE = 16 * 1024;', 'static constexpr int MAX_PENDING_INBOUND_BYTES = 256 * 1024;']
+[PASS] S-03b 冻结面 diff 新增行 == §9 批准稿五行（逐字） :: n=5
+[PASS] S-03c Client/protocol.h 零改动 :: 
+[PASS] S-04a G7 接线①：onSocketDisconnected 调用 onConnectionLost :: 
+[PASS] S-04b G7 接线②：onServerLost 调用 onConnectionLost :: 
+[PASS] S-04c G7 接线③：pump() 首部有 m_connectionDown 闸 :: 
+[PASS] S-04d G7 接线④：LOGIN_RESPOND 分支调用 onConnectionRestored :: 
+[PASS] S-05a G7 防复活①：群上传 SHA 回调含 state != Hashing 守卫 :: 
+[PASS] S-05b G7 防复活②：submitFastcheck 含 state != Hashing 守卫 :: 
+[PASS] S-05c C4 摘旧映射：pause/resume 上传分支均 m_idToKey.remove(t->id) :: 
+[FAIL] S-06a R-1：LOGIN_RESPOND 分支内登录名赋值先于 setCurrentUser（同步取值，非 1.5 s 后） :: assign@-1 setUser@111
+[FAIL] S-06b R-1：handllogin 同步返回登录名且 1.5 s 定时器内不再写 m_LoginName :: ret=False in_body_assign=False
+[FAIL] S-06c D-a：saveSnapshot 无静默丢写（每条 return 前都有 qCWarning 告警） :: unwarned=['if (m_currentUser.isEmpty()) return;', 'if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)) return;']
+[FAIL] S-06d D-a：saveSnapshot 以最近一次有效登录名兜底（m_lastKnownUser） :: 
+[FAIL] S-06e D-b：setCurrentUser 同名/空名不清表；清表嵌于"另一个账号"条件内且仍调 restoreSavedTasks :: same_ret=True guard_line=2 clear_line=3 nested=False
+[FAIL] S-06f D-b：restoreSavedTasks 按身份去重合并（快照补缺、内存为准，不重复建行） :: dedup@-1 insert@1639
+
+NEGCTL rev=b861351: 新增断言 6/6 在旧码上 FAIL，无永真
+NEGCTL_OK

@@ -1,0 +1,46 @@
+[PASS] S1 Server#1 启动并监听 :: 
+[PASS] L1 e2eop1 登录 :: ret=1
+[PASS] L2 e2eop2 登录 :: ret=1
+[PASS] U1 上传 a.txt(C2) 成功 :: 
+[PASS] U2 条目 a.txt→对象shaC2 :: 
+[PASS] K1 MKDIR mvd 建目录条目 :: 
+[PASS] S2 Server#2 启动（触发 T6 迁移） :: 
+[PASS] M1 legacyL1 映射 mapped :: 
+[PASS] M2 a.txt 冲突→skipped_name_conflict :: 
+[PASS] M3 a(1).txt 条目落定→对象shaC1 :: 
+[PASS] M4 深层 legdir/l2.txt 映射+mapped :: 
+[PASS] M5 旧文件零删除（验收5） :: 
+[PASS] M6 对象 shaC1 refcount=2 :: 
+[PASS] S3 Server#3 启动（迁移重跑） :: 
+[PASS] I1 重跑映射行数不变（幂等） :: before=3
+[PASS] I2 重跑条目行数不变 :: before=5
+[PASS] N1 rename 条目 legacyL1→renamed1 :: 
+[PASS] N2 改名后条目同对象 oid 不变 :: 
+[PASS] N3 物理实体同步改名（防幽灵） :: 
+[PASS] N4 flushfile 显示 renamed1.txt :: names=['a(1).txt', 'a.txt', 'mvd', 'renamed1.txt', 'legdir']
+[PASS] MV1 movefile 条目 legdir/l2.txt→mvd :: 
+[PASS] MV2 条目 parent_path=/mvd/（owner 相对逻辑键，跨树确定） :: 
+[PASS] MV3 未建条目旧目录物理改名回退 :: 
+[PASS] MV4 deldir 旧目录物理删除+级联空操作 :: 
+[PASS] ND0 上传 nf.txt 到 nd1/nd2（深度2条目） :: 
+[PASS] ND0b 深层条目键 /nd1/nd2/ :: 
+[PASS] ND1 deldir nd1 条目优先成功 :: ret=1
+[PASS] ND2 深度≥2 后代 nf.txt 已软删（旧 LIKE '//%' 漏删回归） :: 
+[PASS] ND3 中间目录 nd2 与 nd1 自身均软删 :: 
+[PASS] ND4 nf 对象归零→pending_reclaim，目录行不误减他对象引用（F-4 prepend 列位） :: 
+[PASS] ND5 对象文件不物理删（D3） :: 
+[PASS] SH1 接收者同意→完成响应 ret=true :: pkt=(37, b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
+[PASS] SH2 接收者条目引用同一对象(shaC1) :: 
+[PASS] SH3 接收者根内无物理复制（D2 红利） :: 
+[PASS] SH4 shaC1 refcount=3 :: 
+[PASS] SH5 接收者可下载条目 :: pkt=(41, b'\x01h\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00renamed1.txt\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
+[PASS] SH6 分享他人文件→无登记→同意被拒（B-1 不回退） :: pkt=(37, b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
+[PASS] F0 forged.bin 初始化接受（复算在服务端） :: 
+[PASS] F1 伪造大小→会话 status=failed（验收4） :: 
+[PASS] F2 不建条目（无 forged.bin） :: 
+[PASS] F3 staging 清理（失败即删暂存） :: 
+[PASS] F4 上传到他人目录→初始化拒绝 :: 
+[PASS] F5 他人目录改名→拒绝 :: 
+
+=== 汇总 ===
+43/43 passed

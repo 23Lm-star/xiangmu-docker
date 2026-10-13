@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-001
+branch: master
+head: ee75441
+tier: LARGE
+node: merged
+audit: accepted by user, 2026-09-30 (round-2 independent audit PASS 15/15; frozen-path hits Client/protocol.h + Server/protocol.h approved by user direction as the task's intended PDU extension)
+next: state.ps1; pick next requirement goal
+blockers: none
+evidence: build/evidence/codex-req-ext-group-001-membership/514d150b48bd0df61d15cea92944cdfabc3f7a72
+owner: user
+date: 2026-09-30

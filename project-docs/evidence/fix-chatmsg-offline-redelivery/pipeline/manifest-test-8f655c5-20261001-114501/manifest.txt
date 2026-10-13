@@ -1,0 +1,11 @@
+# evidence manifest -- written by record-evidence.py
+label: test
+created_utc: 2026-10-01T11:45:01+08:00
+commit: 8f655c526a4a0cda5230fe76a3b98a764ecef812
+branch: small/fix-chatmsg-offline-redelivery
+dirty: yes
+host: Windows / 10 / AMD64
+python: 3.6.5
+
+# files
+sha256:783dc2bc2fa997c395553e721340efdc1e8c6746aedf2b7bfe3a1185063f1e4e  test-8f655c5-20261001-114500.log  (54 bytes)

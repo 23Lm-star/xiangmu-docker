@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-002 independent audit（审计对象 03dc01d，detached worktree 只读，已删除；审计者 claude-code 新会话，与 development owner 同名——报告内已如实记录）
+branch: codex/req-ext-group-002-group-messaging
+head: 4bed127
+tier: LARGE
+node: audit
+audit: pending
+next: integration（三事实行：本审计报告已存在且被接受、frozen-path diff 为空、合并结果 pipeline GREEN）
+blockers: none
+evidence: project-docs/evidence/REQ-EXT-GROUP-002/audit/report.md | PASS（0 条阻塞缺陷；冻结路径 88–96 仅追加独立复证；三门自洽；FINDING-PRE1 复证为基线既有）
+owner: claude-code
+date: 2026-10-01

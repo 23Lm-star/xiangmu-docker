@@ -1,0 +1,19 @@
+[PASS] L0 dedupuser 登录成功 :: ret=1
+=== 验收1：同内容不同名 -> 一个物理对象 ===
+[PASS] A1-up1 上传 a.txt 成功 :: 
+[PASS] A1-up2 上传 b.txt(同内容) 成功 :: 
+[PASS] A1-one-object sha256 命中唯一物理对象 count=1 :: objects=1
+[PASS] A1-two-entries 同一对象两条逻辑条目 count=2 :: entries=2
+[PASS] A1-refcount 引用计数 refcount=2 :: refcount=2
+[PASS] A1-objects-dir 对象按内容寻址落在 objects/{sha2}/ 下 :: path=objects/bf/423
+=== 验收2：不同内容 -> 各自独立对象 ===
+[PASS] A2-up3 上传 c.txt(不同内容) 成功 :: 
+[PASS] A2-sep-obj 不同内容新建独立对象 :: 
+=== 验收3：删一引用不影响另一引用；归零前不物理删 ===
+[PASS] A3-refcount-1 删一条目后 refcount=1 :: refcount=1
+[PASS] A3-still-ready 另一引用仍在，对象保持 ready :: status=ready
+[PASS] A3-other-downloadable 未删条目 b.txt 仍可下载 :: ret_byte=1
+[PASS] A3-no-physical-del 对象未被删除且 storage_path 不变(D3) :: before=objects/bf/423 after=objects/bf/423
+
+=== 汇总 ===
+13/13 passed

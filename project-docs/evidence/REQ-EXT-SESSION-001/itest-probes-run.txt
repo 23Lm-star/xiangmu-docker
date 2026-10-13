@@ -1,0 +1,10 @@
+[PASS] P1 超长 ID 截断存储 ≤64 且登录成功 :: len=64
+[PASS] P2 非打印字节被净化（仅 AB） :: cid='AB'
+[PASS] P3 无附加区/无NUL 兼容：登录成功、档案为空 :: ret=1 cid='NULL'
+[PASS] P4 同连接重复登录成功且不被自踢 :: ret=1 alive=True
+[PASS] P5 过期连接不能注销账号（切断+账号存在） :: users=1 eof=True
+[PASS] P6 过期连接下载请求被切断且无响应 :: eof=True pkts=0
+[PASS] P7 未认证心跳 PONG 正常 :: pkts=1
+[PASS] P8 踢后重连重新登录完全自愈 :: ret=1
+
+PROBES SUMMARY: 8/8 PASS, 0 FAIL

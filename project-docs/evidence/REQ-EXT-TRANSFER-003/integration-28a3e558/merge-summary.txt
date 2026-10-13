@@ -1,0 +1,40 @@
+merge hash  : 28a3e5582b87a205cdc3c05e5f42442cfeeee858
+short       : 28a3e55
+merge tree  : ba790e861d8c69a5afc755d051a7424576f4e58b
+branch tree : ba790e861d8c69a5afc755d051a7424576f4e58b
+tree-equal  : YES
+parents     : d85e39f 4965738
+pre-merge master: d85e39f188db5ca5c790001d5b910a7cbfeea037
+
+=== git show --stat (merge commit vs first parent) ===
+ Client/client.cpp                                  |  13 +-
+ Client/msghandler.cpp                              |  13 +-
+ Client/msghandler.h                                |   5 +-
+ Client/transfertask.cpp                            | 131 +++-
+ Client/transfertask.h                              |  15 +-
+ Client/uploader.cpp                                |   7 +-
+ Client/uploader.h                                  |   7 +
+ Server/msghandler.cpp                              |  90 ++-
+ Server/msghandler.h                                |   7 +
+ Server/mytcpsocket.cpp                             |  30 +-
+ Server/operatedb.cpp                               |  51 +-
+ Server/operatedb.h                                 |  14 +-
+ Server/protocol.h                                  |   7 +-
+ Server/resumableuploadsession.cpp                  |  17 +-
+ Server/resumableuploadsession.h                    |   8 +
+ Server/uploadwritetask.cpp                         |  17 +-
+ Server/uploadwritetask.h                           |   9 +-
+ .../goal/probe_file_pattern.py                     |  69 +++
+ .../REQ-EXT-TRANSFER-003/goal/probe_open_cost.py   | 176 ++++++
+ .../REQ-EXT-TRANSFER-003/goal/probe_upload_cost.py | 165 +++++
+ .../goal/probe_upload_review.py                    | 241 ++++++++
+ .../evidence/REQ-EXT-TRANSFER-003/verify.py        | 672 +++++++++++++++++++++
+ project-docs/project-manifest.yaml                 |  10 +
+ 23 files changed, 1706 insertions(+), 68 deletions(-)
+
+=== commits ===
+28a3e55 merge: feat/req-ext-transfer-003-upload-session-throughput — 上传分片 1 MiB / 会话连续性 / G7 断线收敛修复 (LARGE; 59/59 + 13 套矩阵 + 独立审计已接受)
+4965738 fix(transfer): REQ-EXT-TRANSFER-003 G7 修复 R-1/D-a/D-b——登录名同步化 + 快照无静默丢写 + 切用户不清表重建 (FINDING-IND-7)
+b861351 feat(transfer): REQ-EXT-TRANSFER-003 上传分片 1 MiB / 会话连续性与吞吐 (LARGE development 节点)
+e49e8aa chore(evidence): 追加 open/close 成本三段分离探针（raw Win32 12.3–13.5ms 落在 CreateFileW）
+432dcff chore(evidence): REQ-EXT-TRANSFER-003 goal 取证探针入库（可重跑，无产品改动）

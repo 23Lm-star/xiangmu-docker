@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SESSION-002 启动期对账在线态（修缺陷③ 服务端崩溃后幽灵在线）
+branch: fix/startup-online-reconcile
+head: 1c8ea2e
+tier: MEDIUM
+node: audit
+audit: pending
+next: 等主人对候选 1c8ea2e 的批准卡裁决（APPROVED/REJECTED/NEEDS_EXPLANATION）；批准后 `git checkout fix/startup-online-reconcile` → `pipeline/merge.ps1 -Handoff <本文件> -AuditPackage build/evidence/merge-1c8ea2e/audit-package-wrapper.json -ApprovalRecord build/evidence/merge-1c8ea2e/approval/approval-*.json` → 切回 master `git merge --no-ff fix/startup-online-reconcile` → 核对合并树 → 写 merged handoff。无需 GUI 复验（未改客户端一行，缺陷链全在服务端 socket+MySQL）
+blockers: 无
+evidence: build/evidence/current/{build,test,audit}-1c8ea2e0f82195262cc43ce0dc806e24c7d86908-run-20261013-22.*（同一 RunId 三闸全绿：build GREEN / test 17 套 565 断言逐套 observed==declared / audit PASS）；审计包 build/evidence/merge-1c8ea2e/independent-ai-audit-package-1c8ea2e.json（sha256 e2021d26790411dfab7261dc270a718ec7c40f75999c61cdea2648995ec38899）；真跑反向对照 build/evidence/merge-3797dfd/probe-{BEFORE,AFTER}.txt（probe_abnormal.py 在 master 二进制 7/7 → 候选二进制 5/7，G5 在线列表不再返回幽灵、G7 不再需要本人自愈）
+owner: claude-code
+date: 2026-10-13

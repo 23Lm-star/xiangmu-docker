@@ -1,0 +1,11 @@
+# handoff: 外链分享生命周期 —— 到期可选「重新生成」或「续期」（修审计缺陷 ②）
+branch: feat/publink-renew-regenerate
+head: 126ccfb
+tier: MEDIUM
+node: audit
+audit: pending
+next: 等主人对候选 126ccfb 的批准卡裁决；批准后 `powershell -ExecutionPolicy Bypass -File pipeline/merge.ps1` 并入 master。GUI 人工面见 build/audit-20261012/gui-check-share001.md（10 步，含两条改 DB 造"过期/撤销"现场的命令）
+blockers: 无
+evidence: build/evidence/current/{build,test,audit}-126ccfb482a6d794b6ff9bcde0195c24ba1585a8-run-20261012-31.*（同一 RunId 三闸全绿：build GREEN / test 15 套 539 断言全绿 / audit PASS，findings=[]）。边界发现须人工补记：本候选命中 manifest sensitive_paths（两端 protocol.h 各追加 1 个常量块），而 **audit.ps1 只解析 sensitive_paths 而不做 diff**（该变量仅在"未填写"时报错），故门禁不会自动发出边界 finding —— 候选的冻结面影响分析由 AI 在批准卡里给出。另记两处配套改动：unique-login E7b 与 transfer003 S-03b/S-03c 三条整文件断言收紧为按块作用域（负控已验：在 master 既有块里插无标记常量 → 判红；本次合法块追加 → 判绿）
+owner: claude-code
+date: 2026-10-12

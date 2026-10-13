@@ -1,0 +1,11 @@
+# handoff: REQ-FS-003 (goal node done, dev next)
+branch: fix/path-traversal-and-ownership
+head: ddc545009d36a1f75038b3e5bfd8792f981ccac1
+tier: MEDIUM
+node: goal
+audit: none
+next: powershell -File pipeline/state.ps1
+blockers: none
+evidence: project-docs/tasks/REQ-FS-003/task.md
+owner: claude-code
+date: 2026-09-29

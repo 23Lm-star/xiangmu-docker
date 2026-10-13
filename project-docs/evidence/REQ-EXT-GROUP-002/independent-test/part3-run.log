@@ -1,0 +1,15 @@
+==== REQ-EXT-GROUP-002 independent test — part 3 ====
+[PASS] CTB_baseline_send_ok :: {'code': 0, 'key': b'ctb-ok', 'seq': 2, 'msg_id': 9933, 'created': 1790823025471}
+[PASS] CTB_baseline_broadcast :: [{'gid': 55, 'seq': 2, 'msg_id': 9933, 'sender': 'it2own', 'type': 0, 'created': 1790823025471, 'content': 'committed'}]
+[PASS] CTB_invalid_content_rejected :: {'code': -2103}
+[PASS] CTB_failure_no_event :: events=0
+[PASS] CTB_failure_no_row
+[PASS] CTB_failure_no_seq_consumed :: last_seq=2 was=2
+[PASS] CTB_nonmember_rejected :: {'code': -2101}
+[PASS] CTB_nonmember_no_event :: events=0
+[PASS] CTB_nonmember_no_row
+[PASS] CTB_seq_unbroken_after_rejections :: last_seq=2
+[PASS] CTB_seq_contiguous_after_failures :: {'code': 0, 'key': b'ctb-next', 'seq': 3, 'msg_id': 9934, 'created': 1790823028476}
+[PASS] CTB_db_seqs_dense :: [1, 2, 3]
+[PASS] CTB_dropped_broadcasts_still_persisted :: rows=802 last_seq=802
+TOTAL: 13/13

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-GROUP-003
+branch: codex/req-ext-group-003-group-files
+head: 3f05e77
+tier: LARGE
+node: goal
+audit: none
+next: 主人批准契约变更（PDU 99-106 + group_file 新表 + schema_version=2026100103）后开 development 节点
+blockers: none
+evidence: project-docs/tasks/REQ-EXT-GROUP-003/
+owner: claude-code
+date: 2026-10-01

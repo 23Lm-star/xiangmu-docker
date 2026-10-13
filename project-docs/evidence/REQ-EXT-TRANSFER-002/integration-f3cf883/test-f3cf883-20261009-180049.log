@@ -1,0 +1,8 @@
+
+Name                           Value                                                                                   
+----                           -----                                                                                   
+Output                         {{,   "status": "UNTESTED",,   "gate": "waived",,   "reason": "Twelve socket harnesse...
+Ok                             False                                                                                   
+ExitCode                       3                                                                                       
+test UNTESTED -> E:\qt\xiangmu\build\evidence\current\test-result-f3cf883.json
+  A GREEN claim may not cite this gate. Declare suites in test_gate, or cite human-verified evidence.

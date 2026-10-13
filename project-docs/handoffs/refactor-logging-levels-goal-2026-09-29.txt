@@ -1,0 +1,11 @@
+# handoff: REQ-LOG-007 (goal — pre-dev analysis done, awaiting owner approval)
+branch: refactor/logging-levels
+head: 08265d5aeb9b460a4a466316483e9fd31b915932
+tier: MEDIUM
+node: goal
+next: 主人批准开发前总结（D1–D6）→ 开发会话：建分类文件+.pro 登记 → Server→Client 逐文件改级别 → build/test/audit → §7 六项人工验证
+verify: 依赖 AUTH-002@4b3a376、FS-003@f937c90 均已合入；A7 重基线 213 处全部在允许清单；D1 修复 db 标识符与局部变量冲突；D2 环境变量守卫保 A3
+evidence: project-docs/tasks/REQ-LOG-007/task.md
+blockers: 主人批准前禁止改动生产源码；D5（mytcpsocket caData 密码哈希转储处置方式）待裁决
+owner: claude-code
+date: 2026-09-29

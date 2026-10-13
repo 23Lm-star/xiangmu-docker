@@ -1,0 +1,11 @@
+﻿# handoff: REQ-EXT-TRANSFER-001 repair follow-up (owner 会话，候选 35dfce7)
+branch: feat/req-ext-transfer-001-parallel-transfer
+head: 35dfce7
+tier: LARGE
+node: repair
+audit: pending
+next: independent audit（新会话、只读、detached @ 35dfce7）。逐项复核 5 项开放项处置：DOC-1 文本↔代码一致、AUD-3 的 98 回带标识契约与客户端归属（含"无在途/不匹配即丢弃"会不会吞掉合法响应）、AUD-4 延迟释放的新竞态面（107↔32 ack 顺序 / pendingAbort↔断线清理 / ↔空闲回收）、F-2..F-5 处置、T-20/T-21/T-22 自证力（可独立重做反向）。冻结面零改动、D6 未改须复核。
+blockers: 无阻塞。AUD-3/AUD-4/F-2/F-4/F-5 已处置；**F-3 仅部分闭环**（T-22 为静态契约；动态"第 4 个 29 未发出"无自动化宿主）；**design §6.3 十条 GUI 人工项 + AUD-3 人工佐证 = NEEDS-HUMAN，本轮未执行、不计 pass**（步骤见 followup-report §4）；AUD-2-N1 未改。
+evidence: project-docs/evidence/REQ-EXT-TRANSFER-001/repair/followup-report.md + repair/followup/*.log（7 套件：43/13/41/48/46/45/**53**；new T-20a/b/c、T-21a/b、T-22a/b 全绿）。三门：build GREEN(35dfce7) / test GREEN-WARN(0 注册) / audit RED=预期冻结面命中。冻结面自 119e6d3 零改动（累计 22 ins/0 del 合 §9）。
+owner: claude-code
+date: 2026-10-01

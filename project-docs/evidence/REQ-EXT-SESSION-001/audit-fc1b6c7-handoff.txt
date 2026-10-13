@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-SESSION-001 independent-audit
+branch: claude/req-ext-session-001-unique-login
+head: fc1b6c7
+tier: LARGE
+node: audit
+audit: pending
+next: 主人裁定 medium 非确定性 P4 失败后，必要时新 repair/test 节点复测
+blockers: 一次同参数探针 P4 ret=-99 后连接拒绝；最后复跑 8/8 PASS；设计文档仍有 NULL 文字残差
+evidence: E:/qt/xiangmu/build/evidence/claude-s001-audit-fc1b6c7/audit-report.md
+owner: Codex auditor
+date: 2026-09-30

@@ -1,0 +1,11 @@
+# handoff: REQ-EXT-TRANSFER-003 repair（FINDING-IND-7 已修：R-1 登录名同步化 + D-a/D-b 防御；双端已重部署，待人工复验 §3 五步）
+branch: feat/req-ext-transfer-003-upload-session-throughput
+head: 4965738
+tier: LARGE
+node: repair
+audit: none
+next: ①主人人工复验（新双端已在 E:/qt/xiangmu/dist：Server e0ec1c97…/Client 034707ea…；按 build/evidence/claude-req-ext-transfer-003-repair/deploy-note.md §3 五步，判定步=重新登录后任务仍在且重试即续传）②independent audit：新会话、只读 detached worktree @4965738
+blockers: 无阻塞。GUI 五步需人眼（本节点按流程停在此处）；修复前候选对备份在 build/backup-b861351/；state.ps1 报 STALE 属预期（未落 artifact-trace current）
+evidence: build/evidence/claude-req-ext-transfer-003-repair/（build-4965738 日志、static-contract.log、negctl-static.log=旧码 6/6 FAIL 无永真、verify-transfer003.log 59/59、suites-summary.log 13 套、deploy-note.md、deploy-markers-*.log）
+owner: claude-code
+date: 2026-10-09

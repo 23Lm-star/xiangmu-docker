@@ -1,0 +1,15 @@
+# evidence manifest -- written by record-evidence.py
+label: REQ-EXT-SEC-001 repair: audit M-1 fixed, 47/47 e2e (incl K2 forged/replayed consent)
+created_utc: 2026-09-29T21:18:51+08:00
+commit: eb0ecc115b310de96056b6dfa57b9f258786cbf4
+branch: codex/req-ext-sec-001-auth-context
+dirty: no
+host: Windows / 11 / AMD64
+python: 3.13.15
+
+# files
+sha256:b0447362e1b44eea3acc69f5d674b09562e70f4a93914c0d03a8fce5f3b29537  verify-output.log  (3951 bytes)
+sha256:cbd855e8df20e2ad6221cb71dcf3b11592730ffe24c9587cd839c7167fdf92a3  server-console.log  (2521 bytes)
+sha256:cc083229dd14e17b533c37d36aa0e74f7e2ab90e89e3f5b0f7d8711c57597356  reject-lines.log  (2888 bytes)
+sha256:c6185cc35e6b31be703b7dcfbe8a2f351e1a62883acc63f98fdc18ec6f7b8f4e  verify.py  (14669 bytes)
+sha256:85df20841f934fbb04af9fdf73ade1bfdfde7e1ce8542e90a752b06125af9cba  pipeline-run.log  (277 bytes)

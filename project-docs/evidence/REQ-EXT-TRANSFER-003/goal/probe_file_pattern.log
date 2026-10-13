@@ -1,0 +1,6 @@
+[P] 256 块 x 4096B，文件 filesys/.staging/_probe_pattern.tmp
+每块 open+write+close                    7.72s  每块  30.18 ms
+每块 open+write+flush+fsync+close        9.35s  每块  36.51 ms
+单句柄 seek+write                         0.09s  每块   0.35 ms
+单句柄 seek+write+flush                   0.10s  每块   0.38 ms
+每块 open+write+close（重复）                8.76s  每块  34.21 ms

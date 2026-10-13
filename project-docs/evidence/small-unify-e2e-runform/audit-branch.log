@@ -1,0 +1,3 @@
+docs-only commit: evidence from 488f964
+impact-check: NOT_APPLICABLE (0 registered automated tests; regression is carried by e2e socket harnesses under project-docs/evidence/, not statically reachable from the C++ sources)
+audit PASS (9016154)

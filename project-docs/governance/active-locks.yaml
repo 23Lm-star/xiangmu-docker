@@ -1,0 +1,14 @@
+# 任务锁登记表（Active Locks Registry）
+# 作用：防止多个任务并发写入同一模块；集成者据此仲裁冲突。
+# 锁在任务开工时写入，任务 integrated/rejected 后删除对应条目。
+
+schema_version: 1
+locks: []
+# 示例条目（请勿保留，仅作格式说明）：
+# - lock_id: LOCK-R17
+#   task_id: T-2026-0730-R17-HEARTBEAT
+#   locked_paths: [Client/msghandler.*, Server/mytcpsocket.*]
+#   holder_role: project_engineer
+#   acquired_at: "2026-07-30T11:00:00+08:00"
+#   expires_at: "2026-07-31T11:00:00+08:00"
+#   release_condition: "任务 integrated 或 rejected 后由集成者释放"
